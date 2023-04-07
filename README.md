@@ -291,7 +291,7 @@ The developers of Webpack have created Turbopack, which is built in Rust and pro
 * next/link - It's a new font system that offers automatic font optimization, the ability to include custom fonts & all these things with no external network queries for increased privacy and efficiency.
 
 
-### NextJS Structure
+### NextJS Structure, Methods & Configs
 
 ### _app
 Next.js uses the App component to initialize pages. You can override it and control the page initialization and:
@@ -392,6 +392,36 @@ export default function Post({ post }) {
 
 When exporting a function called getServerSideProps (Server-Side Rendering) from a page, Next.js will pre-render this page on each request using the data returned by getServerSideProps. This is useful if you want to fetch data that changes often, and have the page update to show the most current data.
 
+### Asset Prefix
+
+To set up a CDN, you can set up an asset prefix and configure your CDN's origin to resolve to the domain that Next.js is hosted on.
+Next.js will automatically use your asset prefix for the JavaScript and CSS files it loads from the /_next/ path (.next/static/ folder).
+
+The exact configuration for uploading your files to a given CDN will depend on your CDN of choice. The only folder you need to host on your CDN is the contents of .next/static/, which should be uploaded as _next/static/ as the above URL request indicates. Do not upload the rest of your .next/ folder, as you should not expose your server code and other configuration to the public.
+
+```js
+const isProd = process.env.NODE_ENV === 'production'
+
+module.exports = {
+  // Use the CDN in production and localhost for development.
+  assetPrefix: isProd ? 'https://cdn.mydomain.com' : undefined,
+}
+```
+
+### Build ID
+
+Next.js uses a constant id generated at build time to identify which version of your application is being served. This can cause problems in multi-server deployments when next build is run on every server. In order to keep a consistent build id between builds you can provide your own build id.
+
+Open next.config.js and add the generateBuildId function:
+
+```js
+module.exports = {
+  generateBuildId: async () => {
+    // You can, for example, get the latest git commit hash here
+    return 'my-build-id'
+  },
+}
+```
 
 ## CSS
 
