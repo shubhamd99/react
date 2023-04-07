@@ -26,6 +26,11 @@ It also means, however, that building a complete React application from the grou
 
 ![img_alt](https://nextjs.org/static/images/learn/foundations/user-interface.png)
 
+## What is Vercel?
+
+Vercel is the platform for frontend developers, providing the speed and reliability innovators need to create at the moment of inspiration.
+Vercel enable teams to iterate quickly and develop, preview, and ship delightful user experiences. Vercel has zero-configuration support for 35+ frontend frameworks and integrates with your headless content, commerce, or database of choice. Frameworks by Vercel: Next.JS, Nuxt, etc.
+
 ## Benefits of Next.JS
 
 * Different Rendering Techniques
@@ -70,3 +75,17 @@ GENERATE PAGE ON BUILD IN ADVANCE + SERVER AFTER
 * Minifying files - NextJS minifies the code for you
 * Image optimization - Image Component in NextJS
 * Pre-fetching assets
+* Server less functions - Vercel Serverless Functions enable running code on-demand without needing to manage your own infrastructure, provision servers, or upgrade hardware. Serverless Functions enable developers to write functions in JavaScript and other languages to handle user authentication, form submissions, database queries, custom Slack commands, and more.
+
+![img_alt](https://i.imgur.com/ANnqbS6.png)
+
+## What is SEO (Search Engine Optimization?
+
+Search engine optimization is the process of improving the quality and quantity of website traffic to a website or a web page from search engines. SEO targets unpaid traffic rather than direct traffic or paid traffic.
+
+In simple terms, SEO means the process of improving your website to increase its visibility in Google, Microsoft Bing, and other search engines whenever people search for:
+
+* Products you sell.
+* Services you provide.
+* Information on topics in which you have deep expertise and/or experience.
+
