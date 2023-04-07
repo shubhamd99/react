@@ -423,6 +423,27 @@ module.exports = {
 }
 ```
 
+## Window Navigator Object
+
+The navigator object contains information about the browser.
+The navigator object is a property of the window object.
+The navigator object is accessed with:
+
+`window.navigator or just navigator`
+
+```
+appCodeName -	Returns browser code name
+appName	- Returns browser name
+appVersion	- Returns browser version
+cookieEnabled	- Returns true if browser cookies are enabled
+geolocation	- Returns a geolocation object for the user's location
+language	- Returns browser language
+onLine	- Returns true if the browser is online
+platform	- Returns browser platform
+product	- Returns browser engine name
+userAgent	- Returns browser user-agent header
+```
+
 ## CSS
 
 ### Grid Layout
