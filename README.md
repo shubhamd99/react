@@ -444,6 +444,57 @@ product	- Returns browser engine name
 userAgent	- Returns browser user-agent header
 ```
 
+## React Contex
+
+Context provides a way to pass data through the component tree without having to pass props down manually at every level.
+
+Reducers let you consolidate a component’s state update logic. Context lets you pass information deep down to other components. You can combine reducers and context together to manage state of a complex screen.
+
+## Redux
+
+Redux is a state management library that you can use with any JS library or framework like React, Angular, or Vue.
+
+* Redux helps you write applications that behave consistently, run in different environments (client, server, and native), and are easy to test.
+* Centralizing your application's state and logic enables powerful capabilities like undo/redo, state persistence, and much more.
+* The Redux DevTools make it easy to trace when, where, why, and how your application's state changed. Redux's architecture lets you log changes, use "time-travel debugging", and even send complete error reports to a server.
+* Redux works with any UI layer, and has a large ecosystem of addons to fit your needs.
+
+![img_alt](https://www.freecodecamp.org/news/content/images/size/w1000/2022/06/2.png)
+
+### What Makes Redux Predictable?
+
+State is Read-only in Redux. What makes Redux predictable is that to make a change in the state of the application, we need to dispatch an action which describes what changes we want to make in the state.
+These actions are then consumed by something known as reducers, whose sole job is to accept two things (the action and the current state of the application) and return a new updated instance of the state.
+
+Note that reducers do not change any part of the state. Rather a reducer produces a new instance of the state with all the necessary updates.
+
+Actions can be recorded and replayed later, so this makes state management predictable. With the same actions in the same order, you're going to end up in the same state.
+
+### Redux Store
+
+The Redux store is the main, central bucket which stores all the states of an application. It should be considered and maintained as a single source of truth for the state of the application.
+
+If the store is provided to the App.js (by wrapping the App component within the <Provider> </Provider> tag) as shown in the code snippet below, then all its children (children components of App.js) can also access the state of the application from the store. This makes it act as a global state.
+
+```jsx
+const store = createStore()
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+)
+```
+
+### Actions
+The only way to change the state is to emit an action, which is an object describing what happened
+if anyone wants to change the state of the application, then they'll need to express their intention of doing so by emitting or dispatching an action.
+
+### Reducers
+Reducers, as the name suggests, take in two things: previous state and an action. Then they reduce it (read it return) to one entity: the new updated instance of state.
+So reducers are basically pure JS functions which take in the previous state and an action and return the newly updated state.
+
 ## CSS
 
 ### Grid Layout
