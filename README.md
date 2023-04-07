@@ -245,3 +245,46 @@ The developers of Webpack have created Turbopack, which is built in Rust and pro
 * next/font - The new @next/font allows you to use Google Fonts (or any custom font) without the browser sending any queries. CSS and font files are downloaded at build time with other static assets.
 
 * next/link - It's a new font system that offers automatic font optimization, the ability to include custom fonts & all these things with no external network queries for increased privacy and efficiency.
+
+
+### NextJS Structure
+
+### _app
+Next.js uses the App component to initialize pages. You can override it and control the page initialization and:
+
+* Persist layouts between page changes
+* Keeping state when navigating pages
+* Inject additional data into pages
+* Add global CSS
+
+```jsx
+export default function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />
+}
+```
+
+The Component prop is the active page, so whenever you navigate between routes, Component will change to the new page. Therefore, any props you send to Component will be received by the page.
+
+pageProps is an object with the initial props that were preloaded for your page by one of our data fetching methods, otherwise it's an empty object.
+
+### __document
+
+A custom Document can update the <html> and <body> tags used to render a Page. This file is only rendered on the server, so event handlers like onClick cannot be used in _document. To override the default Document, create the file pages/_document.js.
+
+### getInitialProps
+
+getInitialProps enables server-side rendering in a page and allows you to do initial data population, it means sending the page with the data already populated from the server. This is especially useful for SEO.
+
+```jsx
+function Page({ stars }) {
+  return <div>Next stars: {stars}</div>
+}
+
+Page.getInitialProps = async (ctx) => {
+  const res = await fetch('https://api.github.com/repos/vercel/next.js')
+  const json = await res.json()
+  return { stars: json.stargazers_count }
+}
+
+export default Page
+```
