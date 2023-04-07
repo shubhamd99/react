@@ -93,3 +93,155 @@ In simple terms, SEO means the process of improving your website to increase its
 * Services you provide.
 * Information on topics in which you have deep expertise and/or experience.
 
+## Webpack
+
+Webpack is a module bundler. Webpack can take care of bundling alongside a separate task runner. However, the line between bundler and task runner has become blurred thanks to community-developed webpack plugins. Sometimes these plugins are used to perform tasks that are usually done outside of webpack, such as cleaning the build directory or deploying the build although you can defer these tasks outside of webpack.
+
+Modules are reusable chunks of code built from your app’s JavaScript, node_modules, images, and the CSS styles which are packaged to be easily used in your website. Webpack separates the code based on how it is used in your app, and with this modular breakdown of responsibilities, it becomes much easier to manage, debug, verify, and test your code.
+
+### Webpack can be broken down into these 5 principals:
+
+* Entry - Entry is the entry point for the application
+* Output - The Output point is where the files are to be written on disk with thename of the files.
+* Loaders - There are 2 configuration options required to add a loader — test which identifies file or file types should be transformed and use which tells Webpack which loader to use in order to transform these files
+* Plugins - Plugins handle the additional tasks that can’t be completed by a loader. This includes things such as bundle optimization, defining environment variables, etc
+* Mode - Mode tells Webpack which configuration and optimizations to use for your application. 
+
+Next.js has adopted webpack 5 as the default for compilation. 
+
+## New Features of Next 12
+
+### Rust Compiler
+Rust Compiler to provide 5x faster builds and faster refresh, which was the previously 3x the speed. This means that the performance has increased almost twice.
+
+![img_alt](https://miro.medium.com/v2/resize:fit:720/format:webp/1*OypkoeuaKY7SF7G3ynwdfQ.png)
+
+### Middlewares
+Middleware enables you to use code over configuration. This gives you full flexibility in Next.js because you can run code before a request is completed. Based on the user’s incoming request, you can modify the response by rewriting, redirecting, adding headers, or even streaming HTML.
+
+![img_alt](https://miro.medium.com/v2/resize:fit:640/format:webp/1*R-p0FElvWPI69xW0C2resQ.png)
+
+### React 18
+
+* Concurrency - with concurrent rendering, React can interrupt, pause, resume, or abandon a render. This allows React to respond to the user interaction quickly even if it is in the middle of a heavy rendering task. Before React 18, rendering was a single, uninterrupted, synchronous transaction and once rendering started, it couldn’t be interrupted.
+
+* Automatic Batching - Previously, state updates that happened outside of event handlers were not batched. For example, if you had a promise or were making a network call, the state updates would not be batched. React 18 introduces automatic batching which allows all state updates – even within promises, setTimeouts, and event callbacks – to be batched. 
+
+* Transitions - Transitions can be used to mark UI updates that do not need urgent resources for updating. You can mark updates as non-urgent by using startTransition. Example, Showing a visual feedback to the user is important and therefore urgent. Searching is not so urgent, and so can be marked as non-urgent. 
+
+How are transitions different from debouncing or setTimeout?
+
+a. startTransition executes immediately, unlike setTimeout.
+b. setTimeout has a guaranteed delay, whereas startTransition's delay depends on the speed of the device.
+c. startTransition updates can be interrupted unlike setTimeout and won't freeze the page.
+d. React can track the pending state for you when marked with startTransition.
+
+```jsx
+import { startTransition } from 'react';
+
+// Urgent: Show what was typed
+setInputValue(input);
+
+// Mark any non-urgent state updates inside as transitions
+startTransition(() => {
+  // Transition: Show the results
+  setSearchQuery(input);
+});
+```
+
+* Suspense on the server - Code splitting on the server with suspense and Streaming rendering on the server.
+
+React 18 adds support for Suspense on server. With the help of suspense, you can wrap a slow part of your app within the Suspense component, telling React to delay the loading of the slow component. This can also be used to specify a loading state that can be shown while it's loading.
+
+one slow component doesn’t have to slow the render of your entire app. With Suspense, you can tell React to send HTML for other components first along with the HTML for the placeholder, like a loading spinner. 
+
+This way the user can see the skeleton of the page as early as possible and see it gradually reveal more content as more pieces of HTML Arrive.
+
+* Strict mode - Strict mode in React 18 will simulate mounting, unmounting, and re-mounting the component with a previous state. This sets the ground for reusable state in the future where React can immediately mount a previous screen by remounting trees using the same component state before unmounting.
+
+### Smaller images using AVIF
+The built-in Image Optimization API now supports AVIF images, enabling 20% smaller images compared to WebP. AVIF images can take longer to optimize compared to WebP, so we’re making this feature opt-in using the new images.formats property in next.config.js
+
+```js
+module.exports = {
+  images: {
+    formats: ['image/avif', 'image/webp']
+  }
+}
+```
+
+### Bot-Aware ISR Fallback
+In Next.js 12, web crawlers (e.g. search bots) will automatically server-render ISR pages using fallback: true, while still serving the previous behavior of the fallback state to non-crawler User-Agents. This prevents crawlers from indexing loading states.
+
+### URL Imports
+URL imports allow you to use any package directly through a URL. This enables Next.js to process remote HTTP(S) resources exactly like local dependencies.
+
+```js
+module.exports = {
+  experimental: {
+    urlImports: ['https://cdn.skypack.dev']
+  }
+}
+```
+
+Then, you can import modules directly from URLs:
+
+```jsx
+import confetti from 'https://cdn.skypack.dev/canvas-confetti'
+```
+
+
+## New Features of Next 13
+
+### App/Directory for File-Based Routing
+
+Next.js 13 offers revised file routing with the new directory. The optional app directory brings a new layout structure with several additional features and improvements.
+
+The new structure enables us to include additional files in each path directory. Also, the page.js for a route, such as
+
+* layout.js - A system for the path & its sub-paths.
+* loading.js - A system for an instant loading state using React.
+
+![img_alt](https://cdn.sanity.io/images/ay6gmb6r/production/db1f7975616df7b550df3f8c3b134a571aab030f-2240x1260.png?w=729&fm=webp&fit=max&auto=format)
+
+Suspense under the hood & error.js, a component is displayed if the primary component cannot load. We can now co locate source files inside our path directories because each path is now its directory.
+
+### React Server Components
+
+React Server Components allows the server and the client (browser) to collaborate in rendering your React application.
+Consider the typical React element tree that is rendered for your page, which is usually composed of different React components rendering more React components. RSC makes it possible for some components in this tree to be rendered by the server, and some components to be rendered by the browser.
+
+### Async Components & Data Fetching
+
+Async components, a new method of data collecting for server-rendered components, are also introduced in Next.js 13. We can render systems using Promises with async & await when utilizing async components.
+
+```jsx
+async function getData() {
+  const res = await fetch ('https://api.example.com/...');​
+  return res.json();
+
+}
+
+export default async function Page() {
+  const name = await getData();
+  return '...';
+}
+```
+
+### Streaming
+
+Users may have to wait for the entire page to generate before accessing them. As the UI is generated, the server will send small bits of it to the client. It implies that larger chunks won't obstruct smaller ones. Of course, right now, this feature is only supported in the app directory, and it doesn't appear that this will change.
+
+This new addition won't help those with fast Wi-Fi or access to a strong internet connection as much as those with poorer connections.
+
+### Turbopack
+
+As the "successor to Webpack," a new JavaScript bundler named Turbopack was the final significant update made with Next.js 13 release.
+The developers of Webpack have created Turbopack, which is built in Rust and promises to be 700 times quicker than the original Webpack (and 10x faster than Vite, a more modern alternative).
+
+### Other upgrades
+
+* next/image - Less client-side JavaScript, styling and configuration, and increased accessibility are all features of the new Image component in Next.js.
+* next/font - The new @next/font allows you to use Google Fonts (or any custom font) without the browser sending any queries. CSS and font files are downloaded at build time with other static assets.
+
+* next/link - It's a new font system that offers automatic font optimization, the ability to include custom fonts & all these things with no external network queries for increased privacy and efficiency.
