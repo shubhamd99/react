@@ -87,11 +87,43 @@ GENERATE PAGE ON BUILD IN ADVANCE + SERVER AFTER
 
 Search engine optimization is the process of improving the quality and quantity of website traffic to a website or a web page from search engines. SEO targets unpaid traffic rather than direct traffic or paid traffic.
 
+* Crawling - Discover Pages
+* Indexing - Find whats on the page and understand the page
+* Ranking - serves highly ranked page based on users location, language and device
+
 In simple terms, SEO means the process of improving your website to increase its visibility in Google, Microsoft Bing, and other search engines whenever people search for:
 
 * Products you sell.
 * Services you provide.
 * Information on topics in which you have deep expertise and/or experience.
+
+## Important Tags for SEO
+
+* Semnatics - A semantic element clearly describes its meaning to both the browser and the developer.
+
+Examples of non-semantic elements: <div> and <span> - Tells nothing about its content.
+
+Examples of semantic elements: <form>, <table>, and <article> - Clearly defines its content.
+
+```
+<article>
+<aside>
+<details>
+<figcaption>
+<figure>
+<footer>
+<header>
+<main>
+<mark>
+<nav>
+<section>
+<summary>
+<time>
+```
+
+* Meta Tags - meta tags are HTML tags used to provide additional information about a page to search engines and other clients. Clients process the meta tags and ignore those they don't support. meta tags are added to the <head> section of your HTML page.
+
+* Image Alt Tag - The alt attribute provides alternative information for an image if a user for some reason cannot view it (because of slow connection, an error in the src attribute, or if the user uses a screen reader).
 
 ## Webpack
 
