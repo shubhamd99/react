@@ -315,6 +315,18 @@ pageProps is an object with the initial props that were preloaded for your page 
 
 A custom Document can update the <html> and <body> tags used to render a Page. This file is only rendered on the server, so event handlers like onClick cannot be used in _document. To override the default Document, create the file pages/_document.js.
 
+### pages/api/
+
+API routes provide a solution to build your API with Next.js. Any file inside the folder pages/api is mapped to /api/* and will be treated as an API endpoint instead of a page. They are server-side only bundles and won't increase your client-side bundle size.
+
+For example, the following API route pages/api/user.js returns a json response with a status code of 200: For an API route to work, you need to export a function as default (a.k.a request handler)
+
+```js
+export default function handler(req, res) {
+  res.status(200).json({ name: 'John Doe' })
+}
+```
+
 ### getInitialProps
 
 getInitialProps enables server-side rendering in a page and allows you to do initial data population, it means sending the page with the data already populated from the server. This is especially useful for SEO. getInitialProps will disable Automatic Static Optimization. getInitialProps is an async function that can be added to any page as a static method.
