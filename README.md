@@ -332,3 +332,19 @@ Page.getInitialProps = async (ctx) => {
 
 export default Page
 ```
+
+## CSS
+
+### Grid Layout
+The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.
+
+An HTML element becomes a grid container when its display property is set to grid or inline-grid.
+
+```.grid-container {
+  display: grid;
+}
+```
+
+### Box Model
+
+CSS box model is essentially a box that wraps around every HTML element. It consists of: margins, borders, padding, and the actual content.
