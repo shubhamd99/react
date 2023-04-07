@@ -3,6 +3,10 @@
 Next.js is a flexible React framework that gives you building blocks to create fast web applications. 
 By framework, we mean Next.js handles the tooling and configuration needed for React, and provides additional structure, features, and optimizations for your application.
 
+```
+npx create-next-app@latest
+```
+
 
 ### Building Blocks of a Web Application
 There are a few things you need to consider when building modern applications. Such as:
