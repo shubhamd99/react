@@ -44,6 +44,10 @@ Vercel enable teams to iterate quickly and develop, preview, and ship delightful
 
 ## Rendering Techniques
 
+### What is Rendering?
+There is an unavoidable unit of work to convert the code you write in React into the HTML representation of your UI. This process is called rendering.
+Rendering can take place on the server or on the client. It can happen either ahead of time at build time, or on every request at runtime.
+
 ### Client Side Rendering
 
 JavaScript-based web apps as we traditionally know them work by running libraries like React or scripts at run time in the browser.
@@ -140,6 +144,14 @@ Modules are reusable chunks of code built from your app’s JavaScript, node_mod
 * Mode - Mode tells Webpack which configuration and optimizations to use for your application. 
 
 Next.js has adopted webpack 5 as the default for compilation. 
+
+## Hyderation
+
+Hydration is the process of using client-side JavaScript to add application state and interactivity to server-rendered HTML.
+
+## Rehyderation
+
+This is pretty much the same thing, but is used in reference to SSR - SSR returns full html, but you still need to attach the react listeners to it.
 
 ## New Features of Next 12
 
