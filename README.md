@@ -317,7 +317,7 @@ A custom Document can update the <html> and <body> tags used to render a Page. T
 
 ### getInitialProps
 
-getInitialProps enables server-side rendering in a page and allows you to do initial data population, it means sending the page with the data already populated from the server. This is especially useful for SEO.
+getInitialProps enables server-side rendering in a page and allows you to do initial data population, it means sending the page with the data already populated from the server. This is especially useful for SEO. getInitialProps will disable Automatic Static Optimization. getInitialProps is an async function that can be added to any page as a static method.
 
 ```jsx
 function Page({ stars }) {
@@ -332,6 +332,66 @@ Page.getInitialProps = async (ctx) => {
 
 export default Page
 ```
+
+### getStaticProps
+
+Exporting a function called getStaticProps will pre-render a page at build time using the props returned from the function.
+
+```jsx
+// This function gets called at build time on server-side.
+// It may be called again, on a serverless function, if
+// revalidation is enabled and a new request comes in
+export async function getStaticProps() {
+  const res = await fetch('https://.../posts')
+  const posts = await res.json()
+
+  return {
+    props: {
+      posts,
+    },
+    // Next.js will attempt to re-generate the page:
+    // - When a request comes in
+    // - At most once every 10 seconds
+    revalidate: 10, // In seconds
+  }
+}
+```
+
+### getStaticPaths
+
+If a page has Dynamic Routes and uses getStaticProps, it needs to define a list of paths to be statically generated.
+When you export a function called getStaticPaths (Static Site Generation) from a page that uses dynamic routes, Next.js will statically pre-render all the paths specified by getStaticPaths.
+
+getStaticPaths allows you to control which pages are generated during the build instead of on-demand with fallback. Generating more pages during a build will cause slower builds. You can defer generating all pages on-demand by returning an empty array for paths.
+
+```jsx
+// pages/posts/[id].js
+
+// Generates `/posts/1` and `/posts/2`
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { id: '1' } }, { params: { id: '2' } }],
+    fallback: false, // can also be true or 'blocking'
+  }
+}
+
+// `getStaticPaths` requires using `getStaticProps`
+export async function getStaticProps(context) {
+  return {
+    // Passed to the page component as props
+    props: { post: {} },
+  }
+}
+
+export default function Post({ post }) {
+  // Render post...
+}
+```
+
+### getServerSideProps
+
+When exporting a function called getServerSideProps (Server-Side Rendering) from a page, Next.js will pre-render this page on each request using the data returned by getServerSideProps. This is useful if you want to fetch data that changes often, and have the page update to show the most current data.
+
 
 ## CSS
 
