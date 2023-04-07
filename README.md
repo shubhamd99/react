@@ -495,6 +495,29 @@ if anyone wants to change the state of the application, then they'll need to exp
 Reducers, as the name suggests, take in two things: previous state and an action. Then they reduce it (read it return) to one entity: the new updated instance of state.
 So reducers are basically pure JS functions which take in the previous state and an action and return the newly updated state.
 
+
+## API and REST
+
+Representational State Transfer (REST) is an architectural style that defines a set of constraints to be used for creating web services. REST API is a way of accessing web services in a simple and flexible way without having any processing. It’s used to fetch or give some information from a web service. All communication done via REST API uses only HTTP request. 
+
+*Working*: A request is sent from client to server in the form of a web URL as HTTP GET or POST or PUT or DELETE request. After that, a response comes back from the server in the form of a resource which can be anything like HTML, XML, Image, or JSON. But now JSON is the most popular format being used in Web Services. 
+
+In HTTP there are five methods that are commonly used in a REST-based Architecture i.e., POST, GET, PUT (Updating), PATCH (Modifying), and DELETE. These correspond to create, read, update, and delete (or CRUD) operations respectively. 
+
+*Idempotence*: An idempotent HTTP method is a HTTP method that can be called many times without different outcomes. It would not matter if the method is called only once, or ten times over. The result should be the same. Again, this only applies to the result, not the resource itself. 
+
+* API - APIs (Application Programming Interface) act as an interface between two applications to interact and provide the relevant data. It uses a set of protocols using which the operation is done. Salesforce was the first organization to officially launch API, followed by eBay and Amazon. 
+
+* RESTful - Restful API is a standardized implementation of the REST architecture, which makes it easier for developers to build and maintain web services. RESTful API provides a uniform interface for accessing resources, which simplifies the development process.
+
+## CORS
+
+Cross-Origin Resource Sharing (CORS) is an HTTP-header based mechanism that allows a server to indicate any origins (domain, scheme, or port) other than its own from which a browser should permit loading resources. 
+
+* Preflight - CORS also relies on a mechanism by which browsers make a "preflight" request to the server hosting the cross-origin resource, in order to check that the server will permit the actual request.
+
+For security reasons, browsers restrict cross-origin HTTP requests initiated from scripts. For example, XMLHttpRequest and the Fetch API follow the same-origin policy. This means that a web application using those APIs can only request resources from the same origin the application was loaded from unless the response from other origins includes the right CORS headers.
+
 ## CSS
 
 ### Grid Layout
