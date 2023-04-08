@@ -530,6 +530,109 @@ Cross-Origin Resource Sharing (CORS) is an HTTP-header based mechanism that allo
 
 For security reasons, browsers restrict cross-origin HTTP requests initiated from scripts. For example, XMLHttpRequest and the Fetch API follow the same-origin policy. This means that a web application using those APIs can only request resources from the same origin the application was loaded from unless the response from other origins includes the right CORS headers.
 
+## Service Worker API
+
+A service worker is a script that runs independently in the browser background. On the user side, it can intercept its network requests and decide what to load (fetch).
+Service workers mainly serve features like background sync, push notifications and they are commonly used for’offline first’ applications, giving the developers the opportunity to take complete control over the user experience.
+
+The service worker lifecycle is completely separate from the web page. It’s a programmable network proxy, which is terminated when it’s not used and restarted when it’s next needed. 
+
+During installation, the service worker can cache some static assets like web pages. If the browser cache the files successfully, the service worker gets installed.
+
+Afterward, the worker needs to be activated. During activation the service worker can manage and decide what to happen to the old caches, typically they are being deleted and replaced with the new versions.
+
+* Registration: 
+```js
+// Ensure that the browser supports the service worker API
+if (navigator.serviceWorker) {
+  // Start registration process on every page load
+  window.addEventListener('load', () => {
+      navigator.serviceWorker
+          // The register function takes as argument
+          // the file path to the worker's file
+          .register('/service_worker.js')
+          // Gives us registration object
+          .then(reg => console.log('Service Worker Registered'))
+          .catch(swErr => console.log(
+                `Service Worker Installation Error: ${swErr}}`));
+    });
+}
+```
+
+* Installing:
+```js
+var cacheName = 'geeks-cache-v1';
+var cacheAssets = [
+    '/assets/pages/offline-page.html',
+    '/assets/styles/offline-page.css',
+    '/assets/script/offline-page.js',
+  
+];
+  
+// Call install Event
+self.addEventListener('install', e => {
+    // Wait until promise is finished 
+    e.waitUntil(
+        caches.open(cacheName)
+        .then(cache => {
+            console.log(`Service Worker: Caching Files: ${cache}`);
+            cache.addAll(cacheAssets)
+                // When everything is set
+                .then(() => self.skipWaiting())
+        })
+    );
+})
+```
+
+* Activating:
+```js
+// Call Activate Event
+self.addEventListener('activate', e => {
+    console.log('Service Worker: Activated');
+    // Clean up old caches by looping through all of the
+    // caches and deleting any old caches or caches that
+    // are not defined in the list
+    e.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(
+                    cache => {
+                        if (cache !== cacheName) {
+                            console.log('Service Worker: Clearing Old Cache');
+                            return caches.delete(cache);
+                        }
+                    }
+                )
+            )
+        })
+    );
+})
+```
+
+## SWR
+
+SWR (stale-while-revalidate) is a strategy to first return the data from cache (stale), then send the fetch request (revalidate), and finally come with the up-to-date data.
+
+```jsx
+import useSWR from 'swr'
+ 
+function Profile() {
+  const { data, error, isLoading } = useSWR('/api/user', fetcher)
+ 
+  if (error) return <div>failed to load</div>
+  if (isLoading) return <div>loading...</div>
+  return <div>hello {data.name}!</div>
+}`
+```
+
+* Fast, lightweight and reusable data fetching
+* Built-in cache and request deduplication
+* Real-time experience
+* Transport and protocol agnostic
+* SSR / ISR / SSG support
+* TypeScript ready
+* React Native
+
 ## CSS
 
 ### Grid Layout
