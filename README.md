@@ -645,6 +645,26 @@ An HTML element becomes a grid container when its display property is set to gri
 }
 ```
 
+## CI/CD
+
+* CI or Continuous Integration is the practice of automating the integration of code changes from multiple developers into a single codebase. It is a software development practice where the developers commit their work frequently into the central code repository (Github or Stash). Then there are automated tools that build the newly committed code and do a code review, etc as required upon integration.
+
+The key goals of Continuous Integration are to find and address bugs quicker, make the process of integrating code across a team of developers easier, improve software quality and reduce the time it takes to release new feature updates. Some popular CI tools are Jenkins, TeamCity, and Bamboo.
+
+* CD or Continuous Delivery is carried out after Continuous Integration to make sure that we can release new changes to our customers quickly in an error-free way. This includes running integration and regression tests in the staging area (similar to the production environment) so that the final release is not broken in production.
+
+Continuous Delivery automates the entire software release process. The final decision to deploy to a live production environment can be triggered by the developer/project lead as required. Some popular CD tools are AWS CodeDeploy, Jenkins, and GitLab.
+
+![img_alt](https://media.geeksforgeeks.org/wp-content/uploads/20201103135931/CICD.PNG)
+
+## Lighthouse
+
+Lighthouse is an open-source, automated tool for improving the quality of web pages. You can run it against any web page, public or requiring authentication. It has audits for performance, accessibility, progressive web apps, SEO, and more.
+
+You can run Lighthouse in Chrome DevTools, from the command line, or as a Node module. You give Lighthouse a URL to audit, it runs a series of audits against the page, and then it generates a report on how well the page did. 
+
+![img_alt](https://wd.imgix.net/image/MtjnObpuceYe3ijODN3a79WrxLU2/IYRw9kB2rqEsnAj48IJ9.png?auto=format&w=1252)
+
 ### Box Model
 
 CSS box model is essentially a box that wraps around every HTML element. It consists of: margins, borders, padding, and the actual content.
