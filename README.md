@@ -30,6 +30,41 @@ It also means, however, that building a complete React application from the grou
 
 ![img_alt](https://nextjs.org/static/images/learn/foundations/user-interface.png)
 
+### DOM
+DOM is an abbreviation for Document Object Model. It represents the HTML page as a tree of elements called nodes. The document is the root node, and the child nodes form the subtree. The DOM interface lets us do operations such as the addition, modification, or removal of items from the document. Whenever any change to the DOM occurs, the browser re-renders the UI.
+
+### Virtual DOM
+A virtual DOM is a lightweight JavaScript representation of the Document Object Model (DOM) used in declarative web frameworks such as React, Vue. js, and Elm. Updating the virtual DOM is comparatively faster than updating the actual DOM (via JavaScript).
+
+The virtual DOM (VDOM) is a programming concept where an ideal, or “virtual”, representation of a UI is kept in memory and synced with the “real” DOM by a library such as ReactDOM. This process is called reconciliation.
+
+### JSX
+JSX is a JavaScript Extension Syntax that React uses to combine HTML and JavaScript easily. We usually refer it as a syntactic sugar. We employ code transpilers such as babel to translate the JSX code to the JavaScript syntax.
+
+### React Core
+The React Core contains all of the API required to define React components. It is where we’ll find methods such as createElement. It also manages state management, communication between various components, and so forth.
+
+### React Renderer
+The renderer is a component of the React framework that is in charge of rendering React components on various platforms such as the Web, Mobile, and so on. 
+Different platforms utilize numerous rendering approaches. For example, in web-based applications, the DOM is utilized to render the content. To alter the DOM and re-render the UI, we may use methods like appendChild() and remove() on the DOM nodes. For mobile apps, however, we require UI support straight from the operating system.
+
+### React Reconciler
+React works faster because of the reconciliation process. Reconciliation is the process through which React changes the Browser DOM. It contains the diffing mechanism, which decides which parts of the tree the renderer should update. In other words, when we make a change, React reconciler reconciles the DOM tree with the React element tree. React uses the diffing mechanism to recognize the difference between the two trees and determine which portions of the tree React should rebuild.
+
+Because the elements are unchangeable, we cannot update their children or properties as it reflects the user interface at a certain point in time. React constructs a new DOM model with each render cycle. It computes the differences between the two and makes only the necessary adjustments to the actual DOM.
+
+### Keys in React
+Keys function similarly to a special string attribute provided in creating a List of Elements. They are essential in React since they tell us which elements in a given list have changed, been updated, or deleted.
+
+### How React works under the hood?
+The importance of the Virtual DOM becomes more prominent. When a Component’s state value changes, React calls the Component’s render() function again. Similarly, as previously, invoking render() will produce a tree of Elements. This time, though, the tree will incorporate a new Element to symbolize the new objects. React now has an old tree that describes what it currently looks like and a new tree that represents how the updated page should look. React must now compare these two trees and provide ReactDOM with instructions to sync anything that has changed, which results in adding items to the UI. This is How React works.
+
+
+## Babel
+Babel is a JavaScript transpiler that converts edge JavaScript into plain old ES5 JavaScript that can run in any browser (even the old ones).
+It makes available all the syntactical sugar that was added to JavaScript with the new ES6 specification, including classes, fat arrows and multiline strings.
+We can also optionally use it to transpile TypeScript into regular JavaScript that will run in a browser.
+
 ## What is Vercel?
 
 Vercel is the platform for frontend developers, providing the speed and reliability innovators need to create at the moment of inspiration.
