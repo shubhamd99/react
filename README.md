@@ -703,3 +703,21 @@ You can run Lighthouse in Chrome DevTools, from the command line, or as a Node m
 ### Box Model
 
 CSS box model is essentially a box that wraps around every HTML element. It consists of: margins, borders, padding, and the actual content.
+
+## Monorepo
+
+A monorepo is a version-controlled code repository that holds many projects. While these projects may be related, they are often logically independent and run by different teams.
+
+When teams build several different applications, dozens of “micro-frontends” aka features and experiences, and hundreds of smaller components — the traditional repo architecture won’t do.
+
+Problems like code-sharing begin to rise, as different applications need to consume and use the same components, features, or even each other.
+
+Monorepos are sometimes called monolithic repositories, but they should not be confused with monolithic architecture, which is a software development practice for writing self-contained applications. An example of this is a Ruby on Rails monolith handling websites, API endpoints, and background jobs.
+
+![img_alt](https://wpblog.semaphoreci.com/wp-content/uploads/2022/06/02-multi-to-mono-1056x934-1.jpeg)
+
+### Lerna
+
+Lerna is a fast, modern build system for managing and publishing multiple JavaScript/TypeScript packages from the same repository.
+
+Lerna is now maintained by the NX team, but was originally created by the developers of BabelJS. It was built as a rather simple tool for managing repositories with multiple packages, so you can version and publish each package separately. It provides useful automation for that purpose.
