@@ -10,4 +10,4 @@ It's worth mentioning that although using the Intersection Observer for scroll a
 - https://www.framer.com/motion/
 - https://greensock.com/gsap/
 
-![screesnhot](https://imgur.com/tNDN6YC)
+![screneshot](https://i.imgur.com/tNDN6YC.gif)
