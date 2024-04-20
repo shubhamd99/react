@@ -750,3 +750,15 @@ Monorepos are sometimes called monolithic repositories, but they should not be c
 Lerna is a fast, modern build system for managing and publishing multiple JavaScript/TypeScript packages from the same repository.
 
 Lerna is now maintained by the NX team, but was originally created by the developers of BabelJS. It was built as a rather simple tool for managing repositories with multiple packages, so you can version and publish each package separately. It provides useful automation for that purpose.
+
+## Intersection Observer API
+
+Intersection Observer is a web-based API that enables developers to detect when a specific element intersects with another element or the viewport.
+You can use this API to monitor any changes in the visibility of an element as it intersects with another element, or exits / enters the viewport.
+
+### Scroll Animations
+
+It's worth mentioning that although using the Intersection Observer for scroll animations is effective, there are newer approaches to implementing reveal-on-scroll animations in React. These approaches include the use of animation libraries such as Framer Motion and GSAP.
+
+- https://www.framer.com/motion/
+- https://greensock.com/gsap/
