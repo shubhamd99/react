@@ -523,6 +523,16 @@ Context provides a way to pass data through the component tree without having to
 
 Reducers let you consolidate a component’s state update logic. Context lets you pass information deep down to other components. You can combine reducers and context together to manage state of a complex screen.
 
+## Symantic HTML
+
+Semantic HTML tags are tags that define the meaning of the content they contain.
+For example, tags like <header>, <article>, and <footer> are semantic HTML tags. They clearly indicate the role of the content they contain.
+
+### Why Do I Need to Use Semantic HTML Tags?
+
+- Accessibility - For sighted users, it’s easy to identify the various parts of a webpage. Headers, footers, and the main content are all immediately visually apparent.
+- SEO - Semantic HTML tags are important for SEO (search engine optimization) because they indicate the role of the content within the tags.
+
 ## Redux
 
 Redux is a state management library that you can use with any JS library or framework like React, Angular, or Vue.
