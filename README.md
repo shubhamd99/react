@@ -408,7 +408,7 @@ export default Page;
 
 ### getStaticProps
 
-Exporting a function called getStaticProps will pre-render a page at build time using the props returned from the function.
+Exporting a function called getStaticProps will pre-render a page at build time using the props returned from the function. It's used to fetch data asynchronously during static page generation, when dynamic data is needed at build time. This includes: Accessing external APIs, Fetching data from a database, and Performing calculations before rendering the page.
 
 ```jsx
 // This function gets called at build time on server-side.
