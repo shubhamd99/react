@@ -791,3 +791,28 @@ Key Features:
 - Optimistic Updates: You can implement optimistic updates with ease, making your app feel more responsive.
 
 Website - https://tanstack.com/query/latest
+
+## Styling Next.js with Styled JSX
+
+Styled JSX is a CSS-in-JS library that allows you to write encapsulated and scoped CSS to style your components. The styles you introduce for one component won't affect other components, allowing you to add, change and delete styles without worrying about unintended side effects.
+
+```tsx
+function Home() {
+  return (
+    <div className="container">
+      <h1>Hello Next.js</h1>
+      <p>Let's explore different ways to style Next.js apps</p>
+      <style jsx>{`
+        .container {
+          margin: 50px;
+        }
+        p {
+          color: blue;
+        }
+      `}</style>
+    </div>
+  );
+}
+
+export default Home;
+```
