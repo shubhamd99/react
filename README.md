@@ -772,3 +772,7 @@ It's worth mentioning that although using the Intersection Observer for scroll a
 
 - https://www.framer.com/motion/
 - https://greensock.com/gsap/
+
+## Difference bwteen GraphQL, REST and gRPC
+
+https://dev.to/somadevtoo/difference-between-graphql-rest-and-grpc-58bl
