@@ -776,3 +776,16 @@ It's worth mentioning that although using the Intersection Observer for scroll a
 ## Difference bwteen GraphQL, REST and gRPC
 
 https://dev.to/somadevtoo/difference-between-graphql-rest-and-grpc-58bl
+
+## React Query
+
+React Query is a powerful library developed by TanStack that simplifies data fetching and state management in React applications. It provides a straightforward way to manage remote data and keep it in sync with the UI.
+React Query is a JavaScript library designed to simplify the complex task of data fetching and caching in React applications. It offers a set of hooks and utilities that enable you to manage data from various sources, including REST APIs, GraphQL, or even local state, effortlessly.
+
+Key Features:
+
+- Declarative Data Fetching: React Query promotes a declarative approach to data fetching. You define queries and mutations using hooks like useQuery and useMutation. This leads to cleaner and more organized code.
+- Automatic Caching: React Query includes a built-in cache that stores query results. It automatically updates data when mutations occur, ensuring your UI remains consistent.
+- Background Data Sync: It can automatically refetch data in the background, keeping your data fresh without manual intervention.
+- Pagination and Infinite Scrolling: React Query provides utilities for handling pagination and infinite scrolling effortlessly.
+- Optimistic Updates: You can implement optimistic updates with ease, making your app feel more responsive.
