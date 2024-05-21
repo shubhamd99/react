@@ -789,3 +789,5 @@ Key Features:
 - Background Data Sync: It can automatically refetch data in the background, keeping your data fresh without manual intervention.
 - Pagination and Infinite Scrolling: React Query provides utilities for handling pagination and infinite scrolling effortlessly.
 - Optimistic Updates: You can implement optimistic updates with ease, making your app feel more responsive.
+
+Website - https://tanstack.com/query/latest
