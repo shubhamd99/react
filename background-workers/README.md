@@ -73,6 +73,21 @@ self.addEventListener("fetch", (event) => {
 
 ---
 
+### 🆚 Web Workers vs. Service Workers
+
+While both run in background threads, their purposes are distinct:
+
+| Feature                  | Web Worker                           | Service Worker                                                |
+| :----------------------- | :----------------------------------- | :------------------------------------------------------------ |
+| **Primary Purpose**      | Heavy computation & data processing  | Network proxy, caching, offline capabilities                  |
+| **Lifespan**             | Tied to the tab/page that created it | Independent of the page; persists even when browser is closed |
+| **DOM Access**           | No                                   | No                                                            |
+| **Network Interception** | No                                   | Yes (via `fetch` event)                                       |
+| **Communication**        | `postMessage` with Main Thread       | `postMessage`, `BroadcastChannel`, `MessageChannel`           |
+| **Use Case Example**     | Image filtering, big data sorting    | Offline mode, Push Notifications, Background Sync             |
+
+---
+
 ### 3. Cache Storage API
 
 **Definition:**
