@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My PWA Example</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#000000" />
+  </head>
+  <body>
+    <header>
+      <h1>My Progressive Web App</h1>
+    </header>
+
+    <main>
+      <div class="card">
+        <h2>Welcome!</h2>
+        <p>This is a demonstration of a Progressive Web App.</p>
+        <p>
+          Status: <span id="network-status" class="status-online">Online</span>
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Features Demo</h3>
+        <button id="install-btn" style="display: none">Install App</button>
+        <button id="notify-btn">Enable Notifications</button>
+        <button id="sync-btn">Register Background Sync</button>
+      </div>
+
+      <div class="card" id="output-log">
+        <h3>Logs</h3>
+        <div id="logs"></div>
+      </div>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
