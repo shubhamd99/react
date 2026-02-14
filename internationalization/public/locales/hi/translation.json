@@ -1,0 +1,27 @@
+{
+  "title": "React में आपका स्वागत है",
+  "description": "यह एक अंतर्राष्ट्रीयकरण उदाहरण है।",
+  "basic": {
+    "greeting": "नमस्ते दुनिया!"
+  },
+  "interpolation": {
+    "welcome": "स्वागत है, {{name}}!",
+    "unread_messages": "आपके पास {{count}} अपठित संदेश है।",
+    "unread_messages_other": "आपके पास {{count}} अपठित संदेश हैं।"
+  },
+  "context": {
+    "status": "वर्तमान स्थिति",
+    "status_active": "ऑनलाइन",
+    "status_away": "अनुपस्थित",
+    "friend": "एक दोस्त",
+    "friend_male": "एक प्रेमी",
+    "friend_female": "एक प्रेमिका"
+  },
+  "formatting": {
+    "current_date": "आज {{date, DATE_HUGE}} है",
+    "date_long": "लम्bi तारीख: {{date, DATE_LONG}}",
+    "time_simple": "वर्तमान समय: {{date, TIME_SIMPLE}}",
+    "cost": "{{price, currency}}",
+    "number_example": "फॉर्मेटेड नंबर: {{val, NUMBER}}"
+  }
+}

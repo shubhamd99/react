@@ -1,0 +1,27 @@
+{
+  "title": "Bienvenido a React",
+  "description": "Este es un ejemplo de internacionalización.",
+  "basic": {
+    "greeting": "¡Hola, Mundo!"
+  },
+  "interpolation": {
+    "welcome": "¡Bienvenido, {{name}}!",
+    "unread_messages": "Tienes {{count}} mensaje no leído.",
+    "unread_messages_other": "Tienes {{count}} mensajes no leídos."
+  },
+  "context": {
+    "status": "Estado actual",
+    "status_active": "En línea",
+    "status_away": "Ausente",
+    "friend": "Un amigo",
+    "friend_male": "Un novio",
+    "friend_female": "Una novia"
+  },
+  "formatting": {
+    "current_date": "Hoy es {{date, DATE_HUGE}}",
+    "date_long": "Fecha larga: {{date, DATE_LONG}}",
+    "time_simple": "Hora actual: {{date, TIME_SIMPLE}}",
+    "cost": "{{price, currency}}",
+    "number_example": "Número formateado: {{val, NUMBER}}"
+  }
+}
