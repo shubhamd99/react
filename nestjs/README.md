@@ -47,8 +47,12 @@ src/
 ├── modules/          # Feature-specific modules
 │   ├── basic/        # CRUD examples (Cats)
 │   ├── intermediate/ # Middleware, Guards, Interceptors usage
-│   └── advanced/     # Dynamic modules
-└── main.ts           # Application entry point
+│   ├── advanced/     # Dynamic modules
+│   └── grpc/         # gRPC microservices (Hero service)
+│       ├── proto/    # Protocol Buffer definitions
+│       ├── dto/      # Data Transfer Objects
+│       └── hero/     # Hero controller and service
+└── main.ts           # Application entry point (Hybrid HTTP + gRPC)
 ```
 
 ## 🏗 Architecture Overview
@@ -58,9 +62,10 @@ This project demonstrates a **modular, layered architecture** following NestJS b
 ```mermaid
 graph TB
     Client[Client/Browser]
+    GrpcClient[gRPC Client]
 
-    subgraph "NestJS Application"
-        Main[main.ts<br/>Global Config]
+    subgraph "NestJS Hybrid Application"
+        Main[main.ts<br/>HTTP + gRPC Config]
         AppModule[App Module]
 
         subgraph "Common Layer"
@@ -76,21 +81,25 @@ graph TB
             BasicModule[Basic Module<br/>CRUD Operations]
             IntermediateModule[Intermediate Module<br/>Advanced Features]
             AdvancedModule[Advanced Module<br/>Dynamic Config]
+            GrpcModule[gRPC Module<br/>Microservices]
         end
 
         subgraph "Controllers"
-            CatsController[Cats Controller]
-            SecretController[Secret Controller]
-            AdvancedController[Advanced Controller]
+            CatsController[Cats Controller<br/>HTTP]
+            SecretController[Secret Controller<br/>HTTP]
+            AdvancedController[Advanced Controller<br/>HTTP]
+            HeroController[Hero Controller<br/>gRPC]
         end
 
         subgraph "Services"
             CatsService[Cats Service]
             ConfigService[Configurable Service]
+            HeroService[Hero Service]
         end
     end
 
     Client -->|HTTP Request| Main
+    GrpcClient -->|gRPC Request| Main
     Main --> Middleware
     Middleware --> Guards
     Guards --> Interceptors
@@ -98,14 +107,17 @@ graph TB
     AppModule --> BasicModule
     AppModule --> IntermediateModule
     AppModule --> AdvancedModule
+    AppModule --> GrpcModule
     BasicModule --> CatsController
     IntermediateModule --> SecretController
     AdvancedModule --> AdvancedController
+    GrpcModule --> HeroController
     CatsController --> Pipes
     CatsController --> CatsService
     SecretController --> Filters
     AdvancedController --> ConfigService
     AdvancedController --> Decorators
+    HeroController --> HeroService
 ```
 
 ### Request Flow
@@ -193,6 +205,66 @@ curl http://localhost:3000/advanced/config
 curl http://localhost:3000/advanced/user
 ```
 
+#### gRPC Module (`hero.HeroService`)
+
+The gRPC module demonstrates all 4 gRPC communication patterns. You'll need `grpcurl` to test these endpoints.
+
+**Install grpcurl:**
+
+```bash
+# Windows (using Chocolatey)
+choco install grpcurl
+
+# Or download from: https://github.com/fullstorydev/grpcurl/releases
+```
+
+**Pattern 1: Unary RPC** (Single request → Single response)
+
+```bash
+# Find a hero by ID
+grpcurl -plaintext -d '{"id": 1}' localhost:5000 hero.HeroService/FindOne
+
+# Expected response:
+# {
+#   "id": 1,
+#   "name": "Iron Man",
+#   "power": "Technology",
+#   "level": 85
+# }
+```
+
+**Pattern 2: Server Streaming RPC** (Single request → Stream of responses)
+
+```bash
+# Get all heroes (streamed one by one)
+grpcurl -plaintext -d '{}' localhost:5000 hero.HeroService/FindMany
+
+# Expected: Multiple hero objects streamed sequentially
+```
+
+**Pattern 3: Client Streaming RPC** (Stream of requests → Single response)
+
+```bash
+# Create multiple heroes (requires a client script)
+# This pattern is best tested with a gRPC client application
+# The server will collect all heroes and return them in a single response
+```
+
+**Pattern 4: Bidirectional Streaming RPC** (Stream ↔ Stream)
+
+```bash
+# Battle simulation (requires a client script)
+# Both client and server send streams simultaneously
+# Client sends battle actions, server responds with results
+```
+
+**List all available gRPC services:**
+
+```bash
+grpcurl -plaintext localhost:5000 list
+grpcurl -plaintext localhost:5000 list hero.HeroService
+```
+
 ## 🧪 Testing Workflow
 
 ### Linting
@@ -255,8 +327,9 @@ Content-Type: application/json
 1. **Start with Basic Module** - Understand Controllers, Services, DTOs
 2. **Explore Intermediate Module** - Learn Middleware, Guards, Pipes, Interceptors
 3. **Study Advanced Module** - Master Dynamic Modules and Custom Decorators
-4. **Read the Code** - Each file has comments explaining key concepts
-5. **Experiment** - Modify endpoints, add new features, break things and fix them!
+4. **Dive into gRPC Module** - Learn Microservices, gRPC, Protocol Buffers, and all 4 communication patterns
+5. **Read the Code** - Each file has comments explaining key concepts
+6. **Experiment** - Modify endpoints, add new features, break things and fix them!
 
 ## 🛠 Tech Stack
 
@@ -264,6 +337,8 @@ Content-Type: application/json
 - **Language**: TypeScript
 - **Validation**: class-validator, class-transformer
 - **Configuration**: @nestjs/config
+- **Microservices**: @nestjs/microservices, gRPC
+- **Protocol Buffers**: @grpc/grpc-js, @grpc/proto-loader
 
 ## 📝 Additional Resources
 

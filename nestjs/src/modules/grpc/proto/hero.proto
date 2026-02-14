@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package hero;
+
+// Hero message definition
+message Hero {
+  int32 id = 1;
+  string name = 2;
+  string power = 3;
+  int32 level = 4;
+}
+
+// Request message for finding a hero by ID
+message HeroById {
+  int32 id = 1;
+}
+
+// Empty message for requests that don't need parameters
+message Empty {}
+
+// Request message for creating a hero
+message CreateHeroRequest {
+  string name = 1;
+  string power = 2;
+  int32 level = 3;
+}
+
+// Response message for multiple heroes
+message HeroList {
+  repeated Hero heroes = 1;
+}
+
+// Battle request message
+message BattleRequest {
+  int32 heroId = 1;
+  string action = 2;
+}
+
+// Battle response message
+message BattleResponse {
+  int32 heroId = 1;
+  string result = 2;
+  int32 damage = 3;
+}
+
+// HeroService definition with all 4 gRPC communication patterns
+service HeroService {
+  // Unary RPC: Client sends single request, server sends single response
+  rpc FindOne (HeroById) returns (Hero);
+  
+  // Server Streaming RPC: Client sends single request, server sends stream of responses
+  rpc FindMany (Empty) returns (stream Hero);
+  
+  // Client Streaming RPC: Client sends stream of requests, server sends single response
+  rpc CreateHeroes (stream CreateHeroRequest) returns (HeroList);
+  
+  // Bidirectional Streaming RPC: Both client and server send streams
+  rpc BattleHeroes (stream BattleRequest) returns (stream BattleResponse);
+}
