@@ -1,0 +1,19 @@
+
+> learn-nest@0.0.1 lint
+> eslint "{src,apps,libs,test}/**/*.ts" --fix
+
+
+D:\workspace\react\nestjs\src\common\decorators\user.decorator.ts
+  5:11  error  Unsafe assignment of an `any` value           @typescript-eslint/no-unsafe-assignment
+  7:20  error  Unsafe member access .user on an `any` value  @typescript-eslint/no-unsafe-member-access
+
+D:\workspace\react\nestjs\src\common\guards\roles.guard.ts
+  14:11  error    Unsafe assignment of an `any` value                                       @typescript-eslint/no-unsafe-assignment
+  20:30  warning  Unsafe argument of type `any` assigned to a parameter of type `string[]`  @typescript-eslint/no-unsafe-argument
+  20:36  error    Unsafe member access .roles on an `any` value                             @typescript-eslint/no-unsafe-member-access
+
+D:\workspace\react\nestjs\src\common\pipes\freeze.pipe.ts
+  10:5  error  Unsafe return of a value of type `any`  @typescript-eslint/no-unsafe-return
+
+Γ£û 6 problems (5 errors, 1 warning)
+
