@@ -122,6 +122,8 @@ graph TB
 
 ### Request Flow
 
+#### HTTP Request Flow
+
 1. **Client** sends HTTP request
 2. **Middleware** (Logger, Auth) processes request
 3. **Guards** check authorization (e.g., role-based access)
@@ -131,6 +133,14 @@ graph TB
 7. **Service** executes business logic
 8. **Controller** returns response
 9. **Exception Filters** catch and format errors
+
+#### gRPC Request Flow
+
+1. **gRPC Client** sends gRPC request (Unary/Streaming)
+2. **gRPC Controller** receives request via `@GrpcMethod()` or `@GrpcStreamMethod()`
+3. **Service** executes business logic
+4. **Controller** returns response (single or stream)
+5. **gRPC Framework** serializes response using Protocol Buffers
 
 ## 🚀 How to Run
 
