@@ -1,50 +1,71 @@
-# React + TypeScript + Vite
+# WebGraphics: Learning WebGL and WebGPU
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based project designed to explore and demonstrate the fundamentals of web-based graphics programming using WebGL and the next-generation WebGPU API.
 
-Currently, two official plugins are available:
+## 🚀 Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project serves as a learning platform for two major web graphics standards:
 
-## Expanding the ESLint configuration
+- **WebGL (Web Graphics Library)**: The current standard based on OpenGL ES 2.0/3.0.
+- **WebGPU**: The future of web graphics, providing lower-level access to GPU hardware, better performance, and modern features.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🛠 Features
 
-- Configure the top-level `parserOptions` property like this:
+### 1. WebGL Triangle Example
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- Demonstrates the legacy graphics pipeline.
+- Uses GLSL (GL Shader Language) for Vertex and Fragment shaders.
+- Manages manual context initialization and buffer binding.
+
+### 2. WebGPU Triangle Example
+
+- Demonstrates the modern GPU compute and rendering pipeline.
+- Uses WGSL (WebGPU Shader Language).
+- Showcases the use of Adapters, Devices, and Command Encoders.
+- Includes browser compatibility checks.
+
+## 🚦 Getting Started
+
+### Prerequisites
+
+- **Node.js**: v18 or higher.
+- **Enabled WebGPU Browser**:
+  - Chrome 113+
+  - Edge 113+
+  - Safari (with WebGPU flag enabled)
+  - Firefox Nightly (with WebGPU flag enabled)
+
+### Installation
+
+```bash
+cd webgraphics
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Running the App
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm run dev
 ```
+
+## 📖 Technical Concepts
+
+### WebGL vs WebGPU
+
+| Feature             | WebGL                           | WebGPU                             |
+| :------------------ | :------------------------------ | :--------------------------------- |
+| **Origin**          | OpenGL ES                       | Modern APIs (Vulkan, Metal, D3D12) |
+| **Simplicity**      | High-level, state-machine based | Low-level, object-based            |
+| **Shader Language** | GLSL                            | WGSL                               |
+| **Multi-threading** | Limited                         | Native support for compute shaders |
+| **Status**          | Ubiquitous                      | Emerging Standard                  |
+
+## 📂 Project Structure
+
+- `src/components/examples/WebGL/`: WebGL specific components.
+- `src/components/examples/WebGPU/`: WebGPU specific components.
+- `src/App.tsx`: Main entry point integrating the examples.
+
+---
+
+Created for educational purposes to bridge the gap between legacy and modern web graphics.
