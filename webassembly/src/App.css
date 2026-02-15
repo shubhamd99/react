@@ -5,38 +5,104 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
 .card {
-  padding: 2em;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 500px;
 }
 
-.read-the-docs {
-  color: #888;
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+input {
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  width: 80px;
+  border-radius: 4px;
+  border: 1px solid #646cff;
+  background: #1a1a1a;
+  color: white;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+button {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: #646cff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.25s;
+}
+
+button:hover {
+  background-color: #535bf2;
+}
+
+.result {
+  margin-top: 1rem;
+  color: #646cff;
+}
+
+.error {
+  color: #ff4d4d;
+  background: rgba(255, 77, 77, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+pre {
+  background: black;
+  padding: 0.5rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  text-align: left;
+}
+
+.instructions {
+  max-width: 600px;
+  text-align: left;
+  font-size: 1rem;
+  opacity: 0.8;
+  margin-top: 2rem;
+}
+
+code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
 }

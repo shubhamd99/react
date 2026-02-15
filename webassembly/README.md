@@ -1,73 +1,61 @@
-# React + TypeScript + Vite
+# Learn WebAssembly with C++ and React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project demonstrates how to write high-performance logic in C++, compile it to WebAssembly (Wasm), and integrate it into a modern React application.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+To compile the C++ code, you need the **Emscripten SDK (emsdk)**.
 
-## React Compiler
+### 1. Install Emscripten
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+If you don't have it, follow these steps:
 
-## Expanding the ESLint configuration
+```bash
+# Clone the repo
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# Install and activate the latest version
+./emsdk install latest
+./emsdk activate latest
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Set up the environment (Run this in every new terminal)
+source ./emsdk_env.sh  # Linux/macOS
+emsdk_env.bat          # Windows
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## How to Run
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Step 1: Compile C++ to WebAssembly
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Navigate to the `webassembly` folder and run the following command:
+
+```bash
+emcc wasm/math.cpp -O3 -s WASM=1 -o public/math.wasm --no-entry
 ```
+
+- `wasm/math.cpp`: The source C++ file.
+- `-O3`: High optimization level.
+- `-s WASM=1`: Output a `.wasm` file.
+- `-o public/math.wasm`: Save the result to the React `public` folder so it's accessible at runtime.
+- `--no-entry`: Tell the compiler there is no `main()` function; we just want to export specific functions.
+
+### Step 2: Start the React App
+
+Install dependencies and start the Vite development server:
+
+```bash
+npm install
+npm run dev
+```
+
+### Step 3: Test in Browser
+
+Open `http://localhost:5173`. You can now use the UI to call the `add` and `multiply` functions, which are executed inside the WebAssembly module!
+
+## Project Structure
+
+- `wasm/math.cpp`: Your C++ source code.
+- `src/utils/wasmLoader.ts`: Logic to load and instantiate the `.wasm` file.
+- `src/App.tsx`: The React interface.
+- `public/math.wasm`: The compiled binary (generated after Step 1).
