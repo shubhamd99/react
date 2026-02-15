@@ -1,0 +1,511 @@
+/* Demo Container */
+.demo-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.demo-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  color: white;
+}
+
+.demo-header h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.demo-header p {
+  margin: 0;
+  font-size: 1.1rem;
+  opacity: 0.95;
+}
+
+/* Cards */
+.info-card,
+.form-card,
+.items-card,
+.features-card,
+.tips-card,
+.comparison-card,
+.attributes-card,
+.filter-card,
+.security-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.info-card h3,
+.form-card h3,
+.items-card h3,
+.features-card h3,
+.tips-card h3,
+.comparison-card h3,
+.attributes-card h3,
+.filter-card h3,
+.security-card h3 {
+  margin: 0 0 1rem 0;
+  color: #667eea;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Info Grid */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.info-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.session-id {
+  font-size: 1rem;
+  font-family: "Courier New", monospace;
+  word-break: break-all;
+}
+
+/* Forms */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: auto;
+  cursor: pointer;
+}
+
+.key-input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.key-input {
+  flex: 1;
+  font-family: "Courier New", monospace;
+}
+
+.help-text {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.filter-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.filter-group select {
+  flex: 1;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+  background: #6b7280;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #4b5563;
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+.btn-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Items */
+.items-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.items-header h3 {
+  margin: 0;
+}
+
+.items-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+}
+
+.item:hover {
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+.item-content {
+  flex: 1;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.item-key {
+  font-weight: 700;
+  color: #1f2937;
+  font-size: 1.1rem;
+}
+
+.item-value {
+  color: #4b5563;
+  font-family: "Courier New", monospace;
+  background: white;
+  padding: 0.75rem;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  border: 1px solid #e5e7eb;
+}
+
+.encrypted-value {
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+.item-description {
+  margin-top: 0.5rem;
+  color: #6b7280;
+}
+
+.item-meta {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.item-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: #667eea;
+  color: white;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.item-edit {
+  width: 100%;
+}
+
+.item-edit input,
+.item-edit textarea {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.indexeddb-item {
+  flex-direction: column;
+}
+
+.empty-message {
+  text-align: center;
+  color: #9ca3af;
+  padding: 2rem;
+  font-style: italic;
+}
+
+/* Sync Message */
+.sync-message {
+  background: #10b981;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 600;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Comparison Table */
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.comparison-table th,
+.comparison-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.comparison-table th {
+  background: #f9fafb;
+  font-weight: 700;
+  color: #374151;
+}
+
+.comparison-table tr:hover {
+  background: #f9fafb;
+}
+
+/* Attributes */
+.attribute-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.attribute-item {
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.attribute-item strong {
+  color: #667eea;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.attribute-item p {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+/* Security */
+.security-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.security-item {
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.security-item strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.security-item ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.security-item li {
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+/* Auth Status */
+.auth-status {
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.status-authenticated {
+  color: #10b981;
+}
+
+.status-unauthenticated {
+  color: #ef4444;
+}
+
+/* Features and Tips */
+.features-card ul,
+.tips-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.features-card li,
+.tips-card li {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+  color: #4b5563;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .demo-header h2 {
+    font-size: 1.75rem;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .items-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .item {
+    flex-direction: column;
+  }
+
+  .key-input-group {
+    flex-direction: column;
+  }
+
+  .filter-group {
+    flex-direction: column;
+  }
+
+  .filter-group select,
+  .filter-group button {
+    width: 100%;
+  }
+
+  .security-list {
+    grid-template-columns: 1fr;
+  }
+}
