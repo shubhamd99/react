@@ -15,3 +15,7 @@ Note: Attach project-spec.md with above prompt
 ### Ask Claude Code after /clear context
 
 Can you tell me what you know about the current project?
+
+### Add Setup History in current-feature.md
+
+Add the initial setup of next.js to history in the @context\current-feature.md
