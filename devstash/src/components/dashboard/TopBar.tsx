@@ -3,11 +3,19 @@
 import { Search, Plus, PanelLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useSidebarStore } from "@/stores/sidebar.store";
 
 function TopBar() {
+  const toggle = useSidebarStore((s) => s.toggle);
+
   return (
     <header className="flex h-14 items-center gap-3 border-b border-border bg-background px-4">
-      <Button variant="ghost" size="icon-sm" aria-label="Toggle sidebar">
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        aria-label="Toggle sidebar"
+        onClick={toggle}
+      >
         <PanelLeft className="size-4" />
       </Button>
 
