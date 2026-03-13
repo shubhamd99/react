@@ -2,29 +2,9 @@
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
-
-Dashboard UI Phase 3 — Main content area with stats cards, recent collections, pinned items, and recent items.
-
-See full spec: @context/features/dashboard-phase-3-spec.md
-
-### Requirements
-
-- The main area to the right
-- Recent collections
-- Pinned Items
-- 10 Recent items
-- 4 stats cards at the top for number of items, collections, favorite items and favorite collections (Not in screenshot)
-
-### References
-
-- @context/screenshots/dashboard-ui-main.png
-- @context/project-overview.md
-- @src/lib/mock-data.js
-- @context/features/dashboard-phase-1-spec.md
-- @context/features/dashboard-phase-2-spec.md
 
 ## Notes
 
@@ -35,3 +15,4 @@ See full spec: @context/features/dashboard-phase-3-spec.md
 - Created mock data file at src/lib/mock-data.ts
 - Dashboard UI Phase 1: shadcn/ui init, dark mode, /dashboard route, top bar with search + new item button, sidebar and main placeholders
 - Dashboard UI Phase 2: collapsible sidebar with nav links, item types with colored icons and counts, favorite/recent collections, user avatar area, mobile Sheet drawer, Zustand sidebar store
+- Dashboard UI Phase 3: main content area with 4 stats cards, collections grid with type icons, pinned items with content preview, and recent items with grid/list toggle
