@@ -1,24 +1,16 @@
 # Current Feature
 
-<!-- Feature Name -->
-
 ## Status
-
-<!-- Not Started|In Progress|Completed -->
 
 Not Started
 
 ## Goals
 
-<!-- Goals & requirements -->
-
 ## Notes
-
-<!-- Any extra notes -->
 
 ## History
 
-<!-- Keep this updated. Earliest to latest -->
-
 - Project setup and boilerplate cleanup
 - Initial Next.js 16 setup with TypeScript, ESLint, Tailwind CSS v4, and React Compiler
+- Created mock data file at src/lib/mock-data.ts
+- Dashboard UI Phase 1: shadcn/ui init, dark mode, /dashboard route, top bar with search + new item button, sidebar and main placeholders
