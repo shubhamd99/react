@@ -552,11 +552,18 @@ POST   /api/upload                   -> Upload file to Cloudflare R2, return URL
 - [Stripe](https://stripe.com/docs)
 - [OpenAI API](https://platform.openai.com/docs)
 
-### UI References
+### Design References
 
 - [Notion](https://notion.so) — Clean layout, sidebar navigation
 - [Linear](https://linear.app) — Minimal dev-focused UI, keyboard shortcuts
 - [Raycast](https://raycast.com) — Fast access, command palette UX
+
+### Screenshots
+
+Refer to the screenshots below as a base for dashboard UI. It does not have to be exact. Use it as a reference.
+
+- @context/screenshots/dashboard-ui-main.png
+- @context/screenshots/dashboard-ui-drawer-pro.png
 
 ### Useful Libraries
 
