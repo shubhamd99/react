@@ -59,3 +59,21 @@ Create a new branch and implement the feature in the @context/current-feature.md
 ```text
 Mark this feature as completed then commit, merge and push
 ```
+
+## Show Items In Dash Prompt
+
+```text
+Update the current feature with the feature from @context/features/dashboard-items-spec.md. Set the status to In Progress.
+```
+
+```text
+implement the new feature from @context/current-feature.md
+```
+
+```text
+set the current feature to be completed, remove the info and add it to the history
+```
+
+```text
+commit to the feature branch, merge to main, delete the feature branch and push to remote
+```
