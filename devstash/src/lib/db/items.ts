@@ -1,0 +1,68 @@
+import { prisma } from "@/lib/db";
+
+const ITEM_INCLUDE = {
+  itemType: true,
+  tags: {
+    include: {
+      tag: true,
+    },
+  },
+} as const;
+
+export async function getPinnedItems() {
+  const items = await prisma.item.findMany({
+    where: { isPinned: true },
+    include: ITEM_INCLUDE,
+    orderBy: { updatedAt: "desc" },
+  });
+
+  return items.map(transformItem);
+}
+
+export async function getRecentItems(limit = 10) {
+  const items = await prisma.item.findMany({
+    include: ITEM_INCLUDE,
+    orderBy: { updatedAt: "desc" },
+    take: limit,
+  });
+
+  return items.map(transformItem);
+}
+
+export async function getItemStats() {
+  const [totalItems, favoriteItems, recentItems] = await Promise.all([
+    prisma.item.count(),
+    prisma.item.count({ where: { isFavorite: true } }),
+    prisma.item.count({
+      where: {
+        updatedAt: {
+          gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+        },
+      },
+    }),
+  ]);
+
+  return { totalItems, favoriteItems, recentItems };
+}
+
+function transformItem(item: Awaited<ReturnType<typeof prisma.item.findMany<{ include: typeof ITEM_INCLUDE }>>>[number]) {
+  return {
+    id: item.id,
+    title: item.title,
+    description: item.description,
+    content: item.content,
+    url: item.url,
+    isPinned: item.isPinned,
+    isFavorite: item.isFavorite,
+    createdAt: item.createdAt.toISOString(),
+    updatedAt: item.updatedAt.toISOString(),
+    itemType: {
+      name: item.itemType.name,
+      icon: item.itemType.icon,
+      color: item.itemType.color,
+    },
+    tags: item.tags.map((t) => t.tag.name),
+  };
+}
+
+export type DashboardItem = ReturnType<typeof transformItem>;

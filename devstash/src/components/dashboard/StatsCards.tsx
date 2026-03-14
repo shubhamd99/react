@@ -1,6 +1,6 @@
 import { LayoutGrid, FolderOpen, Star, Clock } from "lucide-react";
-import { items } from "@/lib/mock-data";
 import { getCollectionStats } from "@/lib/db/collections";
+import { getItemStats } from "@/lib/db/items";
 import type { LucideIcon } from "lucide-react";
 
 interface StatCardProps {
@@ -22,24 +22,19 @@ function StatCard({ label, value, icon: Icon }: StatCardProps) {
 }
 
 async function StatsCards() {
-  const { totalCollections, favoriteCollections } = await getCollectionStats();
+  const [collectionStats, itemStats] = await Promise.all([
+    getCollectionStats(),
+    getItemStats(),
+  ]);
 
-  const totalItems = items.length;
-  const favoriteItems = items.filter((i) => i.isFavorite).length;
-  const totalFavorites = favoriteItems + favoriteCollections;
-  const recentItems = items
-    .toSorted(
-      (a, b) =>
-        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-    )
-    .slice(0, 10).length;
+  const totalFavorites = itemStats.favoriteItems + collectionStats.favoriteCollections;
 
   return (
     <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-      <StatCard label="Total Items" value={totalItems} icon={LayoutGrid} />
-      <StatCard label="Collections" value={totalCollections} icon={FolderOpen} />
+      <StatCard label="Total Items" value={itemStats.totalItems} icon={LayoutGrid} />
+      <StatCard label="Collections" value={collectionStats.totalCollections} icon={FolderOpen} />
       <StatCard label="Favorites" value={totalFavorites} icon={Star} />
-      <StatCard label="Recent" value={recentItems} icon={Clock} />
+      <StatCard label="Recent" value={itemStats.recentItems} icon={Clock} />
     </div>
   );
 }

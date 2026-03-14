@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { Pin, Star, ChevronRight } from "lucide-react";
-import { items, itemTypes } from "@/lib/mock-data";
+import { getPinnedItems } from "@/lib/db/items";
 import { getIcon } from "@/lib/icon-map";
 
-function PinnedItems() {
-  const pinnedItems = items.filter((item) => item.isPinned);
+async function PinnedItems() {
+  const pinnedItems = await getPinnedItems();
 
   if (pinnedItems.length === 0) return null;
 
@@ -29,25 +29,23 @@ function PinnedItems() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         {pinnedItems.map((item) => {
-          const type = itemTypes.find((t) => t.id === item.itemTypeId);
-          if (!type) return null;
-          const Icon = getIcon(type.icon);
+          const Icon = getIcon(item.itemType.icon);
 
           return (
             <div
               key={item.id}
               className="flex flex-col gap-3 rounded-lg border bg-card p-4 transition-all hover:border-foreground/20 hover:shadow-sm"
-              style={{ borderLeftWidth: "3px", borderLeftColor: type.color }}
+              style={{ borderLeftWidth: "3px", borderLeftColor: item.itemType.color }}
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-2">
                   <span
                     className="flex size-7 items-center justify-center rounded-full"
-                    style={{ backgroundColor: type.color + "20" }}
+                    style={{ backgroundColor: item.itemType.color + "20" }}
                   >
                     <Icon
                       className="size-4"
-                      style={{ color: type.color }}
+                      style={{ color: item.itemType.color }}
                     />
                   </span>
                   <div>
@@ -100,7 +98,7 @@ function PinnedItems() {
               </div>
 
               <div className="text-xs capitalize text-muted-foreground">
-                {type.name}
+                {item.itemType.name}
               </div>
             </div>
           );

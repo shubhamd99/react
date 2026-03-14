@@ -10,23 +10,18 @@ import {
   Pin,
   Star,
 } from "lucide-react";
-import { items, itemTypes } from "@/lib/mock-data";
 import { getIcon } from "@/lib/icon-map";
 import { cn } from "@/lib/utils";
+import type { DashboardItem } from "@/lib/db/items";
 
 type ViewMode = "grid" | "list";
 
-const MAX_RECENT = 10;
+interface RecentItemsProps {
+  items: DashboardItem[];
+}
 
-function RecentItems() {
+function RecentItems({ items }: RecentItemsProps) {
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
-
-  const recentItems = [...items]
-    .sort(
-      (a, b) =>
-        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-    )
-    .slice(0, MAX_RECENT);
 
   return (
     <section className="flex flex-col gap-3">
@@ -35,7 +30,7 @@ function RecentItems() {
           <Clock className="size-4 text-muted-foreground" />
           <h2 className="text-lg font-semibold">Recent Items</h2>
           <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
-            {recentItems.length}
+            {items.length}
           </span>
         </div>
         <div className="flex items-center gap-2">
@@ -77,13 +72,13 @@ function RecentItems() {
 
       {viewMode === "grid" ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {recentItems.map((item) => (
+          {items.map((item) => (
             <RecentItemCard key={item.id} item={item} />
           ))}
         </div>
       ) : (
         <div className="flex flex-col gap-2">
-          {recentItems.map((item) => (
+          {items.map((item) => (
             <RecentItemRow key={item.id} item={item} />
           ))}
         </div>
@@ -93,25 +88,23 @@ function RecentItems() {
 }
 
 interface ItemDisplayProps {
-  item: (typeof items)[number];
+  item: DashboardItem;
 }
 
 function RecentItemCard({ item }: ItemDisplayProps) {
-  const type = itemTypes.find((t) => t.id === item.itemTypeId);
-  if (!type) return null;
-  const Icon = getIcon(type.icon);
+  const Icon = getIcon(item.itemType.icon);
 
   return (
     <div
       className="flex flex-col gap-3 rounded-lg border bg-card p-4 transition-all hover:border-foreground/20 hover:shadow-sm"
-      style={{ borderLeftWidth: "3px", borderLeftColor: type.color }}
+      style={{ borderLeftWidth: "3px", borderLeftColor: item.itemType.color }}
     >
       <div className="flex items-start justify-between">
         <span
           className="flex size-7 items-center justify-center rounded-full"
-          style={{ backgroundColor: type.color + "20" }}
+          style={{ backgroundColor: item.itemType.color + "20" }}
         >
-          <Icon className="size-4" style={{ color: type.color }} />
+          <Icon className="size-4" style={{ color: item.itemType.color }} />
         </span>
         <div className="flex items-center gap-1">
           {item.isPinned && (
@@ -152,7 +145,7 @@ function RecentItemCard({ item }: ItemDisplayProps) {
       </div>
 
       <div className="flex items-center justify-between text-xs text-muted-foreground">
-        <span className="capitalize">{type.name}</span>
+        <span className="capitalize">{item.itemType.name}</span>
         <span>{formatDate(item.updatedAt)}</span>
       </div>
     </div>
@@ -160,17 +153,15 @@ function RecentItemCard({ item }: ItemDisplayProps) {
 }
 
 function RecentItemRow({ item }: ItemDisplayProps) {
-  const type = itemTypes.find((t) => t.id === item.itemTypeId);
-  if (!type) return null;
-  const Icon = getIcon(type.icon);
+  const Icon = getIcon(item.itemType.icon);
 
   return (
     <div className="flex items-center gap-4 rounded-lg border border-border bg-card px-4 py-3 transition-all hover:border-foreground/20 hover:shadow-sm">
       <span
         className="flex size-8 shrink-0 items-center justify-center rounded-full"
-        style={{ backgroundColor: type.color + "20" }}
+        style={{ backgroundColor: item.itemType.color + "20" }}
       >
-        <Icon className="size-4" style={{ color: type.color }} />
+        <Icon className="size-4" style={{ color: item.itemType.color }} />
       </span>
       <div className="flex-1 truncate">
         <h3 className="truncate font-semibold leading-tight">{item.title}</h3>
@@ -197,7 +188,7 @@ function RecentItemRow({ item }: ItemDisplayProps) {
         )}
       </div>
       <span className="shrink-0 text-xs capitalize text-muted-foreground">
-        {type.name}
+        {item.itemType.name}
       </span>
       <span className="shrink-0 text-xs text-muted-foreground">
         {formatDate(item.updatedAt)}
