@@ -27,9 +27,11 @@ have you added test db script command in package json?
 ## Seed Data Feature Prompt
 
 ```text
-Add a new current feature to the @context/current-feature.md to seed some sample data.
+Add a new current feature to the @context/current-feature.md to seed some data. Reference the @context/features/seed-spec.md to get the data that should be added. You can overwrite what is in the current seed file.
+```
 
-Create a seed script at @prisma/seed.ts. Reference @context/features/seed-spec.md for the data requirements and @prisma/schema.prisma for the database structure. You can overwrite the current seed script if there is one.
+```
+Update the @scripts/test-db.ts to fetch the demo data and display and amke sure eveyrthing works.
 ```
 
 ```text
