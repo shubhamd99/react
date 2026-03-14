@@ -11,13 +11,17 @@ Open a new branch and implement the current feature. Pay special attention to th
 ```
 
 ```text
-The .env has our development branch connection string. Go ahead and run the initial migration. Never run db push. Always run a migration so we can replicate in production.
+The .env has our development branch connection string. Go ahead and run the initial migration. Never run db push. Always run a migration so we can replicate in production and keep the dbs synced.
 ```
 
 ## Testing Script Prompt
 
 ```text
 Create a folder called 'scripts' and a file called 'test-db.ts' to test the database? Don't forget we need to install dotenv to access the env vars from the script
+```
+
+```
+have you added test db script command in package json?
 ```
 
 ## Seed Data Feature Prompt
