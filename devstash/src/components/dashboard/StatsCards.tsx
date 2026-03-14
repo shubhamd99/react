@@ -1,5 +1,6 @@
 import { LayoutGrid, FolderOpen, Star, Clock } from "lucide-react";
-import { items, collections } from "@/lib/mock-data";
+import { items } from "@/lib/mock-data";
+import { getCollectionStats } from "@/lib/db/collections";
 import type { LucideIcon } from "lucide-react";
 
 interface StatCardProps {
@@ -20,11 +21,11 @@ function StatCard({ label, value, icon: Icon }: StatCardProps) {
   );
 }
 
-function StatsCards() {
+async function StatsCards() {
+  const { totalCollections, favoriteCollections } = await getCollectionStats();
+
   const totalItems = items.length;
-  const totalCollections = collections.length;
   const favoriteItems = items.filter((i) => i.isFavorite).length;
-  const favoriteCollections = collections.filter((c) => c.isFavorite).length;
   const totalFavorites = favoriteItems + favoriteCollections;
   const recentItems = items
     .toSorted(
