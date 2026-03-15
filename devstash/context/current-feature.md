@@ -2,23 +2,15 @@
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-- Create profile page at `/profile` route (protected)
-- Display user info: email, name, avatar (GitHub or initials), account creation date
-- Show usage stats: total items, total collections, breakdown by item type
-- Change password action (email/password users only, not GitHub OAuth)
-- Delete account with confirmation dialog
+<!-- Goals will be added when a feature is loaded -->
 
 ## Notes
 
-- Avatar: use GitHub avatar from OAuth if available, otherwise initials from name/email
-- Change password button only for users with `hashedPassword` (credential users)
-- Delete account needs confirmation dialog to prevent accidental deletion
-- Item type breakdown: counts for each type (snippets, prompts, notes, commands, links, files, images)
-- Follow existing codebase patterns for data fetching and components
+<!-- Notes will be added when a feature is loaded -->
 
 ## History
 
@@ -41,3 +33,4 @@ In Progress
 - Auth Phase 4: Email verification flow with Resend — verification token generation, email sending via Resend (onboarding@resend.dev), /verify-email page, sign-in blocking for unverified email/password users, resend verification endpoint
 - Email Verification Toggle: NEXT_PUBLIC_EMAIL_VERIFICATION env var to enable/disable email verification (default: disabled), auto-verify on registration when disabled, central config.ts feature flag
 - Forgot Password: forgot-password and reset-password pages, API endpoints, token generation/validation using VerificationToken with reset: prefix, Resend email, 1h expiry, rate limiting, "Forgot password?" link on sign-in
+- Profile Page: /dashboard/profile with user info (avatar, email, join date, auth method), usage stats (total items/collections, per-type breakdown), change password dialog (credentials users only), delete account with DELETE confirmation, fixed all DB queries to filter by userId (dashboard, sidebar, profile), added shadcn/ui card/dialog/alert-dialog
