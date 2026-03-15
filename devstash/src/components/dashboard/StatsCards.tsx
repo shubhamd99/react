@@ -21,10 +21,10 @@ function StatCard({ label, value, icon: Icon }: StatCardProps) {
   );
 }
 
-async function StatsCards() {
+async function StatsCards({ userId }: { userId: string }) {
   const [collectionStats, itemStats] = await Promise.all([
-    getCollectionStats(),
-    getItemStats(),
+    getCollectionStats(userId),
+    getItemStats(userId),
   ]);
 
   const totalFavorites = itemStats.favoriteItems + collectionStats.favoriteCollections;

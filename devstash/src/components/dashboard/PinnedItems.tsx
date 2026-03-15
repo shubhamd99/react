@@ -4,8 +4,8 @@ import { getPinnedItems } from "@/lib/db/items";
 import { getIcon } from "@/lib/icon-map";
 import { formatDate } from "@/lib/utils";
 
-async function PinnedItems() {
-  const pinnedItems = await getPinnedItems();
+async function PinnedItems({ userId }: { userId: string }) {
+  const pinnedItems = await getPinnedItems(userId);
 
   if (pinnedItems.length === 0) return null;
 

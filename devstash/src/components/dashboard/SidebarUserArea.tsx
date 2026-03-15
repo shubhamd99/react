@@ -48,7 +48,7 @@ function SidebarUserArea({ user }: SidebarUserAreaProps) {
       </PopoverTrigger>
       <PopoverContent side="top" align="start" className="w-48 p-1">
         <Link
-          href="/profile"
+          href="/dashboard/profile"
           className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-muted transition-colors"
         >
           <User className="size-4" />

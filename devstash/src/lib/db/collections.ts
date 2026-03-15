@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/db";
 
-export async function getCollectionsWithTypes() {
+export async function getCollectionsWithTypes(userId: string) {
   const collections = await prisma.collection.findMany({
+    where: { userId },
     include: {
       _count: { select: { items: true } },
       items: {
@@ -108,21 +109,21 @@ const SIDEBAR_COLLECTION_INCLUDE = {
   },
 } as const;
 
-export async function getSidebarCollections() {
+export async function getSidebarCollections(userId: string) {
   const [favorites, recents, totalCount] = await Promise.all([
     prisma.collection.findMany({
-      where: { isFavorite: true },
+      where: { isFavorite: true, userId },
       include: SIDEBAR_COLLECTION_INCLUDE,
       orderBy: { updatedAt: "desc" },
       take: 5,
     }),
     prisma.collection.findMany({
-      where: { isFavorite: false },
+      where: { isFavorite: false, userId },
       include: SIDEBAR_COLLECTION_INCLUDE,
       orderBy: { updatedAt: "desc" },
       take: 5,
     }),
-    prisma.collection.count(),
+    prisma.collection.count({ where: { userId } }),
   ]);
 
   return {
@@ -134,10 +135,10 @@ export async function getSidebarCollections() {
 
 export type SidebarCollection = ReturnType<typeof transformSidebarCollection>;
 
-export async function getCollectionStats() {
+export async function getCollectionStats(userId: string) {
   const [totalCollections, favoriteCollections] = await Promise.all([
-    prisma.collection.count(),
-    prisma.collection.count({ where: { isFavorite: true } }),
+    prisma.collection.count({ where: { userId } }),
+    prisma.collection.count({ where: { userId, isFavorite: true } }),
   ]);
 
   return { totalCollections, favoriteCollections };

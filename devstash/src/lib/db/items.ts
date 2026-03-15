@@ -9,9 +9,9 @@ const ITEM_INCLUDE = {
   },
 } as const;
 
-export async function getPinnedItems() {
+export async function getPinnedItems(userId: string) {
   const items = await prisma.item.findMany({
-    where: { isPinned: true },
+    where: { isPinned: true, userId },
     include: ITEM_INCLUDE,
     orderBy: { updatedAt: "desc" },
   });
@@ -19,8 +19,9 @@ export async function getPinnedItems() {
   return items.map(transformItem);
 }
 
-export async function getRecentItems(limit = 10) {
+export async function getRecentItems(userId: string, limit = 10) {
   const items = await prisma.item.findMany({
+    where: { userId },
     include: ITEM_INCLUDE,
     orderBy: { updatedAt: "desc" },
     take: limit,
@@ -29,12 +30,13 @@ export async function getRecentItems(limit = 10) {
   return items.map(transformItem);
 }
 
-export async function getItemStats() {
+export async function getItemStats(userId: string) {
   const [totalItems, favoriteItems, recentItems] = await Promise.all([
-    prisma.item.count(),
-    prisma.item.count({ where: { isFavorite: true } }),
+    prisma.item.count({ where: { userId } }),
+    prisma.item.count({ where: { userId, isFavorite: true } }),
     prisma.item.count({
       where: {
+        userId,
         updatedAt: {
           gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
         },
@@ -67,12 +69,13 @@ function transformItem(item: Awaited<ReturnType<typeof prisma.item.findMany<{ in
 
 export type DashboardItem = ReturnType<typeof transformItem>;
 
-export async function getItemTypesWithCounts() {
+export async function getItemTypesWithCounts(userId?: string) {
+  const itemsWhere = userId ? { userId } : {};
   const types = await prisma.itemType.findMany({
     where: { isSystem: true },
     include: {
       _count: {
-        select: { items: true },
+        select: { items: { where: itemsWhere } },
       },
     },
     orderBy: { name: "asc" },

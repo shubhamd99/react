@@ -3,8 +3,8 @@ import { Star, ChevronRight } from "lucide-react";
 import { getIcon } from "@/lib/icon-map";
 import { getCollectionsWithTypes } from "@/lib/db/collections";
 
-async function CollectionsGrid() {
-  const collections = await getCollectionsWithTypes();
+async function CollectionsGrid({ userId }: { userId: string }) {
+  const collections = await getCollectionsWithTypes(userId);
 
   return (
     <section className="flex flex-col gap-3">
