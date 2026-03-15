@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     if (!canResend) {
       return NextResponse.json(
         { success: false, error: "Please wait before requesting another email" },
-        { status: 429 }
+        { status: 429, headers: { "Retry-After": "60" } }
       );
     }
 
