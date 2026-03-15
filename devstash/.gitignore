@@ -48,4 +48,4 @@ src/generated/
 .firecrawl/
 
 # claude
-.claude/
+.claude/settings.local.json
