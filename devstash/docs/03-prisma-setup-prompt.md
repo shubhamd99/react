@@ -100,3 +100,7 @@ Can you reorder the item types in the sidebar. I want Snippets, Prompts, Command
 on sidebar under collections there should be two section first Favorites and Recent, you have combined both, first
 show Favorite section then below that Recent section list, and for each line item show the count
 ```
+
+```text
+Can you give me SQL queries to add the system item types and the demo user to the prod db?
+```
