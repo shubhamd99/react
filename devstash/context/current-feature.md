@@ -1,12 +1,29 @@
-# Current Feature
+# Current Feature: Email Verification on Register
 
 ## Status
 
-Completed
+In Progress
 
 ## Goals
 
+- After registration, send a verification email to the user via Resend
+- Email contains a unique verification link that the user must click
+- Clicking the link verifies the user's email (sets `emailVerified` timestamp)
+- Unverified users cannot sign in until they verify their email
+- Use `onboarding@resend.dev` as the sender email (Resend testing)
+- Verification tokens stored in the existing `VerificationToken` model
+- Tokens expire after a reasonable time window (e.g., 24 hours)
+- Show appropriate UI feedback: "Check your email" after register, error for expired/invalid tokens
+
 ## Notes
+
+- Resend is the email provider; `RESEND_API_KEY` is already in `.env`
+- The `VerificationToken` model already exists in the Prisma schema
+- The `User` model already has an `emailVerified` field
+- From email: `onboarding@resend.dev`
+- Need a `/verify-email` page to handle the verification link callback
+- Registration endpoint (`/api/auth/register`) needs to trigger the email send
+- Block sign-in for unverified email/password users (OAuth users are auto-verified)
 
 ## History
 

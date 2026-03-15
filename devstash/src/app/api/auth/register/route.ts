@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { generateVerificationToken } from "@/lib/auth/verification";
+import { sendVerificationEmail } from "@/lib/email";
 
 const registerSchema = z
   .object({
@@ -35,24 +37,45 @@ export async function POST(request: Request) {
     });
 
     if (existingUser) {
+      // Allow re-registration if user is unverified and has a password (credentials user)
+      const isUnverifiedCredentialsUser =
+        !existingUser.emailVerified && existingUser.hashedPassword;
+
+      if (!isUnverifiedCredentialsUser) {
+        return NextResponse.json(
+          { success: false, error: "Email already registered" },
+          { status: 409 }
+        );
+      }
+
+      // Update unverified user's details
+      const hashedPassword = await bcrypt.hash(password, 12);
+      await prisma.user.update({
+        where: { email },
+        data: { name, hashedPassword },
+      });
+    } else {
+      // Create new user
+      const hashedPassword = await bcrypt.hash(password, 12);
+      await prisma.user.create({
+        data: { name, email, hashedPassword },
+      });
+    }
+
+    // Generate verification token and send email
+    const token = await generateVerificationToken(email);
+
+    try {
+      await sendVerificationEmail({ email, token });
+    } catch {
       return NextResponse.json(
-        { success: false, error: "Email already registered" },
-        { status: 409 }
+        { success: false, error: "Failed to send verification email. Please try again." },
+        { status: 500 }
       );
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    await prisma.user.create({
-      data: {
-        name,
-        email,
-        hashedPassword,
-      },
-    });
-
     return NextResponse.json(
-      { success: true, message: "Account created successfully" },
+      { success: true, message: "Verification email sent" },
       { status: 201 }
     );
   } catch {

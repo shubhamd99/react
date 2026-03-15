@@ -30,6 +30,9 @@ function SignInForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isUnverified, setIsUnverified] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendSuccess, setResendSuccess] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -44,7 +47,15 @@ function SignInForm() {
       });
 
       if (result?.error) {
-        setError("Invalid email or password");
+        // NextAuth v5 surfaces CredentialsSignin.code via result.code
+        if (result.code === "unverified") {
+          setIsUnverified(true);
+          setResendSuccess(false);
+          setError("Please verify your email before signing in");
+        } else {
+          setIsUnverified(false);
+          setError("Invalid email or password");
+        }
       } else {
         router.push(callbackUrl);
         router.refresh();
@@ -53,6 +64,31 @@ function SignInForm() {
       setError("Something went wrong");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleResendVerification() {
+    setResendLoading(true);
+    setResendSuccess(false);
+
+    try {
+      const res = await fetch("/api/auth/resend-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setResendSuccess(true);
+      } else {
+        setError(data.error ?? "Failed to resend verification email");
+      }
+    } catch {
+      setError("Something went wrong");
+    } finally {
+      setResendLoading(false);
     }
   }
 
@@ -68,6 +104,23 @@ function SignInForm() {
       {(error || urlError) && (
         <div className="rounded-md border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
           {error || getErrorMessage(urlError)}
+        </div>
+      )}
+
+      {isUnverified && !resendSuccess && (
+        <Button
+          variant="outline"
+          className="w-full"
+          onClick={handleResendVerification}
+          disabled={resendLoading}
+        >
+          {resendLoading ? "Sending..." : "Resend verification email"}
+        </Button>
+      )}
+
+      {resendSuccess && (
+        <div className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-400">
+          Verification email sent! Check your inbox.
         </div>
       )}
 
