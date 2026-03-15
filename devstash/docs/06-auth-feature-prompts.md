@@ -6,17 +6,26 @@
 /feature load Setup email verification on register. Users need to click on the link in their email. We are using Resend. The RESEND_API_KEY is in the .env file. Use onboarding@resend.dev as the from email for now.
 ```
 
-
 ```text
 Create a script in the scripts folder to delete all users and their content except the default demo@devstash.io email and content
 ```
 
-## Verification Flag Prompt 
+```text
+Make sure that the user avatar, email and name reflects the logged in user in the sidebar
+```
+
+```text
+Make sure that when the user register, a toast notification tells the user they can now log in.
+```
+
+## Verification Flag Prompt
+
 ```text
 /feature load Add a flag that can easlity be changed to enable and disable email verification. Right now, we have no domain linked to Resend, so only the Resend email can be registered. I want to be able to disable it. We can use an env variable but I am open to other options
 ```
 
 ## Forgot Password Prompt
+
 ```text
 /feature load create a forgot password link and functionality. Use existing VerificationToken model for password reset tokens
 ```
