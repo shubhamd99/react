@@ -48,8 +48,13 @@ function RegisterForm() {
         return;
       }
 
-      toast.success("Check your email to verify your account.");
-      router.push("/verify-email?sent=true");
+      if (data.requiresVerification) {
+        toast.success("Check your email to verify your account.");
+        router.push("/verify-email?sent=true");
+      } else {
+        toast.success("Account created! You can now sign in.");
+        router.push("/sign-in");
+      }
     } catch {
       setError("Something went wrong");
     } finally {

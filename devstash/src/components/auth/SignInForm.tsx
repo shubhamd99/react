@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Github } from "lucide-react";
 import Link from "next/link";
+import { EMAIL_VERIFICATION_ENABLED } from "@/lib/config";
 
 function getErrorMessage(errorCode: string | null): string {
   switch (errorCode) {
@@ -107,7 +108,7 @@ function SignInForm() {
         </div>
       )}
 
-      {isUnverified && !resendSuccess && (
+      {EMAIL_VERIFICATION_ENABLED && isUnverified && !resendSuccess && (
         <Button
           variant="outline"
           className="w-full"
@@ -118,7 +119,7 @@ function SignInForm() {
         </Button>
       )}
 
-      {resendSuccess && (
+      {EMAIL_VERIFICATION_ENABLED && resendSuccess && (
         <div className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-400">
           Verification email sent! Check your inbox.
         </div>

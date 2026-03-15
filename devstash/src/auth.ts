@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
+import { EMAIL_VERIFICATION_ENABLED } from "@/lib/config";
 import { authConfig } from "./auth.config";
 
 class EmailNotVerifiedError extends CredentialsSignin {
@@ -37,7 +38,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const isValid = await bcrypt.compare(password, user.hashedPassword);
         if (!isValid) return null;
 
-        if (!user.emailVerified) {
+        if (EMAIL_VERIFICATION_ENABLED && !user.emailVerified) {
           throw new EmailNotVerifiedError();
         }
 

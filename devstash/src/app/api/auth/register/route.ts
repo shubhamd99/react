@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { EMAIL_VERIFICATION_ENABLED } from "@/lib/config";
 import { generateVerificationToken } from "@/lib/auth/verification";
 import { sendVerificationEmail } from "@/lib/email";
 
@@ -62,20 +63,33 @@ export async function POST(request: Request) {
       });
     }
 
-    // Generate verification token and send email
-    const token = await generateVerificationToken(email);
+    if (EMAIL_VERIFICATION_ENABLED) {
+      // Generate verification token and send email
+      const token = await generateVerificationToken(email);
 
-    try {
-      await sendVerificationEmail({ email, token });
-    } catch {
+      try {
+        await sendVerificationEmail({ email, token });
+      } catch {
+        return NextResponse.json(
+          { success: false, error: "Failed to send verification email. Please try again." },
+          { status: 500 }
+        );
+      }
+
       return NextResponse.json(
-        { success: false, error: "Failed to send verification email. Please try again." },
-        { status: 500 }
+        { success: true, message: "Verification email sent", requiresVerification: true },
+        { status: 201 }
       );
     }
 
+    // Auto-verify when email verification is disabled
+    await prisma.user.update({
+      where: { email },
+      data: { emailVerified: new Date() },
+    });
+
     return NextResponse.json(
-      { success: true, message: "Verification email sent" },
+      { success: true, message: "Account created", requiresVerification: false },
       { status: 201 }
     );
   } catch {
