@@ -2,23 +2,11 @@
 
 ## Status
 
-In Progress
+Completed
 
 ## Goals
 
-- Custom sign-in page (`/sign-in`) with email/password + GitHub OAuth button
-- Custom register page (`/register`) with name, email, password, confirm password
-- Sidebar bottom: user avatar (GitHub image or initials fallback), name, dropdown with sign out
-- Avatar click navigates to `/profile`
-- Reusable avatar component handling both GitHub image and initials cases
-
 ## Notes
-
-- Replace NextAuth default pages with custom UI
-- Register submits to existing `/api/auth/register` endpoint
-- Register redirects to sign-in on success
-- Initials derived from user name (e.g., "Brad Traversy" → "BT")
-- Form validation: passwords match, email format, error display
 
 ## History
 
@@ -37,3 +25,4 @@ In Progress
 - Codebase Audit Quick Wins: N+1 query fix (collections use _count + select), sort order indexOf bug fix, extracted duplicated formatDate to utils, replaced naive pluralize with static lookup map, dev warning for unknown icons, replaced $queryRawUnsafe with $queryRaw, sidebar width via Tailwind classes, added DynamicIcon component for React Compiler compatibility
 - Auth Phase 1: NextAuth v5 with GitHub OAuth, split auth config (auth.config.ts edge + auth.ts Prisma adapter), JWT strategy, Next.js 16 proxy route protection for /dashboard/*, Session type extended with user.id
 - Auth Phase 2: Email/password Credentials provider (split pattern with edge-safe placeholder), /api/auth/register endpoint with Zod 4 validation, bcrypt password hashing
+- Auth Phase 3: Custom sign-in page (/sign-in) with credentials + GitHub OAuth, custom register page (/register) with validation and sonner toast, reusable UserAvatar component (image or initials), sidebar user area connected to real session with popover sign-out, explicit JWT callbacks for user data persistence
