@@ -31,3 +31,4 @@ Not Started
 - Auth Phase 2: Email/password Credentials provider (split pattern with edge-safe placeholder), /api/auth/register endpoint with Zod 4 validation, bcrypt password hashing
 - Auth Phase 3: Custom sign-in page (/sign-in) with credentials + GitHub OAuth, custom register page (/register) with validation and sonner toast, reusable UserAvatar component (image or initials), sidebar user area connected to real session with popover sign-out, explicit JWT callbacks for user data persistence
 - Auth Phase 4: Email verification flow with Resend — verification token generation, email sending via Resend (onboarding@resend.dev), /verify-email page, sign-in blocking for unverified email/password users, resend verification endpoint
+- Email Verification Toggle: NEXT_PUBLIC_EMAIL_VERIFICATION env var to enable/disable email verification (default: disabled), auto-verify on registration when disabled, central config.ts feature flag
