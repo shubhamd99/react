@@ -6,11 +6,7 @@ Not Started
 
 ## Goals
 
-<!-- Goals will be added when a feature is loaded -->
-
 ## Notes
-
-<!-- Notes will be added when a feature is loaded -->
 
 ## History
 
@@ -38,3 +34,4 @@ Not Started
 - Auth Security Fix (CRIT-01): verification and reset tokens now hashed with SHA-256 before DB storage using crypto.randomBytes(32) for 256-bit entropy, raw token sent only in email, lookup by hash — DB breach no longer exposes usable tokens
 - Auth Security Fix (HIGH-01): added tokenInvalidBefore field to User model, JWT callback checks token issued-at against this timestamp, password reset and change-password endpoints set tokenInvalidBefore to invalidate all existing sessions — stolen JWTs no longer survive password resets
 - Rate Limiting for Auth: Upstash Redis + @upstash/ratelimit with sliding window algorithm, new /api/auth/login rate-limit gate route, rate limiting on register (3/1hr), forgot-password (3/1hr), reset-password (5/15min), resend-verification (3/15min), login (5/15min via gate), fail-open behavior, 429 responses with Retry-After header, SignInForm two-step flow, existing token-based rate limits preserved as secondary defense
+- Fix GitHub OAuth Redirect: replaced client-side signIn("github") with server-side Server Action (src/actions/auth.ts) using redirectTo instead of callbackUrl, GitHub button now uses <form action={signInWithGitHub}> for reliable single-click redirect to /dashboard
