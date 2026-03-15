@@ -12,7 +12,7 @@ async function main(): Promise<void> {
   console.log("Testing database connection...\n");
 
   // Test 1: Connection
-  const result = await prisma.$queryRawUnsafe<{ now: Date }[]>("SELECT NOW()");
+  const result = await prisma.$queryRaw<{ now: Date }[]>`SELECT NOW()`;
   console.log("[PASS] Connected to database at:", result[0].now);
 
   // Test 2: System item types

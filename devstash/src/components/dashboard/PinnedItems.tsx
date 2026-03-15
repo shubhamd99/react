@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Pin, Star, ChevronRight } from "lucide-react";
 import { getPinnedItems } from "@/lib/db/items";
 import { getIcon } from "@/lib/icon-map";
+import { formatDate } from "@/lib/utils";
 
 async function PinnedItems() {
   const pinnedItems = await getPinnedItems();
@@ -106,11 +107,6 @@ async function PinnedItems() {
       </div>
     </section>
   );
-}
-
-function formatDate(dateStr: string): string {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
 export { PinnedItems };

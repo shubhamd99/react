@@ -10,8 +10,8 @@ import {
   Pin,
   Star,
 } from "lucide-react";
-import { getIcon } from "@/lib/icon-map";
-import { cn } from "@/lib/utils";
+import { DynamicIcon } from "@/lib/icon-map";
+import { cn, formatDate } from "@/lib/utils";
 import type { DashboardItem } from "@/lib/db/items";
 
 type ViewMode = "grid" | "list";
@@ -92,8 +92,6 @@ interface ItemDisplayProps {
 }
 
 function RecentItemCard({ item }: ItemDisplayProps) {
-  const Icon = getIcon(item.itemType.icon);
-
   return (
     <div
       className="flex flex-col gap-3 rounded-lg border bg-card p-4 transition-all hover:border-foreground/20 hover:shadow-sm"
@@ -104,7 +102,7 @@ function RecentItemCard({ item }: ItemDisplayProps) {
           className="flex size-7 items-center justify-center rounded-full"
           style={{ backgroundColor: item.itemType.color + "20" }}
         >
-          <Icon className="size-4" style={{ color: item.itemType.color }} />
+          <DynamicIcon name={item.itemType.icon} className="size-4" style={{ color: item.itemType.color }} />
         </span>
         <div className="flex items-center gap-1">
           {item.isPinned && (
@@ -153,15 +151,13 @@ function RecentItemCard({ item }: ItemDisplayProps) {
 }
 
 function RecentItemRow({ item }: ItemDisplayProps) {
-  const Icon = getIcon(item.itemType.icon);
-
   return (
     <div className="flex items-center gap-4 rounded-lg border border-border bg-card px-4 py-3 transition-all hover:border-foreground/20 hover:shadow-sm">
       <span
         className="flex size-8 shrink-0 items-center justify-center rounded-full"
         style={{ backgroundColor: item.itemType.color + "20" }}
       >
-        <Icon className="size-4" style={{ color: item.itemType.color }} />
+        <DynamicIcon name={item.itemType.icon} className="size-4" style={{ color: item.itemType.color }} />
       </span>
       <div className="flex-1 truncate">
         <h3 className="truncate font-semibold leading-tight">{item.title}</h3>
@@ -195,11 +191,6 @@ function RecentItemRow({ item }: ItemDisplayProps) {
       </span>
     </div>
   );
-}
-
-function formatDate(dateStr: string): string {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
 export { RecentItems };

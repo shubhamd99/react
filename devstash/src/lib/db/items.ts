@@ -97,9 +97,13 @@ export async function getItemTypesWithCounts() {
   }
 
   const SORT_ORDER = ["snippet", "prompt", "command", "note", "file", "image", "link"];
+  const sortIndex = (name: string) => {
+    const i = SORT_ORDER.indexOf(name);
+    return i === -1 ? 99 : i;
+  };
 
   return [...deduped.values()].sort(
-    (a, b) => (SORT_ORDER.indexOf(a.name) ?? 99) - (SORT_ORDER.indexOf(b.name) ?? 99)
+    (a, b) => sortIndex(a.name) - sortIndex(b.name)
   );
 }
 

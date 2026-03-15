@@ -3,11 +3,14 @@ import { prisma } from "@/lib/db";
 export async function getCollectionsWithTypes() {
   const collections = await prisma.collection.findMany({
     include: {
+      _count: { select: { items: true } },
       items: {
         include: {
           item: {
-            include: {
-              itemType: true,
+            select: {
+              itemType: {
+                select: { id: true, name: true, icon: true, color: true },
+              },
             },
           },
         },
@@ -17,16 +20,20 @@ export async function getCollectionsWithTypes() {
   });
 
   return collections.map((collection) => {
-    const itemTypes = collection.items.map((ic) => ic.item.itemType);
-
     // Count occurrences of each type to find the dominant one
     const typeCounts = new Map<string, { count: number; color: string }>();
-    for (const type of itemTypes) {
+    const uniqueTypes = new Map<string, { id: string; name: string; icon: string; color: string }>();
+
+    for (const ic of collection.items) {
+      const type = ic.item.itemType;
       const existing = typeCounts.get(type.id);
       typeCounts.set(type.id, {
         count: (existing?.count ?? 0) + 1,
         color: type.color,
       });
+      if (!uniqueTypes.has(type.id)) {
+        uniqueTypes.set(type.id, type);
+      }
     }
 
     // Dominant type color for border
@@ -39,24 +46,14 @@ export async function getCollectionsWithTypes() {
       }
     }
 
-    // Unique types in this collection
-    const uniqueTypes = [
-      ...new Map(itemTypes.map((t) => [t.id, t])).values(),
-    ];
-
     return {
       id: collection.id,
       name: collection.name,
       description: collection.description,
       isFavorite: collection.isFavorite,
-      itemCount: collection.items.length,
+      itemCount: collection._count.items,
       borderColor,
-      types: uniqueTypes.map((t) => ({
-        id: t.id,
-        name: t.name,
-        icon: t.icon,
-        color: t.color,
-      })),
+      types: [...uniqueTypes.values()],
     };
   });
 }
@@ -65,6 +62,7 @@ function transformSidebarCollection(collection: {
   id: string;
   name: string;
   isFavorite: boolean;
+  _count: { items: number };
   items: { item: { itemType: { id: string; color: string } } }[];
 }) {
   const typeCounts = new Map<string, { count: number; color: string }>();
@@ -90,17 +88,20 @@ function transformSidebarCollection(collection: {
     id: collection.id,
     name: collection.name,
     isFavorite: collection.isFavorite,
-    itemCount: collection.items.length,
+    itemCount: collection._count.items,
     dominantColor,
   };
 }
 
 const SIDEBAR_COLLECTION_INCLUDE = {
+  _count: { select: { items: true } },
   items: {
     include: {
       item: {
-        include: {
-          itemType: true,
+        select: {
+          itemType: {
+            select: { id: true, color: true },
+          },
         },
       },
     },

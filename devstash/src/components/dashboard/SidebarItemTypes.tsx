@@ -3,20 +3,21 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { getIcon } from "@/lib/icon-map";
+import { DynamicIcon } from "@/lib/icon-map";
 import { Badge } from "@/components/ui/badge";
 import type { SidebarItemType } from "@/lib/db/items";
 
 const PRO_TYPES = new Set(["file", "image"]);
 
-function pluralize(name: string): string {
-  if (name.endsWith("s")) return name;
-  return name + "s";
-}
-
-function capitalize(name: string): string {
-  return name.charAt(0).toUpperCase() + name.slice(1);
-}
+const DISPLAY_NAMES: Record<string, { plural: string; label: string }> = {
+  snippet: { plural: "snippets", label: "Snippets" },
+  prompt: { plural: "prompts", label: "Prompts" },
+  command: { plural: "commands", label: "Commands" },
+  note: { plural: "notes", label: "Notes" },
+  file: { plural: "files", label: "Files" },
+  image: { plural: "images", label: "Images" },
+  link: { plural: "links", label: "Links" },
+};
 
 interface SidebarItemTypesProps {
   itemTypes: SidebarItemType[];
@@ -31,8 +32,8 @@ function SidebarItemTypes({ itemTypes }: SidebarItemTypesProps) {
         Item Types
       </p>
       {itemTypes.map((type) => {
-        const Icon = getIcon(type.icon);
-        const href = `/items/${pluralize(type.name)}`;
+        const display = DISPLAY_NAMES[type.name];
+        const href = `/items/${display?.plural ?? type.name}`;
         const isActive = pathname === href;
 
         return (
@@ -46,8 +47,8 @@ function SidebarItemTypes({ itemTypes }: SidebarItemTypesProps) {
                 : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
             )}
           >
-            <Icon className="size-4 shrink-0" style={{ color: type.color }} />
-            <span className="flex-1">{capitalize(pluralize(type.name))}</span>
+            <DynamicIcon name={type.icon} className="size-4 shrink-0" style={{ color: type.color }} />
+            <span className="flex-1">{display?.label ?? type.name}</span>
             {PRO_TYPES.has(type.name) && (
               <Badge
                 variant="outline"

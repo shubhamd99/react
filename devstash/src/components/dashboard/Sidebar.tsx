@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useSidebarStore } from "@/stores/sidebar.store";
+import { cn } from "@/lib/utils";
 import { SidebarNav } from "@/components/dashboard/SidebarNav";
 import { SidebarItemTypes } from "@/components/dashboard/SidebarItemTypes";
 import { SidebarCollections } from "@/components/dashboard/SidebarCollections";
@@ -81,8 +82,10 @@ function Sidebar({ itemTypes, favoriteCollections, recentCollections, totalColle
   // Desktop: collapsible aside
   return (
     <aside
-      className="flex shrink-0 flex-col border-r border-border bg-background transition-[width] duration-200 ease-in-out"
-      style={{ width: isOpen ? 240 : 0 }}
+      className={cn(
+        "flex shrink-0 flex-col overflow-hidden border-r border-border bg-background transition-[width] duration-200 ease-in-out",
+        isOpen ? "w-60" : "w-0"
+      )}
     >
       <div className="flex h-full w-60 flex-col overflow-hidden">
         <SidebarContent {...contentProps} />

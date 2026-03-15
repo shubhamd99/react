@@ -6,7 +6,22 @@ Completed
 
 ## Goals
 
+Code quality quick wins from codebase audit (low risk, no auth dependency):
+
+1. **Fix N+1 query in `getCollectionsWithTypes`** — loads full item rows just to compute dominant color and type list. Use `_count` and distinct types subquery instead.
+2. **Fix `SORT_ORDER.indexOf` fallback bug** (`src/lib/db/items.ts:102`) — `?? 99` never fires because `indexOf` returns `-1`, not `null`. Unknown item types sort to front instead of end.
+3. **Extract duplicated `formatDate`** — identical function in `PinnedItems.tsx` and `RecentItems.tsx`. Move to `src/lib/utils.ts`.
+4. **Replace naive `pluralize` with lookup map** (`SidebarItemTypes.tsx:12`) — current impl breaks for names ending in "s" or irregular plurals. Use a static display name map.
+5. **Add dev warning for unknown icon names** (`src/lib/icon-map.ts:22`) — silent fallback to `File` icon makes typos hard to debug.
+6. **Replace `$queryRawUnsafe` in test script** (`scripts/test-db.ts:15`) — use safe `$queryRaw` tagged template instead.
+7. **Sidebar width: replace inline style with Tailwind classes** (`Sidebar.tsx:86`) — remove magic number `240`, use `w-60`/`w-0` classes.
+
 ## Notes
+
+- No auth-related changes (auth not implemented yet)
+- All fixes are isolated, low-risk refactors or bug fixes
+- N+1 fix is the highest priority item — use Prisma ORM only (no raw SQL)
+- Do not touch mock data file (src/lib/mock-data.ts)
 
 ## History
 
