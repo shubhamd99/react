@@ -1,26 +1,12 @@
-# Current Feature: Auth Phase 2 — Email/Password Credentials
+# Current Feature
 
 ## Status
 
-In Progress
+Completed
 
 ## Goals
 
-- Add Credentials provider for email/password authentication
-- Create registration API route at `/api/auth/register` (name, email, password, confirmPassword)
-- Validate passwords match, check for existing user, hash with bcryptjs
-- Update `auth.config.ts` with Credentials provider placeholder (`authorize: () => null`)
-- Update `auth.ts` to override Credentials with actual bcrypt validation
-- Ensure GitHub OAuth continues to work alongside credentials
-
 ## Notes
-
-- bcryptjs already installed
-- Password field (`hashedPassword`) already exists on User model
-- Split auth pattern: `auth.config.ts` (edge-safe placeholder) + `auth.ts` (full Prisma+bcrypt logic)
-- Registration endpoint: `POST /api/auth/register` — returns success/error response
-- Test via curl, then `/api/auth/signin` form, verify redirect to `/dashboard`
-- Reference: https://authjs.dev/getting-started/authentication/credentials
 
 ## History
 
@@ -38,3 +24,4 @@ In Progress
 - Pro Badge Sidebar: added shadcn/ui Badge (outline variant) with "PRO" label next to Files and Images item types in the sidebar
 - Codebase Audit Quick Wins: N+1 query fix (collections use _count + select), sort order indexOf bug fix, extracted duplicated formatDate to utils, replaced naive pluralize with static lookup map, dev warning for unknown icons, replaced $queryRawUnsafe with $queryRaw, sidebar width via Tailwind classes, added DynamicIcon component for React Compiler compatibility
 - Auth Phase 1: NextAuth v5 with GitHub OAuth, split auth config (auth.config.ts edge + auth.ts Prisma adapter), JWT strategy, Next.js 16 proxy route protection for /dashboard/*, Session type extended with user.id
+- Auth Phase 2: Email/password Credentials provider (split pattern with edge-safe placeholder), /api/auth/register endpoint with Zod 4 validation, bcrypt password hashing
