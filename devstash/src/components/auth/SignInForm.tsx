@@ -41,6 +41,25 @@ function SignInForm() {
     setLoading(true);
 
     try {
+      // Step 1: Rate limit gate
+      const gateRes = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (gateRes.status === 429) {
+        const gateData = await gateRes.json();
+        setError(gateData.error ?? "Too many attempts. Please try again later.");
+        return;
+      }
+
+      if (!gateRes.ok) {
+        setError("Something went wrong");
+        return;
+      }
+
+      // Step 2: NextAuth sign-in (session creation)
       const result = await signIn("credentials", {
         email,
         password,
@@ -48,7 +67,6 @@ function SignInForm() {
       });
 
       if (result?.error) {
-        // NextAuth v5 surfaces CredentialsSignin.code via result.code
         if (result.code === "unverified") {
           setIsUnverified(true);
           setResendSuccess(false);

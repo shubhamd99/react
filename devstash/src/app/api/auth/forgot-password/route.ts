@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { generatePasswordResetToken, checkResetRateLimit } from "@/lib/auth/verification";
 import { sendPasswordResetEmail } from "@/lib/email";
+import { checkRateLimit, getIP, forgotPasswordLimiter, rateLimitResponse } from "@/lib/rate-limit";
 
 const forgotPasswordSchema = z.object({
   email: z.email("Invalid email address"),
@@ -15,6 +16,13 @@ const GENERIC_SUCCESS = {
 
 export async function POST(request: Request) {
   try {
+    // Rate limit check (before any business logic for enumeration prevention)
+    const ip = getIP(request);
+    const rl = await checkRateLimit(forgotPasswordLimiter, ip);
+    if (!rl.success) {
+      return rateLimitResponse(rl.reset);
+    }
+
     const body = await request.json();
     const result = forgotPasswordSchema.safeParse(body);
 
@@ -43,7 +51,7 @@ export async function POST(request: Request) {
     if (!canSend) {
       return NextResponse.json(
         { success: false, error: "Please wait before requesting another reset email" },
-        { status: 429 }
+        { status: 429, headers: { "Retry-After": "60" } }
       );
     }
 
