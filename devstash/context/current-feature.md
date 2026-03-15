@@ -1,27 +1,16 @@
-# Current Feature: Rate Limiting for Auth
+# Current Feature
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-- Add rate limiting to all auth-related API routes using Upstash Redis + `@upstash/ratelimit`
-- Create reusable `src/lib/rate-limit.ts` utility with sliding window algorithm
-- Protect 5 endpoints: login (5/15min), register (3/1hr), forgot-password (3/1hr), reset-password (5/15min), resend-verification (3/15min)
-- Key by IP (all endpoints) + email (login, resend-verification) for tighter limits
-- Return 429 with `Retry-After` header and user-friendly JSON error message
-- Display rate limit errors via toast on frontend (sign-in, register, forgot-password pages)
-- Fail open if Upstash is unavailable (allow request through)
+<!-- Goals will be added when a feature is loaded -->
 
 ## Notes
 
-- Requires `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` env vars
-- Upstash free tier: 10k requests/day (sufficient for auth limiting)
-- Login limiting with NextAuth credentials may need a custom sign-in handler since NextAuth controls the callback route
-- IP extraction from `x-forwarded-for` header (Vercel) or fallback to request IP
-- Rate limit check returns `{ success, remaining, reset }` — use `reset` timestamp for Retry-After header
-- Consider middleware-based approach later for cleaner implementation
+<!-- Notes will be added when a feature is loaded -->
 
 ## History
 
@@ -48,3 +37,4 @@ In Progress
 - Auth Security Audit: full audit of all 16 auth files, report written to docs/audit-results/AUTH_SECURITY_REVIEW.md, 20 controls passed, 1 critical + 1 high + 1 medium + 2 low issues found
 - Auth Security Fix (CRIT-01): verification and reset tokens now hashed with SHA-256 before DB storage using crypto.randomBytes(32) for 256-bit entropy, raw token sent only in email, lookup by hash — DB breach no longer exposes usable tokens
 - Auth Security Fix (HIGH-01): added tokenInvalidBefore field to User model, JWT callback checks token issued-at against this timestamp, password reset and change-password endpoints set tokenInvalidBefore to invalidate all existing sessions — stolen JWTs no longer survive password resets
+- Rate Limiting for Auth: Upstash Redis + @upstash/ratelimit with sliding window algorithm, new /api/auth/login rate-limit gate route, rate limiting on register (3/1hr), forgot-password (3/1hr), reset-password (5/15min), resend-verification (3/15min), login (5/15min via gate), fail-open behavior, 429 responses with Retry-After header, SignInForm two-step flow, existing token-based rate limits preserved as secondary defense
