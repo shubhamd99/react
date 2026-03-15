@@ -4,7 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { getIcon } from "@/lib/icon-map";
+import { Badge } from "@/components/ui/badge";
 import type { SidebarItemType } from "@/lib/db/items";
+
+const PRO_TYPES = new Set(["file", "image"]);
 
 function pluralize(name: string): string {
   if (name.endsWith("s")) return name;
@@ -45,6 +48,14 @@ function SidebarItemTypes({ itemTypes }: SidebarItemTypesProps) {
           >
             <Icon className="size-4 shrink-0" style={{ color: type.color }} />
             <span className="flex-1">{capitalize(pluralize(type.name))}</span>
+            {PRO_TYPES.has(type.name) && (
+              <Badge
+                variant="outline"
+                className="h-4 px-1 text-[10px] font-semibold tracking-wide text-muted-foreground"
+              >
+                PRO
+              </Badge>
+            )}
             <span className="text-xs text-muted-foreground">{type.count}</span>
           </Link>
         );
