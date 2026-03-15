@@ -1,32 +1,16 @@
-# Current Feature: Forgot Password
+# Current Feature
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-- Add "Forgot password?" link on the sign-in page
-- Create `/forgot-password` page with email input form
-- Create `/reset-password` page with new password + confirm password form
-- Create `POST /api/auth/forgot-password` endpoint — generates reset token via existing VerificationToken model, sends reset email via Resend
-- Create `POST /api/auth/reset-password` endpoint — validates token, hashes new password, updates user
-- Add `sendPasswordResetEmail()` to `src/lib/email.ts` (reuse Resend setup)
-- Add `generatePasswordResetToken()` and `validatePasswordResetToken()` to `src/lib/auth/verification.ts` (reuse existing token pattern with different identifier prefix to distinguish from email verification tokens)
-- Rate limit reset requests (reuse existing rate limit pattern — 60s cooldown)
-- Only allow reset for users with `hashedPassword` (email/password users, not OAuth-only)
-- Token expires in 1 hour (shorter than email verification's 24h for security)
-- Delete token after successful password reset
-- Show generic success message regardless of whether email exists (prevent user enumeration)
+<!-- Goals will be added when a feature is loaded -->
 
 ## Notes
 
-- Reuse existing `VerificationToken` model — use identifier prefix like `reset:email@example.com` to distinguish from email verification tokens (`email@example.com`)
-- Reuse existing Resend email infrastructure from `src/lib/email.ts`
-- Reuse existing token generation/validation patterns from `src/lib/auth/verification.ts`
-- Follow existing auth page patterns (sign-in, register, verify-email) for UI consistency
-- Zod validation for all inputs (email, password, confirm password)
-- No schema migration needed — reusing existing VerificationToken table
+<!-- Notes will be added when a feature is loaded -->
 
 ## History
 
@@ -48,3 +32,4 @@ In Progress
 - Auth Phase 3: Custom sign-in page (/sign-in) with credentials + GitHub OAuth, custom register page (/register) with validation and sonner toast, reusable UserAvatar component (image or initials), sidebar user area connected to real session with popover sign-out, explicit JWT callbacks for user data persistence
 - Auth Phase 4: Email verification flow with Resend — verification token generation, email sending via Resend (onboarding@resend.dev), /verify-email page, sign-in blocking for unverified email/password users, resend verification endpoint
 - Email Verification Toggle: NEXT_PUBLIC_EMAIL_VERIFICATION env var to enable/disable email verification (default: disabled), auto-verify on registration when disabled, central config.ts feature flag
+- Forgot Password: forgot-password and reset-password pages, API endpoints, token generation/validation using VerificationToken with reset: prefix, Resend email, 1h expiry, rate limiting, "Forgot password?" link on sign-in
