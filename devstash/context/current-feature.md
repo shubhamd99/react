@@ -1,16 +1,32 @@
-# Current Feature
+# Current Feature: Forgot Password
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Goals will be added when a feature is loaded -->
+- Add "Forgot password?" link on the sign-in page
+- Create `/forgot-password` page with email input form
+- Create `/reset-password` page with new password + confirm password form
+- Create `POST /api/auth/forgot-password` endpoint — generates reset token via existing VerificationToken model, sends reset email via Resend
+- Create `POST /api/auth/reset-password` endpoint — validates token, hashes new password, updates user
+- Add `sendPasswordResetEmail()` to `src/lib/email.ts` (reuse Resend setup)
+- Add `generatePasswordResetToken()` and `validatePasswordResetToken()` to `src/lib/auth/verification.ts` (reuse existing token pattern with different identifier prefix to distinguish from email verification tokens)
+- Rate limit reset requests (reuse existing rate limit pattern — 60s cooldown)
+- Only allow reset for users with `hashedPassword` (email/password users, not OAuth-only)
+- Token expires in 1 hour (shorter than email verification's 24h for security)
+- Delete token after successful password reset
+- Show generic success message regardless of whether email exists (prevent user enumeration)
 
 ## Notes
 
-<!-- Notes will be added when a feature is loaded -->
+- Reuse existing `VerificationToken` model — use identifier prefix like `reset:email@example.com` to distinguish from email verification tokens (`email@example.com`)
+- Reuse existing Resend email infrastructure from `src/lib/email.ts`
+- Reuse existing token generation/validation patterns from `src/lib/auth/verification.ts`
+- Follow existing auth page patterns (sign-in, register, verify-email) for UI consistency
+- Zod validation for all inputs (email, password, confirm password)
+- No schema migration needed — reusing existing VerificationToken table
 
 ## History
 
