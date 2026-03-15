@@ -18,14 +18,22 @@ import {
 import type { SidebarItemType } from "@/lib/db/items";
 import type { SidebarCollection } from "@/lib/db/collections";
 
+interface SidebarUser {
+  id?: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+}
+
 interface SidebarProps {
   itemTypes: SidebarItemType[];
   favoriteCollections: SidebarCollection[];
   recentCollections: SidebarCollection[];
   totalCollections: number;
+  user: SidebarUser | null;
 }
 
-function SidebarContent({ itemTypes, favoriteCollections, recentCollections, totalCollections }: SidebarProps) {
+function SidebarContent({ itemTypes, favoriteCollections, recentCollections, totalCollections, user }: SidebarProps) {
   return (
     <div className="flex h-full flex-col gap-4 overflow-y-auto py-4">
       <div className="px-2">
@@ -45,13 +53,13 @@ function SidebarContent({ itemTypes, favoriteCollections, recentCollections, tot
       </div>
       <Separator className="mx-3" />
       <div className="px-2">
-        <SidebarUserArea />
+        <SidebarUserArea user={user} />
       </div>
     </div>
   );
 }
 
-function Sidebar({ itemTypes, favoriteCollections, recentCollections, totalCollections }: SidebarProps) {
+function Sidebar({ itemTypes, favoriteCollections, recentCollections, totalCollections, user }: SidebarProps) {
   const isOpen = useSidebarStore((s) => s.isOpen);
   const setOpen = useSidebarStore((s) => s.setOpen);
   const isMobile = useMediaQuery("(max-width: 767px)");
@@ -63,7 +71,7 @@ function Sidebar({ itemTypes, favoriteCollections, recentCollections, totalColle
     }
   }, [isMobile, setOpen]);
 
-  const contentProps = { itemTypes, favoriteCollections, recentCollections, totalCollections };
+  const contentProps = { itemTypes, favoriteCollections, recentCollections, totalCollections, user };
 
   // Mobile: Sheet overlay
   if (isMobile) {

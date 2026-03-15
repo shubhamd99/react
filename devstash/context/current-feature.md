@@ -2,11 +2,23 @@
 
 ## Status
 
-Completed
+In Progress
 
 ## Goals
 
+- Custom sign-in page (`/sign-in`) with email/password + GitHub OAuth button
+- Custom register page (`/register`) with name, email, password, confirm password
+- Sidebar bottom: user avatar (GitHub image or initials fallback), name, dropdown with sign out
+- Avatar click navigates to `/profile`
+- Reusable avatar component handling both GitHub image and initials cases
+
 ## Notes
+
+- Replace NextAuth default pages with custom UI
+- Register submits to existing `/api/auth/register` endpoint
+- Register redirects to sign-in on success
+- Initials derived from user name (e.g., "Brad Traversy" → "BT")
+- Form validation: passwords match, email format, error display
 
 ## History
 
