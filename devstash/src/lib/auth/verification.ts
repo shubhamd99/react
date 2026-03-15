@@ -4,19 +4,24 @@ import { prisma } from "@/lib/db";
 const TOKEN_EXPIRY_HOURS = 24;
 const RATE_LIMIT_SECONDS = 60;
 
+function hashToken(token: string): string {
+  return crypto.createHash("sha256").update(token).digest("hex");
+}
+
 async function generateVerificationToken(email: string): Promise<string> {
   // Delete any existing tokens for this email
   await prisma.verificationToken.deleteMany({
     where: { identifier: email },
   });
 
-  const token = crypto.randomUUID();
+  const token = crypto.randomBytes(32).toString("hex");
+  const hashedToken = hashToken(token);
   const expires = new Date(Date.now() + TOKEN_EXPIRY_HOURS * 60 * 60 * 1000);
 
   await prisma.verificationToken.create({
     data: {
       identifier: email,
-      token,
+      token: hashedToken,
       expires,
     },
   });
@@ -31,8 +36,10 @@ interface ValidateResult {
 }
 
 async function validateVerificationToken(token: string): Promise<ValidateResult> {
+  const hashedToken = hashToken(token);
+
   const verificationToken = await prisma.verificationToken.findUnique({
-    where: { token },
+    where: { token: hashedToken },
   });
 
   if (!verificationToken) {
@@ -43,7 +50,7 @@ async function validateVerificationToken(token: string): Promise<ValidateResult>
 
   if (isExpired) {
     await prisma.verificationToken.delete({
-      where: { token },
+      where: { token: hashedToken },
     });
     return { success: false, error: "Token expired. Please request a new verification email." };
   }
@@ -56,7 +63,7 @@ async function validateVerificationToken(token: string): Promise<ValidateResult>
 
   // Delete the used token
   await prisma.verificationToken.delete({
-    where: { token },
+    where: { token: hashedToken },
   });
 
   // Cleanup: delete any other expired tokens for this email
@@ -96,11 +103,12 @@ async function generatePasswordResetToken(email: string): Promise<string> {
     where: { identifier },
   });
 
-  const token = crypto.randomUUID();
+  const token = crypto.randomBytes(32).toString("hex");
+  const hashedToken = hashToken(token);
   const expires = new Date(Date.now() + RESET_TOKEN_EXPIRY_HOURS * 60 * 60 * 1000);
 
   await prisma.verificationToken.create({
-    data: { identifier, token, expires },
+    data: { identifier, token: hashedToken, expires },
   });
 
   return token;
@@ -113,8 +121,10 @@ interface ResetValidateResult {
 }
 
 async function validatePasswordResetToken(token: string): Promise<ResetValidateResult> {
+  const hashedToken = hashToken(token);
+
   const resetToken = await prisma.verificationToken.findUnique({
-    where: { token },
+    where: { token: hashedToken },
   });
 
   if (!resetToken || !resetToken.identifier.startsWith(RESET_IDENTIFIER_PREFIX)) {
@@ -124,14 +134,14 @@ async function validatePasswordResetToken(token: string): Promise<ResetValidateR
   const isExpired = new Date() > resetToken.expires;
 
   if (isExpired) {
-    await prisma.verificationToken.delete({ where: { token } });
+    await prisma.verificationToken.delete({ where: { token: hashedToken } });
     return { success: false, error: "Reset link has expired. Please request a new one." };
   }
 
   const email = resetToken.identifier.slice(RESET_IDENTIFIER_PREFIX.length);
 
   // Delete the used token (single-use)
-  await prisma.verificationToken.delete({ where: { token } });
+  await prisma.verificationToken.delete({ where: { token: hashedToken } });
 
   // Cleanup expired reset tokens for this email
   await prisma.verificationToken.deleteMany({

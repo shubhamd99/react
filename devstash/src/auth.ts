@@ -53,16 +53,38 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ],
   callbacks: {
     ...authConfig.callbacks,
-    jwt({ token, user }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
         token.picture = user.image;
+        token.iat = Math.floor(Date.now() / 1000);
       }
+
+      // On subsequent requests, check if sessions were invalidated
+      if (token.id && !user) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: { tokenInvalidBefore: true },
+        });
+
+        if (dbUser?.tokenInvalidBefore) {
+          const tokenIssuedAt = (token.iat as number) * 1000;
+          if (tokenIssuedAt < dbUser.tokenInvalidBefore.getTime()) {
+            // Token was issued before password change — invalidate
+            return { ...token, invalidated: true };
+          }
+        }
+      }
+
       return token;
     },
     session({ session, token }) {
+      if (token?.invalidated) {
+        // Force client to re-authenticate
+        return { ...session, user: { ...session.user, id: "" } };
+      }
       if (token?.id) {
         session.user.id = token.id as string;
       }
