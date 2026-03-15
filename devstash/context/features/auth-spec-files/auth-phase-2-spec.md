@@ -29,7 +29,7 @@ Add Credentials provider for email/password authentication with registration.
 ```bash
 curl -X POST http://localhost:3000/api/auth/register \
   -H "Content-Type: application/json" \
-  -d '{"name":"Test","email":"test@test.com","password":"password123","confirmPassword":"password123"}'
+  -d '{"name":"Test","email":"test@test.com","password":"12345678","confirmPassword":"12345678"}'
 ```
 2. Go to `/api/auth/signin`
 3. Sign in with email/password
