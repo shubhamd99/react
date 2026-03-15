@@ -8,25 +8,13 @@
 - Don't add features not in the project spec
 - Never delete files without clarification
 
-## Superpowers
-
-Always invoke relevant superpowers skills before starting any work. Even a 1% chance a skill applies means invoke it first.
-
-- **Before any feature/creative work**: invoke `superpowers:brainstorming`
-- **Before multi-step implementation**: invoke `superpowers:writing-plans`
-- **Before claiming work is done/committing**: invoke `superpowers:verification-before-completion`
-- **Before debugging**: invoke `superpowers:systematic-debugging`
-- **When receiving code review feedback**: invoke `superpowers:receiving-code-review`
-
-Never skip straight to code. Skills determine HOW to approach the task.
-
 ## Workflow
 
 This is the common workflow that we will use for every single feature/fix:
 
 1. **Document** - Document the feature in @context/current-feature.md.
 2. **Branch** - Create new branch for feature, fix, etc
-3. **Implement** - Invoke superpowers skills first, then implement the feature/fix from @context/current-feature.md
+3. **Implement** - Implement the feature/fix from @context/current-feature.md
 4. **Test** - Verify it works in the browser. Implement unit testing later. Run `npm run build` and fix any errors
 5. **Iterate** - Iterate and change things if needed
 6. **Commit** - Only after build passes and everything works

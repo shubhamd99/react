@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { signInWithGitHub } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -192,14 +193,12 @@ function SignInForm() {
         </div>
       </div>
 
-      <Button
-        variant="outline"
-        className="w-full"
-        onClick={() => signIn("github", { callbackUrl })}
-      >
-        <Github className="size-4" />
-        GitHub
-      </Button>
+      <form action={signInWithGitHub}>
+        <Button variant="outline" className="w-full" type="submit">
+          <Github className="size-4" />
+          GitHub
+        </Button>
+      </form>
 
       <p className="text-center text-sm text-muted-foreground">
         Don&apos;t have an account?{" "}
