@@ -4,11 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { getIcon } from "@/lib/icon-map";
-import { itemTypes, items } from "@/lib/mock-data";
-
-function getItemCount(typeId: string): number {
-  return items.filter((item) => item.itemTypeId === typeId).length;
-}
+import type { SidebarItemType } from "@/lib/db/items";
 
 function pluralize(name: string): string {
   if (name.endsWith("s")) return name;
@@ -19,7 +15,11 @@ function capitalize(name: string): string {
   return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
-function SidebarItemTypes() {
+interface SidebarItemTypesProps {
+  itemTypes: SidebarItemType[];
+}
+
+function SidebarItemTypes({ itemTypes }: SidebarItemTypesProps) {
   const pathname = usePathname();
 
   return (
@@ -29,7 +29,6 @@ function SidebarItemTypes() {
       </p>
       {itemTypes.map((type) => {
         const Icon = getIcon(type.icon);
-        const count = getItemCount(type.id);
         const href = `/items/${pluralize(type.name)}`;
         const isActive = pathname === href;
 
@@ -46,7 +45,7 @@ function SidebarItemTypes() {
           >
             <Icon className="size-4 shrink-0" style={{ color: type.color }} />
             <span className="flex-1">{capitalize(pluralize(type.name))}</span>
-            <span className="text-xs text-muted-foreground">{count}</span>
+            <span className="text-xs text-muted-foreground">{type.count}</span>
           </Link>
         );
       })}

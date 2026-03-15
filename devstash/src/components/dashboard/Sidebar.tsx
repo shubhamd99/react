@@ -14,8 +14,17 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import type { SidebarItemType } from "@/lib/db/items";
+import type { SidebarCollection } from "@/lib/db/collections";
 
-function SidebarContent() {
+interface SidebarProps {
+  itemTypes: SidebarItemType[];
+  favoriteCollections: SidebarCollection[];
+  recentCollections: SidebarCollection[];
+  totalCollections: number;
+}
+
+function SidebarContent({ itemTypes, favoriteCollections, recentCollections, totalCollections }: SidebarProps) {
   return (
     <div className="flex h-full flex-col gap-4 overflow-y-auto py-4">
       <div className="px-2">
@@ -23,11 +32,15 @@ function SidebarContent() {
       </div>
       <Separator className="mx-3" />
       <div className="px-2">
-        <SidebarItemTypes />
+        <SidebarItemTypes itemTypes={itemTypes} />
       </div>
       <Separator className="mx-3" />
       <div className="flex-1 px-2">
-        <SidebarCollections />
+        <SidebarCollections
+          favorites={favoriteCollections}
+          recents={recentCollections}
+          totalCount={totalCollections}
+        />
       </div>
       <Separator className="mx-3" />
       <div className="px-2">
@@ -37,7 +50,7 @@ function SidebarContent() {
   );
 }
 
-function Sidebar() {
+function Sidebar({ itemTypes, favoriteCollections, recentCollections, totalCollections }: SidebarProps) {
   const isOpen = useSidebarStore((s) => s.isOpen);
   const setOpen = useSidebarStore((s) => s.setOpen);
   const isMobile = useMediaQuery("(max-width: 767px)");
@@ -49,6 +62,8 @@ function Sidebar() {
     }
   }, [isMobile, setOpen]);
 
+  const contentProps = { itemTypes, favoriteCollections, recentCollections, totalCollections };
+
   // Mobile: Sheet overlay
   if (isMobile) {
     return (
@@ -57,7 +72,7 @@ function Sidebar() {
           <SheetHeader className="sr-only">
             <SheetTitle>Navigation</SheetTitle>
           </SheetHeader>
-          <SidebarContent />
+          <SidebarContent {...contentProps} />
         </SheetContent>
       </Sheet>
     );
@@ -70,7 +85,7 @@ function Sidebar() {
       style={{ width: isOpen ? 240 : 0 }}
     >
       <div className="flex h-full w-60 flex-col overflow-hidden">
-        <SidebarContent />
+        <SidebarContent {...contentProps} />
       </div>
     </aside>
   );

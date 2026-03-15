@@ -61,6 +61,78 @@ export async function getCollectionsWithTypes() {
   });
 }
 
+function transformSidebarCollection(collection: {
+  id: string;
+  name: string;
+  isFavorite: boolean;
+  items: { item: { itemType: { id: string; color: string } } }[];
+}) {
+  const typeCounts = new Map<string, { count: number; color: string }>();
+  for (const ic of collection.items) {
+    const type = ic.item.itemType;
+    const existing = typeCounts.get(type.id);
+    typeCounts.set(type.id, {
+      count: (existing?.count ?? 0) + 1,
+      color: type.color,
+    });
+  }
+
+  let dominantColor = "#6b7280";
+  let maxCount = 0;
+  for (const { count, color } of typeCounts.values()) {
+    if (count > maxCount) {
+      maxCount = count;
+      dominantColor = color;
+    }
+  }
+
+  return {
+    id: collection.id,
+    name: collection.name,
+    isFavorite: collection.isFavorite,
+    itemCount: collection.items.length,
+    dominantColor,
+  };
+}
+
+const SIDEBAR_COLLECTION_INCLUDE = {
+  items: {
+    include: {
+      item: {
+        include: {
+          itemType: true,
+        },
+      },
+    },
+  },
+} as const;
+
+export async function getSidebarCollections() {
+  const [favorites, recents, totalCount] = await Promise.all([
+    prisma.collection.findMany({
+      where: { isFavorite: true },
+      include: SIDEBAR_COLLECTION_INCLUDE,
+      orderBy: { updatedAt: "desc" },
+      take: 5,
+    }),
+    prisma.collection.findMany({
+      where: { isFavorite: false },
+      include: SIDEBAR_COLLECTION_INCLUDE,
+      orderBy: { updatedAt: "desc" },
+      take: 5,
+    }),
+    prisma.collection.count(),
+  ]);
+
+  return {
+    totalCount,
+    favorites: favorites.map(transformSidebarCollection),
+    recents: recents.map(transformSidebarCollection),
+  };
+}
+
+export type SidebarCollection = ReturnType<typeof transformSidebarCollection>;
+
 export async function getCollectionStats() {
   const [totalCollections, favoriteCollections] = await Promise.all([
     prisma.collection.count(),

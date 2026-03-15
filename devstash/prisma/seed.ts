@@ -452,19 +452,29 @@ async function main(): Promise<void> {
   const typeMap = new Map<string, string>();
 
   for (const type of systemItemTypes) {
-    const created = await prisma.itemType.upsert({
-      where: {
-        name_userId: { name: type.name, userId: "" },
-      },
-      update: { icon: type.icon, color: type.color },
-      create: {
-        name: type.name,
-        icon: type.icon,
-        color: type.color,
-        isSystem: true,
-      },
+    // Cannot use upsert with compound unique (name, userId) when userId is null —
+    // PostgreSQL treats NULL as distinct, so upsert never matches existing rows.
+    const existing = await prisma.itemType.findFirst({
+      where: { name: type.name, isSystem: true, userId: null },
     });
-    typeMap.set(type.name, created.id);
+
+    if (existing) {
+      await prisma.itemType.update({
+        where: { id: existing.id },
+        data: { icon: type.icon, color: type.color },
+      });
+      typeMap.set(type.name, existing.id);
+    } else {
+      const created = await prisma.itemType.create({
+        data: {
+          name: type.name,
+          icon: type.icon,
+          color: type.color,
+          isSystem: true,
+        },
+      });
+      typeMap.set(type.name, created.id);
+    }
   }
   console.log(`   Created ${typeMap.size} item types`);
 

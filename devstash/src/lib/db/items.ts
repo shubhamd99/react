@@ -66,3 +66,41 @@ function transformItem(item: Awaited<ReturnType<typeof prisma.item.findMany<{ in
 }
 
 export type DashboardItem = ReturnType<typeof transformItem>;
+
+export async function getItemTypesWithCounts() {
+  const types = await prisma.itemType.findMany({
+    where: { isSystem: true },
+    include: {
+      _count: {
+        select: { items: true },
+      },
+    },
+    orderBy: { name: "asc" },
+  });
+
+  // Deduplicate by name — seed script can create duplicates because
+  // PostgreSQL treats NULL as distinct in unique constraints (name, userId)
+  const deduped = new Map<string, { id: string; name: string; icon: string; color: string; count: number }>();
+  for (const type of types) {
+    const existing = deduped.get(type.name);
+    if (existing) {
+      existing.count += type._count.items;
+    } else {
+      deduped.set(type.name, {
+        id: type.id,
+        name: type.name,
+        icon: type.icon,
+        color: type.color,
+        count: type._count.items,
+      });
+    }
+  }
+
+  const SORT_ORDER = ["snippet", "prompt", "command", "note", "file", "image", "link"];
+
+  return [...deduped.values()].sort(
+    (a, b) => (SORT_ORDER.indexOf(a.name) ?? 99) - (SORT_ORDER.indexOf(b.name) ?? 99)
+  );
+}
+
+export type SidebarItemType = Awaited<ReturnType<typeof getItemTypesWithCounts>>[number];

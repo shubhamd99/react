@@ -77,3 +77,26 @@ set the current feature to be completed, remove the info and add it to the histo
 ```text
 commit to the feature branch, merge to main, delete the feature branch and push to remote
 ```
+
+## Show Sidebar Stats
+
+```text
+Update the current feature with the feature from @context/features/stats-sidebar-spec.md. Set the status to In Progress.
+```
+
+```text
+Implement the current-feature
+```
+
+```text
+Why duplicate Item Types are gettiing rendered on sidebar? every item types line item is ocurring twice
+```
+
+```text
+Can you reorder the item types in the sidebar. I want Snippets, Prompts, Commands, Notes, Files, Images, Links
+```
+
+```text
+on sidebar under collections there should be two section first Favorites and Recent, you have combined both, first
+show Favorite section then below that Recent section list, and for each line item show the count
+```
