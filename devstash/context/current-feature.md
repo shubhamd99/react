@@ -1,29 +1,16 @@
-# Current Feature: Email Verification on Register
+# Current Feature
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-- After registration, send a verification email to the user via Resend
-- Email contains a unique verification link that the user must click
-- Clicking the link verifies the user's email (sets `emailVerified` timestamp)
-- Unverified users cannot sign in until they verify their email
-- Use `onboarding@resend.dev` as the sender email (Resend testing)
-- Verification tokens stored in the existing `VerificationToken` model
-- Tokens expire after a reasonable time window (e.g., 24 hours)
-- Show appropriate UI feedback: "Check your email" after register, error for expired/invalid tokens
+<!-- Goals will be added when a feature is loaded -->
 
 ## Notes
 
-- Resend is the email provider; `RESEND_API_KEY` is already in `.env`
-- The `VerificationToken` model already exists in the Prisma schema
-- The `User` model already has an `emailVerified` field
-- From email: `onboarding@resend.dev`
-- Need a `/verify-email` page to handle the verification link callback
-- Registration endpoint (`/api/auth/register`) needs to trigger the email send
-- Block sign-in for unverified email/password users (OAuth users are auto-verified)
+<!-- Notes will be added when a feature is loaded -->
 
 ## History
 
@@ -43,3 +30,4 @@ In Progress
 - Auth Phase 1: NextAuth v5 with GitHub OAuth, split auth config (auth.config.ts edge + auth.ts Prisma adapter), JWT strategy, Next.js 16 proxy route protection for /dashboard/*, Session type extended with user.id
 - Auth Phase 2: Email/password Credentials provider (split pattern with edge-safe placeholder), /api/auth/register endpoint with Zod 4 validation, bcrypt password hashing
 - Auth Phase 3: Custom sign-in page (/sign-in) with credentials + GitHub OAuth, custom register page (/register) with validation and sonner toast, reusable UserAvatar component (image or initials), sidebar user area connected to real session with popover sign-out, explicit JWT callbacks for user data persistence
+- Auth Phase 4: Email verification flow with Resend — verification token generation, email sending via Resend (onboarding@resend.dev), /verify-email page, sign-in blocking for unverified email/password users, resend verification endpoint
