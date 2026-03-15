@@ -6,22 +6,7 @@ Completed
 
 ## Goals
 
-Code quality quick wins from codebase audit (low risk, no auth dependency):
-
-1. **Fix N+1 query in `getCollectionsWithTypes`** — loads full item rows just to compute dominant color and type list. Use `_count` and distinct types subquery instead.
-2. **Fix `SORT_ORDER.indexOf` fallback bug** (`src/lib/db/items.ts:102`) — `?? 99` never fires because `indexOf` returns `-1`, not `null`. Unknown item types sort to front instead of end.
-3. **Extract duplicated `formatDate`** — identical function in `PinnedItems.tsx` and `RecentItems.tsx`. Move to `src/lib/utils.ts`.
-4. **Replace naive `pluralize` with lookup map** (`SidebarItemTypes.tsx:12`) — current impl breaks for names ending in "s" or irregular plurals. Use a static display name map.
-5. **Add dev warning for unknown icon names** (`src/lib/icon-map.ts:22`) — silent fallback to `File` icon makes typos hard to debug.
-6. **Replace `$queryRawUnsafe` in test script** (`scripts/test-db.ts:15`) — use safe `$queryRaw` tagged template instead.
-7. **Sidebar width: replace inline style with Tailwind classes** (`Sidebar.tsx:86`) — remove magic number `240`, use `w-60`/`w-0` classes.
-
 ## Notes
-
-- No auth-related changes (auth not implemented yet)
-- All fixes are isolated, low-risk refactors or bug fixes
-- N+1 fix is the highest priority item — use Prisma ORM only (no raw SQL)
-- Do not touch mock data file (src/lib/mock-data.ts)
 
 ## History
 
@@ -37,3 +22,4 @@ Code quality quick wins from codebase audit (low risk, no auth dependency):
 - Dashboard Items: replaced mock item data with real Prisma queries (src/lib/db/items.ts), pinned items and recent items fetched from DB, item card icon/border derived from item type, stats cards use real item counts, pinned section hidden when empty
 - Stats & Sidebar: replaced mock data in sidebar with real DB queries, item types with icons/counts linking to /items/[typename], sidebar collections split into Favorites and Recent sections with item counts, colored circles for recents based on dominant item type, "View all collections" link, fixed seed script duplicate issue, custom item type sort order
 - Pro Badge Sidebar: added shadcn/ui Badge (outline variant) with "PRO" label next to Files and Images item types in the sidebar
+- Codebase Audit Quick Wins: N+1 query fix (collections use _count + select), sort order indexOf bug fix, extracted duplicated formatDate to utils, replaced naive pluralize with static lookup map, dev warning for unknown icons, replaced $queryRawUnsafe with $queryRaw, sidebar width via Tailwind classes, added DynamicIcon component for React Compiler compatibility
