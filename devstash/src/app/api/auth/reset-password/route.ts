@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { validatePasswordResetToken } from "@/lib/auth/verification";
+import { checkRateLimit, getIP, resetPasswordLimiter, rateLimitResponse } from "@/lib/rate-limit";
 
 const resetPasswordSchema = z
   .object({
@@ -17,6 +18,13 @@ const resetPasswordSchema = z
 
 export async function POST(request: Request) {
   try {
+    // Rate limit check
+    const ip = getIP(request);
+    const rl = await checkRateLimit(resetPasswordLimiter, ip);
+    if (!rl.success) {
+      return rateLimitResponse(rl.reset);
+    }
+
     const body = await request.json();
     const result = resetPasswordSchema.safeParse(body);
 

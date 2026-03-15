@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { generateVerificationToken, checkResendRateLimit } from "@/lib/auth/verification";
 import { sendVerificationEmail } from "@/lib/email";
+import { checkRateLimit, getIP, resendVerificationLimiter, rateLimitResponse } from "@/lib/rate-limit";
 
 const resendSchema = z.object({
   email: z.email("Invalid email address"),
@@ -21,6 +22,13 @@ export async function POST(request: Request) {
     }
 
     const { email } = result.data;
+
+    // Rate limit check (uses IP + email composite key)
+    const ip = getIP(request);
+    const rl = await checkRateLimit(resendVerificationLimiter, `${ip}:${email}`);
+    if (!rl.success) {
+      return rateLimitResponse(rl.reset);
+    }
 
     // Look up user — generic success if not found or already verified (prevent enumeration)
     const user = await prisma.user.findUnique({
