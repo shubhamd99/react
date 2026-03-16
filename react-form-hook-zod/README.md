@@ -1,73 +1,42 @@
-# React + TypeScript + Vite
+# React Hook Form + Zod Implementation Guide
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A comprehensive, production-ready example of combining **React Hook Form** with **Zod** schema validation, styled elegantly with **Tailwind CSS**.
 
-Currently, two official plugins are available:
+## Screenshots
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+<div align="center">
+  <img src="preview/01.png" alt="Standard Form Evaluation" width="48%" />
+  <img src="preview/02.png" alt="Multi-Step Wizard Evaluation" width="48%" />
+</div>
 
-## React Compiler
+## Key Features Demonstrated
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This project serves as an architectural blueprint for handling forms in React, covering major and complex use cases:
 
-## Expanding the ESLint configuration
+1. **Single Source of Truth Validation (Zod)**
+   - Unified `registrationSchema` that handles standard types (strings, numbers), nested objects (`address`), arrays (`skills`), and strict refinements (password matching logic).
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2. **Standard & Controlled Inputs**
+   - Seamlessly binds native HTML inputs via `register()`.
+   - Uses `<Controller />` for third-party or custom components, ensuring values and validation states remain perfectly synchronized.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+3. **Dynamic Form Fields (`useFieldArray`)**
+   - Implements dynamic array manipulation, allowing users to rapidly append or remove nested object structures dynamically.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+4. **Multi-Step Wizard Flow**
+   - Orchestrates a powerful Multi-Step form logic using `react-hook-form`'s `.trigger(['fields'])` method to independently validate chunks of the schema before allowing the user to proceed.
+   - Refactored using the `<FormProvider />` pattern for maximum headless composability, mitigating prop drilling across deep component trees.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+5. **Headless Primitive UI Components**
+   - Encapsulates raw Tailwind CSS classes into clean, reusable form primitives (`<Input />`, `<Select />`, `<Button />`, `<Label />`).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Open [http://localhost:5173](http://localhost:5173) with your browser to see the result. You can toggle between the Standard Form and the Multi-Step Form Wizard via the top navigation buttons.
