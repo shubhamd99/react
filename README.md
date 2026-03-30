@@ -41,35 +41,35 @@ To build world-class, premium user interfaces today, a combination of headless p
 
 ### 🛠️ Core UI Stack
 
-| Package | Category | Description | Best For | Official Link |
-| :--- | :--- | :--- | :--- | :--- |
-| **React 19** | Core | The next evolution of React with Actions, hooks like `useOptimistic`, and server components. | Foundation | [react.dev](https://react.dev) |
-| **Tailwind CSS** | Styling | Utility-first CSS framework for rapid UI development and design systems. | Styling Engine | [tailwindcss.com](https://tailwindcss.com) |
-| **shadcn/ui** | Components | A collection of re-usable components you copy and paste into your app. | Ownership & Customization | [ui.shadcn.com](https://ui.shadcn.com) |
-| **HeroUI (NextUI)** | Library | Premium UI library with stunning animations and "wow" factor out of the box. | Premium Visuals | [heroui.com](https://heroui.com) |
-| **Framer Motion** | Animation | Production-ready motion library for React. | Interactive Motion | [framer.com/motion](https://www.framer.com/motion/) |
-| **Base UI** | Primitives | Headless, unstyled UI components by MUI with top-tier accessibility. | Custom Design Systems | [base-ui.com](https://base-ui.com) |
-| **Radix UI** | Primitives | Unstyled, accessible components that serve as the foundation for many libraries. | Accessible Core | [radix-ui.com](https://www.radix-ui.com/) |
+| Package             | Category   | Description                                                                                  | Best For                  | Official Link                                       |
+| :------------------ | :--------- | :------------------------------------------------------------------------------------------- | :------------------------ | :-------------------------------------------------- |
+| **React 19**        | Core       | The next evolution of React with Actions, hooks like `useOptimistic`, and server components. | Foundation                | [react.dev](https://react.dev)                      |
+| **Tailwind CSS**    | Styling    | Utility-first CSS framework for rapid UI development and design systems.                     | Styling Engine            | [tailwindcss.com](https://tailwindcss.com)          |
+| **shadcn/ui**       | Components | A collection of re-usable components you copy and paste into your app.                       | Ownership & Customization | [ui.shadcn.com](https://ui.shadcn.com)              |
+| **HeroUI (NextUI)** | Library    | Premium UI library with stunning animations and "wow" factor out of the box.                 | Premium Visuals           | [heroui.com](https://heroui.com)                    |
+| **Framer Motion**   | Animation  | Production-ready motion library for React.                                                   | Interactive Motion        | [framer.com/motion](https://www.framer.com/motion/) |
+| **Base UI**         | Primitives | Headless, unstyled UI components by MUI with top-tier accessibility.                         | Custom Design Systems     | [base-ui.com](https://base-ui.com)                  |
+| **Radix UI**        | Primitives | Unstyled, accessible components that serve as the foundation for many libraries.             | Accessible Core           | [radix-ui.com](https://www.radix-ui.com/)           |
 
 ### ✨ Essential Ecosystem & Specialized Tools
 
-| Package | Use Case | Why Use It? |
-| :--- | :--- | :--- |
-| **[Lucide React](https://lucide.dev)** | Icons | Beautiful, consistent, and tree-shakeable SVG icons. |
-| **[Zustand](https://zustand.pmnd.rs/)** | State | Lightweight, modular state management without the boilerplate of Redux. |
-| **[TanStack Table](https://tanstack.com/table)** | Data Grids | Powerful, headless table logic for complex data manipulation. |
-| **[React Hook Form](https://react-hook-form.com/)** | Forms | High-performance form management with minimal re-renders. |
-| **[Zod](https://zod.dev/)** | Validation | TypeScript-first schema validation for forms and API responses. |
-| **[Sonner](https://sonner.emilkowal.ski/)** | Notifications | The most elegant and performance-optimized toast component. |
-| **[TanStack Query](https://tanstack.com/query)** | Data Fetching | Asynchronous state management for fetching, caching, and syncing server data. |
+| Package                                             | Use Case      | Why Use It?                                                                   |
+| :-------------------------------------------------- | :------------ | :---------------------------------------------------------------------------- |
+| **[Lucide React](https://lucide.dev)**              | Icons         | Beautiful, consistent, and tree-shakeable SVG icons.                          |
+| **[Zustand](https://zustand.pmnd.rs/)**             | State         | Lightweight, modular state management without the boilerplate of Redux.       |
+| **[TanStack Table](https://tanstack.com/table)**    | Data Grids    | Powerful, headless table logic for complex data manipulation.                 |
+| **[React Hook Form](https://react-hook-form.com/)** | Forms         | High-performance form management with minimal re-renders.                     |
+| **[Zod](https://zod.dev/)**                         | Validation    | TypeScript-first schema validation for forms and API responses.               |
+| **[Sonner](https://sonner.emilkowal.ski/)**         | Notifications | The most elegant and performance-optimized toast component.                   |
+| **[TanStack Query](https://tanstack.com/query)**    | Data Fetching | Asynchronous state management for fetching, caching, and syncing server data. |
 
 ### 🚀 Advanced UI & Specialized Components
 
-*   **[Magic UI](https://magicui.design/)** - High-quality landing page components (Marquee, Bento Grids, Orbiting Circles).
-*   **[Aceternity UI](https://ui.aceternity.com/)** - Complex, trending animations and components that create a unique look.
-*   **[Origin UI](https://originui.com/)** - Extensive collection of Tailwind & React components with a focus on subtle motion.
-*   **[React Bits](https://www.reactbits.dev/)** - Unique text effects and background animations (Falling text, Glitch effects).
-*   **[Mantine](https://mantine.dev/)** - Comprehensive library with 100+ components and 50+ hooks.
+- **[Magic UI](https://magicui.design/)** - High-quality landing page components (Marquee, Bento Grids, Orbiting Circles).
+- **[Aceternity UI](https://ui.aceternity.com/)** - Complex, trending animations and components that create a unique look.
+- **[Origin UI](https://originui.com/)** - Extensive collection of Tailwind & React components with a focus on subtle motion.
+- **[React Bits](https://www.reactbits.dev/)** - Unique text effects and background animations (Falling text, Glitch effects).
+- **[Mantine](https://mantine.dev/)** - Comprehensive library with 100+ components and 50+ hooks.
 
 ---
 
@@ -392,26 +392,33 @@ The developers of Webpack have created Turbopack, which is built in Rust and pro
 ## New Features of Next 14
 
 ### Turbopack (Beta)
+
 Next 14 brought significant improvements to the Turbopack engine, bringing up to 53% faster local server startup and 94% faster code updates with Fast Refresh.
 
 ### Server Actions (Stable)
+
 Server Actions became stable in Next 14, allowing you to define functions that run on the server and can be called directly from your React components, simplifying form submissions and data mutations.
 
 ### Metadata Improvements
+
 A new `viewport` and `generateViewport` API was introduced to separate viewport metadata from other metadata, improving performance and flexibility.
 
 ## New Features of Next 15
 
 ### React 19 Support
+
 Next 15 is built on top of React 19, supporting new features like the `use` hook, `ref` as a prop, and improved hydration error handling.
 
 ### Turbopack for Development
+
 Turbopack is now the default for development, providing lightning-fast refresh times and improved build performance.
 
 ### Caching Defaults
+
 Next 15 changed caching defaults to be more intuitive. `fetch` requests, GET Route Handlers, and Client-side Router Cache are no longer cached by default, making it easier to build dynamic applications without unexpected stale data.
 
 ### `<Form>` Component
+
 A new `<Form>` component was added to simplify form handling and navigation, providing built-in support for prefetching and client-side navigation on submission.
 
 ### NextJS Structure, Methods & Configs
@@ -629,7 +636,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <App />
-  </Provider>
+  </Provider>,
 );
 ```
 
@@ -690,7 +697,7 @@ if (navigator.serviceWorker) {
       // Gives us registration object
       .then((reg) => console.log("Service Worker Registered"))
       .catch((swErr) =>
-        console.log(`Service Worker Installation Error: ${swErr}}`)
+        console.log(`Service Worker Installation Error: ${swErr}}`),
       );
   });
 }
@@ -716,7 +723,7 @@ self.addEventListener("install", (e) => {
         .addAll(cacheAssets)
         // When everything is set
         .then(() => self.skipWaiting());
-    })
+    }),
   );
 });
 ```
@@ -738,9 +745,9 @@ self.addEventListener("activate", (e) => {
             console.log("Service Worker: Clearing Old Cache");
             return caches.delete(cache);
           }
-        })
+        }),
       );
-    })
+    }),
   );
 });
 ```
