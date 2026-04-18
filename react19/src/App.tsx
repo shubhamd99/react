@@ -12,6 +12,7 @@ import OptimisticExample from "./components/React19/OptimisticExample";
 import RefAndContextExample from "./components/React19/RefAndContextExample";
 import MetadataExample from "./components/React19/MetadataExample";
 import UseEffectEventExample from "./components/React19/UseEffectEventExample";
+import AsyncReact19Example from "./components/React19/AsyncReact19Example";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <RefAndContextExample />
           <MetadataExample />
           <UseEffectEventExample />
+          <AsyncReact19Example />
         </section>
       </main>
     </div>

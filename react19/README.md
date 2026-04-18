@@ -54,8 +54,15 @@ _Note: These features operate behind the scenes or require Server-Side setups (l
    - **Implementation:** Simply render `<title>`, `<meta>`, or `<link>` inside any nested component. React 19 automatically hoists them up to the document's `<header>`. Say goodbye to third-party libraries like `react-helmet`!
 
 5. **Event Reactions (`useEffectEvent`)** (`src/components/React19/UseEffectEventExample.tsx`)
-   - **Concept:** Extracts non-reactive logic from effects and memoized components without triggering unnecessary re-renders or breaking memoization.
-   - **Implementation:** Allows reading the freshest, latest state dynamically inside asynchronous operations (like an interval) or stable references (like a sorting function) without requiring you to list those variables inside dependency arrays.
+   - **Concept:** Extracts non-reactive logic from effects without triggering unnecessary re-renders or breaking effect behavior.
+   - **Implementation:** Allows reading the freshest, latest state dynamically inside asynchronous operations (like an interval or event handler) without requiring you to list those variables inside dependency arrays.
+   - **Limitation:** Native React 19 blocks calling `useEffectEvent` during rendering operations (like inside `useMemo`), meaning it natively cannot be used for derived state calculations like sorting without a polyfill.
+
+6. **Native Async Operations (`use`, `<Suspense>`, & `useTransition`)** (`src/components/React19/AsyncReact19Example.tsx`)
+   - **Concept:** Simplifies data-fetching directly inside components without requiring external libraries.
+   - **`use()`:** Unwraps standard `Promise` references natively _during_ the render cycle, eliminating the need for `useEffect` data-fetching boilerplate. If the promise hasn't resolved, it forces the component to "suspend" (pause rendering).
+   - **`<Suspense>`:** Acts as the catcher. When `use()` suspends the component, the nearest `<Suspense>` boundary catches it and displays its `fallback` UI (e.g. a Skeleton loader) while waiting for the promise to resolve.
+   - **`useTransition`:** Wrapping state updates in `startTransition` signals that an update is "non-urgent" (e.g., fetching a new image). Instead of immediately dropping the UI back into `<Suspense>`, React keeps the current UI interactive and sets `isPending` to true, enabling smooth background data fetching!
 
 ### Framework & Engine Enhancements
 
