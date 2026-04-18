@@ -104,3 +104,20 @@ input[type="text"] {
   width: 100%;
   max-width: 300px;
 }
+
+.example-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.example-table th, .example-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.example-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}

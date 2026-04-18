@@ -53,6 +53,10 @@ _Note: These features operate behind the scenes or require Server-Side setups (l
    - **Concept:** A built-in mechanism to manage document `<head>` elements.
    - **Implementation:** Simply render `<title>`, `<meta>`, or `<link>` inside any nested component. React 19 automatically hoists them up to the document's `<header>`. Say goodbye to third-party libraries like `react-helmet`!
 
+5. **Event Reactions (`useEffectEvent`)** (`src/components/React19/UseEffectEventExample.tsx`)
+   - **Concept:** Extracts non-reactive logic from effects and memoized components without triggering unnecessary re-renders or breaking memoization.
+   - **Implementation:** Allows reading the freshest, latest state dynamically inside asynchronous operations (like an interval) or stable references (like a sorting function) without requiring you to list those variables inside dependency arrays.
+
 ### Framework & Engine Enhancements
 
 _Note: These features are primarily utilized in full-stack frameworks (like Next.js App Router) or build pipelines._
