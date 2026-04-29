@@ -1,0 +1,34 @@
+{
+  "name": "admin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/admin/src",
+  "tags": ["scope:admin"],
+  "implicitDependencies": ["ui", "utils"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        { "projects": ["ui", "utils"], "target": "build" }
+      ],
+      "options": {
+        "command": "rspack build --node-env production",
+        "cwd": "apps/admin"
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rspack serve --node-env development",
+        "cwd": "apps/admin"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint src --ext .ts,.tsx",
+        "cwd": "apps/admin"
+      }
+    }
+  }
+}

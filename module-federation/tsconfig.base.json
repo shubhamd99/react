@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "isolatedModules": true,
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@repo/ui": ["packages/ui/src/index.ts"],
+      "@repo/utils": ["packages/utils/src/index.ts"],
+      "@repo/mocks": ["packages/mocks/src/index.ts"],
+      "@admin/*":    ["apps/admin/src/*"],
+      "@host/*":     ["apps/host/src/*"],
+      "@insights/*": ["apps/insights/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

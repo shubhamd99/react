@@ -1,0 +1,34 @@
+{
+  "name": "host",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/host/src",
+  "tags": ["scope:host"],
+  "implicitDependencies": ["ui", "utils"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        { "projects": ["ui", "utils"], "target": "build" }
+      ],
+      "options": {
+        "command": "rspack build --node-env production",
+        "cwd": "apps/host"
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rspack serve --node-env development",
+        "cwd": "apps/host"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint src --ext .ts,.tsx",
+        "cwd": "apps/host"
+      }
+    }
+  }
+}
