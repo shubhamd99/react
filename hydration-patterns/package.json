@@ -1,0 +1,13 @@
+{
+  "name": "hydration-patterns",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix react-hydration run build && npm --prefix next-hydration run build && npm --prefix node-streaming-ssr run build",
+    "dev": "npm --prefix react-hydration run dev & npm --prefix next-hydration run dev & npm --prefix node-streaming-ssr run dev",
+    "dev:next": "npm --prefix next-hydration run dev",
+    "dev:node": "npm --prefix node-streaming-ssr run dev",
+    "dev:react": "npm --prefix react-hydration run dev",
+    "typecheck": "npm --prefix react-hydration run typecheck && npm --prefix next-hydration run typecheck && npm --prefix node-streaming-ssr run typecheck"
+  }
+}

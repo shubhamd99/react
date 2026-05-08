@@ -1,66 +1,54 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { Suspense } from 'react';
+import { ClientCounter } from './components/ClientCounter';
+import { ClientSearch } from './components/ClientSearch';
+import { SlowServerPanel } from './components/SlowServerPanel';
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
+    <main className="app-shell">
+      <header className="page-header">
+        <p className="eyebrow">Next.js App Router</p>
+        <h1>Server rendering, streaming, and client hydration</h1>
+        <p>
+          Next renders server components to HTML, streams Suspense boundaries,
+          and hydrates only client components marked with `use client`.
+        </p>
+      </header>
+
+      <section className="demo-grid">
+        <article className="demo-card">
+          <p className="eyebrow">Server component</p>
+          <h2>No client JavaScript needed</h2>
           <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
+            This card is rendered on the server. It is visible as HTML, but it
+            does not need hydration because it has no browser event handlers.
           </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+        </article>
+
+        <article className="demo-card">
+          <p className="eyebrow">Client island</p>
+          <h2>Hydrated only where needed</h2>
+          <ClientCounter />
+        </article>
+
+        <article className="demo-card">
+          <p className="eyebrow">Progressive hydration</p>
+          <h2>More client UI can hydrate separately</h2>
+          <ClientSearch />
+        </article>
+
+        <Suspense
+          fallback={
+            <article className="demo-card loading-card">
+              <p className="eyebrow">Streaming SSR</p>
+              <h2>Streaming fallback...</h2>
+              <p>The page shell can arrive before this slow data finishes.</p>
+            </article>
+          }
+        >
+          <SlowServerPanel />
+        </Suspense>
+      </section>
+    </main>
   );
 }
