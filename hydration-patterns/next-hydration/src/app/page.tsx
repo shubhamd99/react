@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { ClientCounter } from './components/ClientCounter';
 import { ClientSearch } from './components/ClientSearch';
+import { ServerProfile } from './components/ServerProfile';
 import { SlowServerPanel } from './components/SlowServerPanel';
 
 export default function Home() {
@@ -25,6 +26,8 @@ export default function Home() {
           </p>
           <code>{'No "use client" in this file'}</code>
         </article>
+
+        <ServerProfile />
 
         <article className="demo-card">
           <p className="eyebrow">Client hydration island</p>

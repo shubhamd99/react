@@ -1,19 +1,19 @@
 # Hydration Patterns
 
-| Pattern | Where used | Purpose | Small code |
-| --- | --- | --- | --- |
-| **CSR, no hydration** | React SPA | Browser gets empty HTML, React renders everything on client. | `createRoot(document.getElementById("root")).render(<App />)` |
-| **Classic SSR + hydration** | React, Next Pages Router | Server sends HTML, then React attaches events on client using hydration. ([React][1]) | `hydrateRoot(document.getElementById("root"), <App />)` |
-| **Static Generation + hydration** | Next.js | HTML is generated at build time, then interactive parts hydrate in browser. | `export async function getStaticProps() { return { props: { data } } }` |
-| **React Streaming SSR** | React 18/19 | Server sends HTML in chunks instead of waiting for full page. ([React][2]) | `renderToPipeableStream(<App />, { onShellReady(){ pipe(res) } })` |
-| **Suspense-based selective hydration** | React | Important parts hydrate first, slow parts can wait behind `<Suspense>`. | `<Suspense fallback={<Loader />}><Comments /></Suspense>` |
-| **Next.js Streaming SSR** | Next App Router | Route UI streams progressively using `loading.js` or Suspense. ([Next.js][3]) | `// app/dashboard/loading.tsx`<br>`export default function Loading(){ return <Skeleton /> }` |
-| **React Server Components, RSC** | Next App Router, modern React frameworks | Component runs only on server, sends no client JS unless nested client component exists. ([React][4]) | `export default async function Page(){ const data = await getData(); return <UI data={data}/> }` |
-| **Client Components inside RSC** | Next App Router | Only interactive part hydrates. Mark with `"use client"`. ([React][5]) | `"use client"`<br>`export function Button(){ const [c,setC]=useState(0); return <button onClick={()=>setC(c+1)}>{c}</button> }` |
-| **Partial hydration / islands** | Astro, Qwik style, some Next patterns manually | Hydrate only small interactive islands instead of full page. | `<StaticArticle />`<br>`<InteractiveLikeButton />` |
-| **Progressive hydration** | React SSR apps | Hydrate page in priority order instead of all at once. | `<Header /> // hydrate first`<br>`<Reviews /> // hydrate later` |
-| **No hydration / static HTML** | Blogs, docs, marketing pages | HTML only, no React JS needed. | `renderToStaticMarkup(<Page />)` |
-| **Resumability** | Qwik | Avoids traditional hydration by resuming serialized app state. | `component$(() => <button onClick$={...}>Click</button>)` |
+| Pattern | Where used | React support | Next.js support | Purpose | Small code |
+| --- | --- | --- | --- | --- | --- |
+| **CSR, no hydration** | React SPA | Supported with `createRoot`; not a hydration pattern | Supported for client-only parts, but not the App Router default goal | Browser gets empty HTML, React renders everything on client. | `createRoot(document.getElementById("root")).render(<App />)` |
+| **Classic SSR + hydration** | React, Next Pages Router | Supported with `hydrateRoot`; shown in `react-hydration` | Supported internally; Pages Router uses this style directly | Server sends HTML, then React attaches events on client using hydration. ([React][1]) | `hydrateRoot(document.getElementById("root"), <App />)` |
+| **Static Generation + hydration** | Next.js | Possible only if you build your own static pipeline | Supported by Next; App Router uses static rendering, Pages Router uses `getStaticProps` | HTML is generated at build time, then interactive parts hydrate in browser. | `export async function getStaticProps() { return { props: { data } } }` |
+| **React Streaming SSR** | React 18/19 | Supported with `renderToPipeableStream`; shown with Express | Used internally by App Router streaming | Server sends HTML in chunks instead of waiting for full page. ([React][2]) | `renderToPipeableStream(<App />, { onShellReady(){ pipe(res) } })` |
+| **Suspense-based selective hydration** | React | Supported behavior around SSR + `Suspense`; shown in `react-hydration` | Supported through Suspense and client boundaries | Important parts hydrate first, slow parts can wait behind `<Suspense>`. | `<Suspense fallback={<Loader />}><Comments /></Suspense>` |
+| **Next.js Streaming SSR** | Next App Router | Not React-only; requires framework routing conventions | Supported with `loading.js` and Suspense; shown in `next-hydration` | Route UI streams progressively using `loading.js` or Suspense. ([Next.js][3]) | `// app/dashboard/loading.tsx`<br>`export default function Loading(){ return <Skeleton /> }` |
+| **React Server Components, RSC** | Next App Router, modern React frameworks | React has RSC primitives, but plain Rsbuild React does not provide the pipeline | Supported by App Router; shown with `ServerProfile` | Component runs only on server, sends no client JS unless nested client component exists. ([React][4]) | `export default async function Page(){ const data = await getData(); return <UI data={data}/> }` |
+| **Client Components inside RSC** | Next App Router | Needs RSC framework support to mean anything | Supported with `"use client"`; shown with `ClientCounter` and `ClientSearch` | Only interactive part hydrates. Mark with `"use client"`. ([React][5]) | `"use client"`<br>`export function Button(){ const [c,setC]=useState(0); return <button onClick={()=>setC(c+1)}>{c}</button> }` |
+| **Partial hydration / islands** | Astro, Qwik style, some Next patterns manually | Not built into React as a standalone feature | Approximated with Server Components + Client Components, but not called islands officially | Hydrate only small interactive islands instead of full page. | `<StaticArticle />`<br>`<InteractiveLikeButton />` |
+| **Progressive hydration** | React SSR apps | Supported behavior via streaming, Suspense, and priority hydration | Supported through App Router streaming and separate client boundaries | Hydrate page in priority order instead of all at once. | `<Header /> // hydrate first`<br>`<Reviews /> // hydrate later` |
+| **No hydration / static HTML** | Blogs, docs, marketing pages | Supported with `renderToStaticMarkup` | Supported for fully static server-only routes/components | HTML only, no React JS needed. | `renderToStaticMarkup(<Page />)` |
+| **Resumability** | Qwik | Not React hydration model | Not Next hydration model | Avoids traditional hydration by resuming serialized app state. | `component$(() => <button onClick$={...}>Click</button>)` |
 
 [1]: https://react.dev/reference/react-dom/client/hydrateRoot "hydrateRoot"
 [2]: https://react.dev/reference/react-dom/server/renderToPipeableStream "renderToPipeableStream"
@@ -153,7 +153,7 @@ integration, not only React.
 | Selective hydration | Suspense boundary in `App.tsx` gives React a hydration unit | Streams that Suspense boundary | Next uses React hydration under the hood for client boundaries |
 | Progressive hydration | Counter and slow Suspense section become interactive in pieces | HTML shell streams before slow content | `ClientCounter` and `ClientSearch` are separate client islands |
 | Partial hydration / islands | Not a full islands framework | Not the focus of raw React SSR | Server Components plus `use client` islands |
-| React Server Components | Not supported by plain Rsbuild React alone | Not shown in the raw Node demo | Default in App Router; `page.tsx` and `SlowServerPanel` are server components |
+| React Server Components | Not supported by plain Rsbuild React alone | Not shown in the raw Node demo | `ServerProfile`, `page.tsx`, and `SlowServerPanel` are server components |
 
 ## Code Map
 
@@ -212,16 +212,23 @@ finished.
 
 ### Next.js: React Server Component
 
-File: `next-hydration/src/app/page.tsx`
+Files:
+
+- `next-hydration/src/app/page.tsx`
+- `next-hydration/src/app/components/ServerProfile.tsx`
 
 ```tsx
-export default function Home() {
-  return <main>...</main>;
+export async function ServerProfile() {
+  const profile = await getServerProfile();
+
+  return <UI data={profile} />;
 }
 ```
 
 Meaning: in the App Router, files are Server Components by default unless they
-start with `'use client'`.
+start with `'use client'`. `ServerProfile` is a concrete RSC example: it is
+async, reads data on the server, and does not ship component JavaScript to the
+browser.
 
 ### Next.js: Client Hydration Island
 
@@ -256,6 +263,7 @@ later.
 Files:
 
 - `next-hydration/src/app/page.tsx`
+- `next-hydration/src/app/components/ServerProfile.tsx`
 - `next-hydration/src/app/components/ClientCounter.tsx`
 - `next-hydration/src/app/components/ClientSearch.tsx`
 
@@ -326,8 +334,9 @@ and streaming boundaries with `Suspense`.
 
 Pattern mapping in this app:
 
-- React Server Components: `page.tsx` and `SlowServerPanel.tsx` are server
-  components because they do not have `'use client'`.
+- React Server Components: `page.tsx`, `ServerProfile.tsx`, and
+  `SlowServerPanel.tsx` are server components because they do not have
+  `'use client'`.
 - Client hydration: `ClientCounter.tsx` and `ClientSearch.tsx` hydrate because
   they have `'use client'`, state, and event handlers.
 - Streaming SSR: `page.tsx` wraps `SlowServerPanel` in `Suspense`, so the

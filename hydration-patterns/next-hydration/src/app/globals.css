@@ -109,6 +109,10 @@ h2 {
   background: #fbfffd;
 }
 
+.rsc-card {
+  background: #fbfdff;
+}
+
 .counter {
   align-items: center;
   display: flex;
