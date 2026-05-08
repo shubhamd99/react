@@ -7,6 +7,11 @@ Four interview-friendly React examples in one app:
 - `@tanstack/react-virtual` with `@tanstack/react-table` for table rows
 - `@tanstack/react-query` with `useInfiniteQuery` for paged API data plus virtual rendering
 
+## Preview
+
+<img src="./preview/01.png" alt="Preview 1" width="800" />
+<img src="./preview/02.png" alt="Preview 2" width="800" />
+
 ## Run
 
 ```bash
@@ -86,10 +91,7 @@ Best for:
 Core idea:
 
 ```tsx
-<Virtuoso
-  data={users}
-  itemContent={(_, user) => <div>{user.name}</div>}
-/>
+<Virtuoso data={users} itemContent={(_, user) => <div>{user.name}</div>} />
 ```
 
 React Virtuoso automatically measures rows and manages the scroll math. You
@@ -139,7 +141,7 @@ Core idea:
 
 ```tsx
 const query = useInfiniteQuery({
-  queryKey: ['tasks'],
+  queryKey: ["tasks"],
   queryFn: ({ pageParam }) => fetchPage(pageParam),
   initialPageParam: 0,
   getNextPageParam: (lastPage) => lastPage.nextPage,
