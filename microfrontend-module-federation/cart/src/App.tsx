@@ -1,12 +1,8 @@
 import './App.css';
+import CartSummary from './CartSummary';
 
 const App = () => {
-  return (
-    <div className="content">
-      <h1>Rsbuild with React</h1>
-      <p>Start building amazing things with Rsbuild.</p>
-    </div>
-  );
+  return <CartSummary items={[{ id: 1, name: 'Standalone cart item' }]} />;
 };
 
 export default App;

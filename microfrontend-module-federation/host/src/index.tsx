@@ -1,13 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-
-const rootEl = document.getElementById('root');
-if (rootEl) {
-  const root = ReactDOM.createRoot(rootEl);
-  root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-  );
-}
+// Module Federation initializes shared packages asynchronously.
+// Keeping React rendering in bootstrap prevents runtime #RUNTIME-006.
+import('./bootstrap').catch((error: unknown) => {
+  console.error('Failed to start host app', error);
+});

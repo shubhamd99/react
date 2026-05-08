@@ -1,26 +1,58 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  color: #fff;
+  color: #172032;
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  background-image: linear-gradient(to bottom, #020917, #101725);
+  background: #f5f7fb;
 }
 
-.content {
-  display: flex;
+#root {
   min-height: 100vh;
-  line-height: 1.1;
-  text-align: center;
-  flex-direction: column;
-  justify-content: center;
+  padding: 24px;
 }
 
-.content h1 {
-  font-size: 3.6rem;
-  font-weight: 700;
+.remote-card {
+  background: #ffffff;
+  border: 1px solid #d9e1ea;
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgb(30 42 62 / 8%);
+  padding: 18px;
 }
 
-.content p {
-  font-size: 1.2rem;
-  font-weight: 400;
-  opacity: 0.5;
+.eyebrow {
+  color: #216b72;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+h2 {
+  margin: 0;
+}
+
+.muted,
+.empty-state {
+  color: #667386;
+  line-height: 1.5;
+}
+
+.cart-list {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+}
+
+.cart-list li,
+.empty-state {
+  background: #f8fafc;
+  border: 1px solid #e1e7ef;
+  border-radius: 6px;
+  padding: 10px 12px;
 }

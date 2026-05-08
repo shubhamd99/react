@@ -1,0 +1,10 @@
+{
+  "name": "microfrontend-module-federation",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix products run dev & npm --prefix cart run dev & npm --prefix host run dev",
+    "build": "npm --prefix products run build && npm --prefix cart run build && npm --prefix host run build",
+    "check": "npm --prefix products run check && npm --prefix cart run check && npm --prefix host run check"
+  }
+}
