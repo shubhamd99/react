@@ -24,8 +24,9 @@ function SlowSection() {
   return (
     <article className="demo-card success-card">
       <p className="eyebrow">Selective hydration boundary</p>
-      <h2>Suspense content</h2>
+      <h2>Final streamed Suspense content</h2>
       <p>{message}</p>
+      <code>{'<Suspense><SlowSection /></Suspense>'}</code>
     </article>
   );
 }
@@ -63,15 +64,17 @@ export function App() {
             The HTML arrives from Node first. The client bundle then attaches
             events to this counter.
           </p>
+          <code>{'hydrateRoot(rootEl, <App />)'}</code>
           <HydratedCounter />
         </article>
 
         <Suspense
           fallback={
             <article className="demo-card loading-card">
-              <p className="eyebrow">Progressive streaming</p>
-              <h2>Waiting for slow section...</h2>
+              <p className="eyebrow">Progressive streaming SSR</p>
+              <h2>Fallback streamed first</h2>
               <p>The shell can be visible while this boundary is loading.</p>
+              <code>{'<Suspense fallback={...}>'}</code>
             </article>
           }
         >

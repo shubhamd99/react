@@ -134,6 +134,123 @@ integration, not only React.
 | Partial hydration / islands | Not a full islands framework | Not the focus of raw React SSR | Server Components plus `use client` islands |
 | React Server Components | Not supported by plain Rsbuild React alone | Not shown in the raw Node demo | Default in App Router; `page.tsx` and `SlowServerPanel` are server components |
 
+## Code Map
+
+### React + Express: Basic Hydration
+
+File: `react-hydration/src/index.tsx`
+
+```tsx
+hydrateRoot(rootEl, <App />);
+```
+
+Meaning: Express sends HTML first. The browser reuses that HTML and attaches
+React event handlers.
+
+### React + Express: Progressive Streaming SSR
+
+File: `react-hydration/src/App.tsx`
+
+```tsx
+<Suspense fallback={<LoadingCard />}>
+  <SlowSection />
+</Suspense>
+```
+
+Meaning: the shell and fallback can appear first. `SlowSection` resolves later
+and streams into the existing page.
+
+### React + Express: Selective Hydration Boundary
+
+File: `react-hydration/src/App.tsx`
+
+```tsx
+<Suspense>
+  <SlowSection />
+</Suspense>
+```
+
+Meaning: React can treat this Suspense boundary as a separate hydration unit.
+There is no `selectiveHydrate()` function; it is a React behavior enabled by
+SSR, hydration, and Suspense.
+
+### Express: Streaming Server
+
+File: `node-streaming-ssr/server.ts`
+
+```tsx
+renderToPipeableStream(React.createElement(App), {
+  onShellReady() {
+    // send the shell HTML and pipe the React stream
+  },
+});
+```
+
+Meaning: Express starts sending HTML before every Suspense boundary has
+finished.
+
+### Next.js: React Server Component
+
+File: `next-hydration/src/app/page.tsx`
+
+```tsx
+export default function Home() {
+  return <main>...</main>;
+}
+```
+
+Meaning: in the App Router, files are Server Components by default unless they
+start with `'use client'`.
+
+### Next.js: Client Hydration Island
+
+File: `next-hydration/src/app/components/ClientCounter.tsx`
+
+```tsx
+'use client';
+
+export function ClientCounter() {
+  const [count, setCount] = useState(0);
+}
+```
+
+Meaning: this component ships JavaScript to the browser and hydrates because it
+has state and events.
+
+### Next.js: Progressive Streaming SSR
+
+File: `next-hydration/src/app/page.tsx`
+
+```tsx
+<Suspense fallback={<LoadingCard />}>
+  <SlowServerPanel />
+</Suspense>
+```
+
+Meaning: Next can stream the fallback first and stream the slow Server Component
+later.
+
+### Next.js: Selective Hydration
+
+Files:
+
+- `next-hydration/src/app/page.tsx`
+- `next-hydration/src/app/components/ClientCounter.tsx`
+- `next-hydration/src/app/components/ClientSearch.tsx`
+
+```tsx
+<ClientCounter />
+<ClientSearch />
+
+<Suspense fallback={<LoadingCard />}>
+  <SlowServerPanel />
+</Suspense>
+```
+
+Meaning: React can prioritize hydration around interactive `use client` islands
+and Suspense boundaries. There is no manual `selectiveHydrate()` call; the
+boundaries tell React where hydration work can be split and prioritized.
+
 ## App 1: `react-hydration`
 
 This is the React part of the custom SSR example. It owns the component tree,

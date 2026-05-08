@@ -10,13 +10,14 @@ export async function SlowServerPanel() {
 
   return (
     <article className="demo-card success-card">
-      <p className="eyebrow">Streaming SSR</p>
-      <h2>Slow server component</h2>
+      <p className="eyebrow">Server Component streamed later + selective boundary</p>
+      <h2>Slow server component resolved</h2>
       <ul>
         {notes.map((note) => (
           <li key={note}>{note}</li>
         ))}
       </ul>
+      <code>{'<Suspense><SlowServerPanel /></Suspense>'}</code>
     </article>
   );
 }

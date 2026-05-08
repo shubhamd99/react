@@ -21,6 +21,18 @@ button {
   padding: 9px 12px;
 }
 
+code {
+  background: #f4f7fa;
+  border: 1px solid #dce4ee;
+  border-radius: 6px;
+  color: #243244;
+  display: inline-block;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.86rem;
+  margin-top: 6px;
+  padding: 7px 9px;
+}
+
 .app-shell {
   margin: 0 auto;
   max-width: 1040px;
