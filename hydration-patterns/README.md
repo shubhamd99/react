@@ -36,6 +36,11 @@ The React and Node apps are linked on purpose:
 - The browser receives streamed HTML from Node and hydrates it with the
   `react-hydration` client bundle.
 
+## Preview
+
+<img src="./preview/01.png" alt="Preview 1" width="800" />
+<img src="./preview/02.png" alt="Preview 2" width="800" />
+
 ## Run
 
 Install dependencies were created during setup. To run all apps together:
