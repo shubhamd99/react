@@ -1,10 +1,19 @@
 # Hydration Patterns
 
-This workspace demonstrates hydration and streaming patterns with three small apps:
+This workspace demonstrates hydration and streaming patterns with two UI apps
+and one tiny Node server:
 
-- `react-hydration`: Rsbuild React client-side rendering baseline
+- `react-hydration`: React component tree plus browser `hydrateRoot` entry
+- `node-streaming-ssr`: Express server that imports `react-hydration` and streams it
 - `next-hydration`: Next.js App Router server components, client islands, and streaming
-- `node-streaming-ssr`: raw Node + React streaming SSR with `hydrateRoot`
+
+The React and Node apps are linked on purpose:
+
+- `react-hydration` owns `App`, Suspense boundaries, and the client hydration bundle.
+- `node-streaming-ssr` imports that same `App` and renders it with
+  `renderToPipeableStream`.
+- The browser receives streamed HTML from Node and hydrates it with the
+  `react-hydration` client bundle.
 
 ## Run
 
@@ -16,24 +25,23 @@ npm run dev
 
 App URLs:
 
-- Rsbuild React app: `http://localhost:3001`
 - Next.js app: `http://localhost:3002`
-- Node streaming SSR app: `http://localhost:3003`
+- React + Node streaming SSR app: `http://localhost:3003`
 
-To run each app separately:
-
-```bash
-cd react-hydration
-npm run dev
-```
-
-```bash
-cd next-hydration
-npm run dev
-```
+To run the linked React + Node example:
 
 ```bash
 cd node-streaming-ssr
+npm run dev
+```
+
+That command builds `react-hydration` first, then starts the Node streaming
+server.
+
+To run the Next.js example separately:
+
+```bash
+cd next-hydration
 npm run dev
 ```
 
@@ -117,42 +125,44 @@ integration, not only React.
 
 ## Pattern Map
 
-| Pattern | Plain React app | Node React SSR app | Next.js app |
+| Pattern | React app | Node streaming server | Next.js app |
 | --- | --- | --- | --- |
-| Client-side rendering | `react-hydration/src/index.tsx` uses `createRoot` | Not the main pattern | Client components still render/hydrate in the browser |
-| Basic hydration | Not used; this is the contrast example | `node-streaming-ssr/src/main.tsx` uses `hydrateRoot` | Managed by Next for `use client` components |
-| Streaming SSR | Not available in this CSR-only app | `node-streaming-ssr/server.ts` uses `renderToPipeableStream` | `Suspense` around `SlowServerPanel` streams fallback first |
-| Selective hydration | Not applicable without SSR hydration | Suspense boundaries let React hydrate/prioritize pieces | Next uses React hydration under the hood for client boundaries |
-| Progressive hydration | Not applicable without server HTML | Streamed HTML appears first, then hydrated UI becomes interactive | `ClientCounter` and `ClientSearch` are separate client islands |
-| Partial hydration / islands | Not applicable in this CSR app | Conceptually possible, but not the focus | Server Components plus `use client` islands |
-| React Server Components | Not supported in this setup | Not shown in the raw Node demo | Default in App Router; `page.tsx` and `SlowServerPanel` are server components |
+| Basic hydration | `react-hydration/src/index.tsx` uses `hydrateRoot` | Sends the server HTML that React hydrates | Managed by Next for `use client` components |
+| Streaming SSR | React tree contains Suspense boundaries | `node-streaming-ssr/server.ts` uses `renderToPipeableStream` | `Suspense` around `SlowServerPanel` streams fallback first |
+| Selective hydration | Suspense boundary in `App.tsx` gives React a hydration unit | Streams that Suspense boundary | Next uses React hydration under the hood for client boundaries |
+| Progressive hydration | Counter and slow Suspense section become interactive in pieces | HTML shell streams before slow content | `ClientCounter` and `ClientSearch` are separate client islands |
+| Partial hydration / islands | Not a full islands framework | Not the focus of raw React SSR | Server Components plus `use client` islands |
+| React Server Components | Not supported by plain Rsbuild React alone | Not shown in the raw Node demo | Default in App Router; `page.tsx` and `SlowServerPanel` are server components |
 
 ## App 1: `react-hydration`
 
-This is the baseline Rsbuild React app.
+This is the React part of the custom SSR example. It owns the component tree,
+the Suspense boundary, and the browser hydration entry.
 
-Important file:
+Important files:
 
 - `react-hydration/src/index.tsx`
+- `react-hydration/src/App.tsx`
 
-It uses:
+The client entry uses:
 
 ```ts
-ReactDOM.createRoot(rootEl).render(<App />);
+hydrateRoot(rootEl, <App />);
 ```
 
-This is not hydration. The HTML starts mostly empty, and React creates the UI in
-the browser.
-
-Use this to explain the difference between rendering and hydration.
+This is real hydration. It expects Node to send server-rendered HTML first, then
+the browser bundle attaches event handlers to that HTML.
 
 Patterns in this app:
 
-- CSR: `src/index.tsx` uses `createRoot`.
-- Hydration: not used.
-- Selective hydration: not used, because there is no server-rendered HTML.
-- Progressive hydration: not used, because the whole app is client-rendered.
-- React Server Components: not used, because Rsbuild alone does not provide RSC.
+- Basic hydration: `src/index.tsx` calls `hydrateRoot`.
+- Selective hydration: `src/App.tsx` has a `Suspense` boundary around
+  `SlowSection`.
+- Progressive hydration: the counter can hydrate separately from the streamed
+  slow section.
+- Streaming support: the same `App` is imported by the Node server and streamed.
+- React Server Components: not used here because plain Rsbuild React does not
+  provide RSC integration.
 
 ## App 2: `next-hydration`
 
@@ -193,13 +203,14 @@ Pattern mapping in this app:
 
 ## App 3: `node-streaming-ssr`
 
-This app shows the low-level React APIs.
+This is intentionally just a tiny Express server package. It has no separate
+React `src` folder because the UI belongs to `react-hydration`.
+It also imports React and React DOM Server from `react-hydration/node_modules`
+so the server renderer and the component hooks use the same React copy.
 
-Important files:
+Important file:
 
 - `node-streaming-ssr/server.ts`
-- `node-streaming-ssr/src/App.tsx`
-- `node-streaming-ssr/src/main.tsx`
 
 Server:
 
@@ -217,13 +228,18 @@ Client:
 hydrateRoot(root, <App />);
 ```
 
-The same React tree is rendered on the server and hydrated in the browser.
+That client code lives in `react-hydration/src/index.tsx`.
+
+The same React tree is rendered on the server by Node and hydrated in the browser
+by React.
 
 Pattern mapping in this app:
 
-- Basic hydration: `src/main.tsx` calls `hydrateRoot`.
+- Basic hydration: Node sends the HTML consumed by `react-hydration`'s
+  `hydrateRoot`.
 - Streaming SSR: `server.ts` calls `renderToPipeableStream`.
-- Suspense streaming: `src/App.tsx` has `SlowServerSection` inside `Suspense`.
+- Suspense streaming: `react-hydration/src/App.tsx` has `SlowSection` inside
+  `Suspense`.
 - Selective hydration: the Suspense boundary gives React a unit of work it can
   hydrate/prioritize independently.
 - Progressive hydration: HTML streams first; browser JavaScript hydrates the

@@ -1,58 +1,84 @@
-import './App.css';
-import React from 'react';
+import { Suspense, useState } from 'react';
 
-const App = () => {
+let slowMessage: string | null = null;
+let slowPromise: Promise<void> | null = null;
+
+function readSlowMessage() {
+  if (slowMessage) {
+    return slowMessage;
+  }
+
+  slowPromise ??= new Promise<void>((resolve) => {
+    setTimeout(() => {
+      slowMessage = 'This section streamed after the shell HTML.';
+      resolve();
+    }, 1400);
+  });
+
+  throw slowPromise;
+}
+
+function SlowSection() {
+  const message = readSlowMessage();
+
+  return (
+    <article className="demo-card success-card">
+      <p className="eyebrow">Selective hydration boundary</p>
+      <h2>Suspense content</h2>
+      <p>{message}</p>
+    </article>
+  );
+}
+
+function HydratedCounter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div className="counter">
+      <span>Hydrated count: {count}</span>
+      <button type="button" onClick={() => setCount((value) => value + 1)}>
+        Add
+      </button>
+    </div>
+  );
+}
+
+export function App() {
   return (
     <main className="app-shell">
       <header className="page-header">
-        <p className="eyebrow">React client app</p>
-        <h1>Client-side rendering has no server hydration step</h1>
+        <p className="eyebrow">React + Node streaming SSR</p>
+        <h1>React hydration patterns without a framework</h1>
         <p>
-          This Rsbuild app demonstrates the baseline: the browser downloads an
-          empty HTML shell, React creates the UI on the client, and event handlers
-          are attached immediately during the first render.
+          This React tree is rendered by the Node server, streamed as HTML, and
+          hydrated in the browser with `hydrateRoot`.
         </p>
       </header>
 
       <section className="demo-grid">
         <article className="demo-card">
-          <p className="eyebrow">CSR</p>
-          <h2>Client render</h2>
+          <p className="eyebrow">Basic hydration</p>
+          <h2>Server HTML becomes interactive</h2>
           <p>
-            `createRoot` mounts React into `#root`. There is no existing server
-            HTML to reuse, so this is rendering, not hydration.
+            The HTML arrives from Node first. The client bundle then attaches
+            events to this counter.
           </p>
+          <HydratedCounter />
         </article>
 
-        <article className="demo-card">
-          <p className="eyebrow">Interactive immediately</p>
-          <h2>Counter island</h2>
-          <ClientCounter />
-        </article>
-
-        <article className="demo-card">
-          <p className="eyebrow">Trade-off</p>
-          <h2>Simple, but less SSR</h2>
-          <p>
-            CSR is easy to reason about, but users wait for JavaScript before
-            meaningful UI appears.
-          </p>
-        </article>
+        <Suspense
+          fallback={
+            <article className="demo-card loading-card">
+              <p className="eyebrow">Progressive streaming</p>
+              <h2>Waiting for slow section...</h2>
+              <p>The shell can be visible while this boundary is loading.</p>
+            </article>
+          }
+        >
+          <SlowSection />
+        </Suspense>
       </section>
     </main>
-  );
-};
-
-function ClientCounter() {
-  const [count, setCount] = React.useState(0);
-
-  return (
-    <div className="counter">
-      <span>Clicked {count} times</span>
-      <button type="button" onClick={() => setCount((value) => value + 1)}>
-        Add
-      </button>
-    </div>
   );
 }
 

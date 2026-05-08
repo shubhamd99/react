@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rsbuild build",
     "check": "biome check --write",
-    "dev": "rsbuild",
+    "dev": "rsbuild build --watch",
     "format": "biome format --write",
     "preview": "rsbuild preview",
     "typecheck": "tsc --noEmit"

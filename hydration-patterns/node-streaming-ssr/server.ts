@@ -1,68 +1,53 @@
-import { createReadStream, existsSync, readFileSync } from 'node:fs';
-import { createServer, type ServerResponse } from 'node:http';
-import { extname, join } from 'node:path';
+import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
+import { dirname, join } from 'node:path';
 import { PassThrough } from 'node:stream';
-import React from 'react';
-import { renderToPipeableStream } from 'react-dom/server';
-import { App } from './src/App';
+import { fileURLToPath } from 'node:url';
+import express from 'express';
+import type ReactType from 'react';
+import type { renderToPipeableStream as renderToPipeableStreamType } from 'react-dom/server';
+import { App } from '../react-hydration/src/App';
 
+const app = express();
 const port = 3003;
-const clientDir = join(process.cwd(), 'dist/client');
-const template = readFileSync(join(clientDir, 'index.html'), 'utf8');
-const assetTags = template
-  .match(/<(script|link)[^>]+\/static\/[^>]+>/g)
-  ?.join('')
-  .replace(/crossorigin/g, '') ?? '';
-
-const mimeTypes: Record<string, string> = {
-  '.css': 'text/css',
-  '.html': 'text/html',
-  '.js': 'text/javascript',
-  '.png': 'image/png',
-  '.svg': 'image/svg+xml',
+const serverDir = dirname(fileURLToPath(import.meta.url));
+const clientDir = join(serverDir, '../react-hydration/dist');
+const reactRequire = createRequire(join(serverDir, '../react-hydration/package.json'));
+const React = reactRequire('react') as typeof ReactType;
+const { renderToPipeableStream } = reactRequire('react-dom/server') as {
+  renderToPipeableStream: typeof renderToPipeableStreamType;
 };
+const template = readFileSync(join(clientDir, 'index.html'), 'utf8');
+const [htmlStart, htmlEnd] = template.split('<div id="root"></div>');
 
-function serveAsset(url: string, response: ServerResponse) {
-  const filePath = join(clientDir, url);
+app.use('/static', express.static(join(clientDir, 'static')));
+app.get('/favicon.png', (_, response) => {
+  response.sendFile(join(clientDir, 'favicon.png'));
+});
 
-  if (!existsSync(filePath)) {
-    return false;
-  }
-
-  response.writeHead(200, {
-    'content-type': mimeTypes[extname(filePath)] ?? 'application/octet-stream',
-  });
-  createReadStream(filePath).pipe(response);
-  return true;
-}
-
-createServer((request, response) => {
-  if (request.url && serveAsset(request.url.slice(1), response)) {
-    return;
-  }
-
+app.use((_, response) => {
   let didError = false;
 
   const stream = renderToPipeableStream(React.createElement(App), {
     onShellReady() {
-      response.statusCode = didError ? 500 : 200;
+      response.status(didError ? 500 : 200);
       response.setHeader('content-type', 'text/html');
-      response.write('<!doctype html><html><head><title>Node Streaming SSR</title>');
-      response.write(assetTags);
-      response.write('</head><body><div id="root">');
+      response.write(`${htmlStart}<div id="root">`);
 
       const body = new PassThrough();
       body.pipe(response, { end: false });
       stream.pipe(body);
       body.on('end', () => {
-        response.end('</div></body></html>');
+        response.end(`</div>${htmlEnd}`);
       });
     },
-    onError(error) {
+    onError(error: unknown) {
       didError = true;
       console.error(error);
     },
   });
-}).listen(port, () => {
-  console.log(`Node streaming SSR running at http://localhost:${port}`);
+});
+
+app.listen(port, () => {
+  console.log(`Express streaming SSR running at http://localhost:${port}`);
 });

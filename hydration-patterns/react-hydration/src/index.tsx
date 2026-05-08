@@ -1,13 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
+import { hydrateRoot } from 'react-dom/client';
+import { App } from './App';
+import './App.css';
 
 const rootEl = document.getElementById('root');
+
 if (rootEl) {
-  const root = ReactDOM.createRoot(rootEl);
-  root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-  );
+  // hydrateRoot reuses the streamed server HTML and attaches event handlers.
+  hydrateRoot(rootEl, <App />);
 }
