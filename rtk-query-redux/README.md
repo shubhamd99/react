@@ -208,7 +208,40 @@ Mutation hooks return an array:
 
 ## Cache tags
 
-Tags connect queries and mutations.
+Tags are labels for cached data.
+
+Use this simple mental model:
+
+```text
+providesTags    = a query says, "I have this data in the cache"
+invalidatesTags = a mutation says, "this cached data is now old"
+```
+
+RTK Query uses those labels to decide which active queries should refetch after a mutation.
+
+### Why tags are needed
+
+Imagine the app loads the course list:
+
+```js
+useGetCoursesQuery({ level: "all" });
+```
+
+RTK Query stores that result in its cache. Later, the user adds a new course:
+
+```js
+await addCourse(newCourse).unwrap();
+```
+
+Now the old course list is no longer correct, because it does not include the new course yet.
+
+You could manually call `refetch()`, but that gets messy in bigger apps. Instead, tags let RTK Query do it automatically.
+
+### `providesTags`
+
+`providesTags` belongs to a query.
+
+It tells RTK Query what data this query result represents.
 
 `getCourses` provides tags:
 
@@ -222,7 +255,40 @@ providesTags: (result) =>
     : [{ type: "Course", id: "LIST" }];
 ```
 
-`addCourse` invalidates tags:
+If `getCourses` returns this data:
+
+```js
+[
+  { id: 1, title: "Redux Toolkit Store Setup" },
+  { id: 2, title: "RTK Query Queries and Hooks" },
+];
+```
+
+Then RTK Query treats the cached result as if it has these labels:
+
+```js
+[
+  { type: "Course", id: 1 },
+  { type: "Course", id: 2 },
+  { type: "Course", id: "LIST" },
+];
+```
+
+Those labels mean:
+
+- `{ type: 'Course', id: 1 }`: this query result contains course 1.
+- `{ type: 'Course', id: 2 }`: this query result contains course 2.
+- `{ type: 'Course', id: 'LIST' }`: this query result contains the course list.
+
+`LIST` is not special syntax from RTK Query. It is just a common name developers use for "the whole list".
+
+### `invalidatesTags`
+
+`invalidatesTags` belongs to a mutation.
+
+It tells RTK Query which cached labels are now stale.
+
+`addCourse` invalidates these tags:
 
 ```js
 invalidatesTags: [
@@ -231,7 +297,79 @@ invalidatesTags: [
 ];
 ```
 
-That means after adding a course, RTK Query knows that cached course lists and stats are stale and should refetch.
+That means:
+
+```text
+After adding a course, the course list is stale.
+After adding a course, the stats summary is stale.
+```
+
+Any currently active query that provided those same tags will refetch automatically.
+
+### Full flow
+
+```text
+1. getCourses runs
+2. getCourses caches the course list
+3. getCourses provides { type: 'Course', id: 'LIST' }
+4. addCourse runs
+5. addCourse invalidates { type: 'Course', id: 'LIST' }
+6. RTK Query sees the matching tag
+7. RTK Query refetches getCourses automatically
+```
+
+### List tag vs item tag
+
+Use a `LIST` tag when a mutation changes the collection:
+
+```js
+addCourse: builder.mutation({
+  invalidatesTags: [{ type: "Course", id: "LIST" }],
+});
+```
+
+Good for:
+
+- add item
+- delete item
+- reorder list
+- change filters that affect the list
+
+Use a specific id tag when a mutation changes one item:
+
+```js
+updateCourse: builder.mutation({
+  invalidatesTags: (_result, _error, course) => [
+    { type: "Course", id: course.id },
+  ],
+});
+```
+
+Good for:
+
+- update course 5
+- mark course 5 complete
+- refresh only detail pages or lists that contain course 5
+
+### Quick examples
+
+```text
+getCourses provides: Course LIST
+addCourse invalidates: Course LIST
+Result: course list refetches
+```
+
+```text
+getCourse(5) provides: Course 5
+updateCourse(5) invalidates: Course 5
+Result: course 5 refetches
+```
+
+```text
+getStats provides: Stats SUMMARY
+addCourse invalidates: Stats SUMMARY
+Result: stats refetch
+```
 
 ## Optimistic update
 
