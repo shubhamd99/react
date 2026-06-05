@@ -1,0 +1,37 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Snapshot Testing (UserCard Component) > should match standard snapshot for active admin 1`] = `
+<div
+  class="p-4 rounded-lg border border-slate-200 bg-white shadow-sm max-w-sm"
+>
+  <div
+    class="flex justify-between items-start mb-2"
+  >
+    <h4
+      class="font-bold text-slate-800"
+    >
+      Sarah Connor
+    </h4>
+    <span
+      class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800"
+    >
+      active
+    </span>
+  </div>
+  <p
+    class="text-sm text-slate-500 mb-2"
+  >
+    sconnor@resistance.net
+  </p>
+  <div
+    class="flex gap-2"
+  >
+    <span
+      class="text-xs bg-indigo-50 text-indigo-700 px-2 py-1 rounded font-medium capitalize"
+    >
+      Role: 
+      admin
+    </span>
+  </div>
+</div>
+`;
